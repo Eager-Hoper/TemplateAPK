@@ -19,7 +19,7 @@ public class YourService extends KiboRpcService {
             List<Integer> list = api.getActiveTargets();
 
             // move to target 6
-            api.moveTo(12.023d, -8.989d, 4.8305d, -0.5f, -0.5f, 1.5f, 0.5f, false);
+            api.moveTo(11.355d, -8.9929d, 4.7818d, 0.0f, 0.0f, 0.0f, 1.0f, false);
 
             // get a camera image
             Mat image = api.getMatNavCam();
