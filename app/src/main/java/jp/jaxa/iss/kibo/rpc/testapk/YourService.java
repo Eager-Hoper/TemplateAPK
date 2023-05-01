@@ -84,3 +84,4 @@ public class YourService extends KiboRpcService {
 
 }
 
+// arataが編集したよ //
