@@ -17,6 +17,7 @@ public class YourService extends KiboRpcService {
         while (true) {
             // get the list of active target id
             List<Integer> list = api.getActiveTargets();
+            // check the name of ActiveTargets
 
             // move to a point
             Point point = new Point(10.4d, -10.1d, 4.47d);
