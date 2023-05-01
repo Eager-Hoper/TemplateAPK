@@ -17,12 +17,9 @@ public class YourService extends KiboRpcService {
         while (true) {
             // get the list of active target id
             List<Integer> list = api.getActiveTargets();
-            // check the name of ActiveTargets
 
-            // move to a point
-            Point point = new Point(10.4d, -10.1d, 4.47d);
-            Quaternion quaternion = new Quaternion(0f, 0f, 0f, 1f);
-            api.moveTo(point, quaternion, false);
+            // move to target 6
+            api.moveTo(12.023d, -8.989d, 4.8305d, -0.5f, -0.5f, 1.5f, 0.5f, false);
 
             // get a camera image
             Mat image = api.getMatNavCam();
