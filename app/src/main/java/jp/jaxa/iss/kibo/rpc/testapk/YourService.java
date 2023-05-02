@@ -1,74 +1,52 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
+// Kibo-RPC library
+
+import org.opencv.aruco.Aruco;
+import org.opencv.aruco.Dictionary;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
+import org.opencv.core.Rect;
+import static org.opencv.android.Utils.matToBitmap;
+// opencv library
+
+import java.util.ArrayList;
+import java.util.List;
+// java library
 
 /**
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
  */
 
 public class YourService extends KiboRpcService {
+
+    private final String TAG = this.getClass().getSimpleName();
+
     @Override
     protected void runPlan1() {
-        // write your plan 1 here
+        Log. i(TAG, "start mission");
+
         // the mission starts
         api.startMission();
-        int loop_counter = 0;
 
-        while (true) {
-            // get the list of active target id
-            List<Integer> list = api.getActiveTargets();
+        // move to point 6
+        Point point = new Point(11.355d, -8.9929d, 4.7818d);
+        Quaternion quaternion = new Quaternion(0f, 0f, 0f, 1f);
+        api.moveTo(point, quaternion, false);
 
-            // move to point 6
-            Point point = new Point(11.355d, -8.9929d, 4.7818d);
-            Quaternion quaternion = new Quaternion(0f, 0f, 0f, 1f);
-            api.moveTo(point, quaternion, false);
+        // get camera image
+        Mat ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        
+        Mat image = api.getMatNavCam();
+        Aruco.detectMarkers(image, Aruco.DICT_5X5_250, corners, ids);
+        Log. i(TAG, corners);
+        Log. i(TAG, ids);
 
-            // get a camera image
-            Mat image = api.getMatNavCam();
-
-            // irradiate the laser
-            api.laserControl(true);
-
-            // take active target snapshots
-            int target_id = 1;
-            api.takeTargetSnapshot(target_id);
-
-            /* ************************************************ */
-            /* write your own code and repair the ammonia leak! */
-            /* ************************************************ */
-
-            // get remaining active time and mission time
-            List<Long> timeRemaining = api.getTimeRemaining();
-
-            // check the remaining milliseconds of mission time
-            if (timeRemaining.get(1) < 60000){
-                break;
-            }
-
-            loop_counter++;
-            if (loop_counter == 2) {
-                break;
-            }
-        }
-
-        // turn on the front flash light
-        api.flashlightControlFront(0.05f);
-
-        // get QR code content
-        String mQrContent = yourMethod();
-
-        // turn off the front flash light
-        api.flashlightControlFront(0.00f);
-
-        // notify that astrobee is heading to the goal
-        api.notifyGoingToGoal();
-
-        /* ********************************************************** */
-        /* write your own code to move Astrobee to the goal positiion */
-        /* ********************************************************** */
-
-        // send mission completion
-        api.reportMissionCompletion(mQrContent);
+        
     }
 
     @Override
