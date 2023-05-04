@@ -1,7 +1,17 @@
-package jp.jaxa.iss.kibo.rpc.defaultapk;
+package jp.jaxa.iss.kibo.rpc.testapk;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
+
+import gov.nasa.arc.astrobee.Kinematics;
+import gov.nasa.arc.astrobee.Result;
+import gov.nasa.arc.astrobee.types.Point;
+import gov.nasa.arc.astrobee.types.Quaternion;
+import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
+// astrobee library
+
+import android.util.Log;
+// android library
 
 import org.opencv.aruco.Aruco;
 import org.opencv.aruco.Dictionary;
@@ -35,18 +45,17 @@ public class YourService extends KiboRpcService {
         // move to point 6
         Point point = new Point(11.355d, -8.9929d, 4.7818d);
         Quaternion quaternion = new Quaternion(0f, 0f, 0f, 1f);
+
         api.moveTo(point, quaternion, false);
 
         // get camera image
         Mat ids = new Mat();
         List<Mat> corners = new ArrayList<>();
-        
         Mat image = api.getMatNavCam();
-        Aruco.detectMarkers(image, Aruco.DICT_5X5_250, corners, ids);
-        Log. i(TAG, corners);
-        Log. i(TAG, ids);
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
 
-        
+        Aruco.detectMarkers(image, dictionary, corners, ids);
+
     }
 
     @Override
