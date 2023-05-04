@@ -1,4 +1,4 @@
-package jp.jaxa.iss.kibo.rpc.testapk;
+package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
