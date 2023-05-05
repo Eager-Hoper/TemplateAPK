@@ -51,22 +51,25 @@ public class YourService extends KiboRpcService {
         // move to point 6
         api.moveTo(point, quaternion, false);
 
-        // get camera image (and save it)
-        Mat image = api.getMatNavCam();
-        api.saveMatImage(image, "target_6.png");
+        // spot laser
+        api.laserControl(true);
 
         // definition of ARmarker's id and corners
         Mat ids = new Mat();
         List<Mat> corners = new ArrayList<>();
 
+        // get camera image (and save it)
+        Mat image = api.getMatNavCam();
+
         // definition of dictionary about ARmarkers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
 
-        // detect ARmarker
+        // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
+        Aruco.drawDetectedMarkers(image, corners, ids);
 
-        // spot laser
-        api.laserControl(true);
+        // save image
+        api.saveMatImage(image, "target_6.png");
 
     }
 
