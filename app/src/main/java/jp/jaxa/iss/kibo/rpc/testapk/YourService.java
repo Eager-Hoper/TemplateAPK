@@ -19,9 +19,9 @@ import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
-import org.opencv.calib3d;
 import org.opencv.core.Rect;
 import static org.opencv.android.Utils.matToBitmap;
+import static org.opencv.imgproc.Imgproc.undistort;
 // opencv library (for detect ARmarkers)
 
 import java.util.ArrayList;
@@ -71,7 +71,8 @@ public class YourService extends KiboRpcService {
 
         // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids, new Scalar(0,255,0));
+        Scalar color = new Scalar(0, 255, 0);
+        Aruco.drawDetectedMarkers(image, corners, ids, color);
 
         // save image
         api.saveMatImage(image, "target_6.png");
@@ -86,7 +87,7 @@ public class YourService extends KiboRpcService {
         distortion.put(0, 0, array_2);
 
         Mat correct_image = new Mat();
-        Calib3d.undistort(image, correct_image, cameraMat, distortion);
+        undistort(image, correct_image, cameraMat, distortion);
         api.saveMatImage(correct_image, "undistort_target_6.png");
 
     }
