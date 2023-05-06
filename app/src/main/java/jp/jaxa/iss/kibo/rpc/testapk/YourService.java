@@ -46,7 +46,7 @@ public class YourService extends KiboRpcService {
         api.startMission();
 
         // definition of destination and quaternion
-        Point point = new Point(11.355d, -8.9929d, 4.7818d);
+        Point point = new Point(11.355d, -8.989d, 4.8305d);
         Quaternion quaternion = new Quaternion(0f, 0f, 0f, 1f);
 
         // move to point 6
@@ -62,9 +62,10 @@ public class YourService extends KiboRpcService {
         // get camera image (and save it)
         Mat image = api.getMatNavCam();
 
-        // take target snapshot　(still don't work,,,)
+        // take target snapshot
         int id = 6;
-        api.takeTargetSnapshot(id);
+        Mat snapshot = api.takeTargetSnapshot(id);
+        api.saveMatImage(snapshot, "snapshot_target_6.png");
 
         // definition of dictionary about ARmarkers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
