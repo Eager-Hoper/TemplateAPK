@@ -17,6 +17,7 @@ import org.opencv.aruco.Aruco;
 import org.opencv.aruco.Dictionary;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Rect;
@@ -70,18 +71,22 @@ public class YourService extends KiboRpcService {
 
         // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids, new scalar(0,255,0));
+        Aruco.drawDetectedMarkers(image, corners, ids, new Scalar(0,255,0));
 
         // save image
         api.saveMatImage(image, "target_6.png");
 
         // undistort
-        double[] NavCamIntrinsics = api.getNavCamIntrinsics();
-        double[][] cameraMat = NavCamIntrinsics[0];
-        double[][] distortion = NavCamIntrinsics[1];
+        double[][] NavCamIntrinsics = api.getNavCamIntrinsics();
+        double[] array_1 = NavCamIntrinsics[0];
+        double[] array_2 = NavCamIntrinsics[1];
+        Mat cameraMat = new Mat(3, 3, CvType.CV_32FC1);
+        Mat distortion = new Mat(1, 5, CvType.CV_32FC1);
+        cameraMat.put(0, 0, array_1);
+        distortion.put(0, 0, array_2);
 
         Mat correct_image = new Mat();
-        Improc.undistort(correct_image, image, cameraMat, distortion);
+        Imgproc.undistort(correct_image, image, cameraMat, distortion);
         api.saveMatImage(correct_image, "undistort_target_6.png");
 
     }
