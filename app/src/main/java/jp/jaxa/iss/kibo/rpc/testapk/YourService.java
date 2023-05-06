@@ -64,8 +64,7 @@ public class YourService extends KiboRpcService {
 
         // take target snapshot
         int id = 6;
-        Mat snapshot = api.takeTargetSnapshot(id);
-        api.saveMatImage(snapshot, "snapshot_target_6.png");
+        api.takeTargetSnapshot(id);
 
         // definition of dictionary about ARmarkers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
