@@ -70,7 +70,7 @@ public class YourService extends KiboRpcService {
 
         // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids, (0,255,0));
+        Aruco.drawDetectedMarkers(image, corners, ids, new scalar(0,255,0));
 
         // calibration
         double[][] cameraMat = new double[3][3];
