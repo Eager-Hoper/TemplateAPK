@@ -70,14 +70,19 @@ public class YourService extends KiboRpcService {
 
         // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids, (0,255,0));
-
-        // calibration
-        double[][] cameraMat = new double[3][3];
-        cameraMat = api.getNavCamIntrinsics();
+        Aruco.drawDetectedMarkers(image, corners, ids, new scalar(0,255,0));
 
         // save image
         api.saveMatImage(image, "target_6.png");
+
+        // undistort
+        double[] NavCamIntrinsics = api.getNavCamIntrinsics();
+        double[][] cameraMat = NavCamIntrinsics[0];
+        double[][] distortion = NavCamIntrinsics[1];
+
+        Mat correct_image = new Mat();
+        Improc.undistort(correct_image, image, cameraMat, distortion);
+        api.saveMatImage(correct_image, "undistort_target_6.png");
 
     }
 
