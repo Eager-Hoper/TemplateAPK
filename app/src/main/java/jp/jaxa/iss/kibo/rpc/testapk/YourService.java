@@ -61,12 +61,20 @@ public class YourService extends KiboRpcService {
         // get camera image (and save it)
         Mat image = api.getMatNavCam();
 
+        // take target snapshot　(still don't work,,,)
+        int id = 6;
+        api.takeTargetSnapshot(id);
+
         // definition of dictionary about ARmarkers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
 
         // detect and draw ARmarker
         Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids);
+        Aruco.drawDetectedMarkers(image, corners, ids, (0,255,0));
+
+        // calibration
+        double[][] cameraMat = new double[3][3];
+        cameraMat = api.getNavCamIntrinsics();
 
         // save image
         api.saveMatImage(image, "target_6.png");
