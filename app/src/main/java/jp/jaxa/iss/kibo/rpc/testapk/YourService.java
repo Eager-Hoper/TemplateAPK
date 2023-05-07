@@ -61,7 +61,7 @@ public class YourService extends KiboRpcService {
 
         // move to taget_5
         Point point_5 = new Point(11.114d, -7.9756d, 5.3393d);
-        Quaternion quaternion_5 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+        Quaternion quaternion_5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
         api.moveTo(point_5, quaternion_5, true);
         image = image_correction(api.getMatNavCam());
         api.saveMatImage(image, "target_5.png");
@@ -90,8 +90,7 @@ public class YourService extends KiboRpcService {
 
     // 6-1-5-4でとりあえず行く
 
-    // 目標座標からのズレを修正するメソッド
-    public void moveTo() {}
+    // startからtarget
     
     // 画像の歪み補正のメソッド
     public Mat image_correction(Mat image) {
@@ -114,11 +113,13 @@ public class YourService extends KiboRpcService {
     public void self_positioning(Mat image) {
 
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
-        Mat ids = new Mat();
+        Mat list_ids = new Mat();
         List<Mat> corners = new ArrayList<>();
 
-        Aruco.detectMarkers(image, dictionary, corners, ids);
-        Aruco.drawDetectedMarkers(image, corners, ids);
+        Aruco.detectMarkers(image, dictionary, corners, list_ids);
+        Aruco.drawDetectedMarkers(image, corners, list_ids);
+
+        List<Mat> ids = list_ids.get(0);
 
         double sum_x = 0;
         double sum_y = 0;
