@@ -134,13 +134,13 @@ public class YourService extends KiboRpcService {
         
     }
 
-    // 画像からtargetの中心を画像内で求めるメソッド
-    public Mat getCenter(Mat list_ids, List<Mat> corners) {
+    // 画像からARmarkerの情報（１行目：ID、２〜９行目：各コーナーの座標）（開発中）
+    public Mat getMarkerInfo(Mat list_ids, List<Mat> corners) {
 
-        Mat markerInfo = new Mat(4,4,CvType.CV_32FC1);
+        Mat markerInfo = new Mat(4,9,CvType.CV_32FC1);
         for (int i=0; i<4; i++) {
             markerInfo.put(i,0,list_ids.get(i,0));
-            for (int j=0; j<4; j++) {
+            for (int j=0; j<8; j++) {
                 Mat Corner = corners.get(j);
                 markerInfo.put(i,1,Corner.get(i,j));
             }
