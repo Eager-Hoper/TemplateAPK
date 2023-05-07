@@ -87,10 +87,6 @@ public class YourService extends KiboRpcService {
     protected void runPlan3() {
         // write your plan 3 here
     }
-
-    // 6-1-5-4でとりあえず行く
-
-    // startからtarget
     
     // 画像の歪み補正のメソッド
     public Mat image_correction(Mat image) {
@@ -103,7 +99,6 @@ public class YourService extends KiboRpcService {
 
         Mat correct_image = new Mat();
         undistort(image, correct_image, cameraMat, distortion);
-        api.saveMatImage(correct_image, "undistort_target.png");
 
         return correct_image;
 
@@ -128,6 +123,23 @@ public class YourService extends KiboRpcService {
         double ARcenter_x = sum_x / 4;
         double ARcenter_y = sum_y / 4;
         
+    }
+
+    // 画像からtargetの中心を画像内で求めるメソッド
+    public double[] getCenter(Mat list_ids, List<Mat> corners) {
+
+        Mat markerInfo = new Mat(4,4,CvType.CV_32FC1);
+        for (i=0; i<4; i++) {
+            markerInfo.put(i,0,list_ids[i]);
+            markerInfo.put(i,1,corners[i]);
+        }
+        
+        for (i=0; i<4; i++) {
+            for (j=0; j<4; j++) {
+                System.out.println(markerInfo[i][j]);
+            }
+        }
+
     }
 
 }
