@@ -73,6 +73,15 @@ public class YourService extends KiboRpcService {
         image = image_correction(api.getMatNavCam());
         api.saveMatImage(image, "target_4.png");
 
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+
+        Aruco.detectMarkers(image, dictionary, corners, list_ids);
+        Aruco.drawDetectedMarkers(image, corners, list_ids);
+
+        getCenter(list_ids, corners);
+
         // spot laser
         api.laserControl(true);
 
@@ -126,20 +135,25 @@ public class YourService extends KiboRpcService {
     }
 
     // 画像からtargetの中心を画像内で求めるメソッド
-    public double[] getCenter(Mat list_ids, List<Mat> corners) {
+    public Mat getCenter(Mat list_ids, List<Mat> corners) {
 
         Mat markerInfo = new Mat(4,4,CvType.CV_32FC1);
-        for (i=0; i<4; i++) {
-            markerInfo.put(i,0,list_ids[i]);
-            markerInfo.put(i,1,corners[i]);
+        for (int i=0; i<4; i++) {
+            markerInfo.put(i,0,list_ids.get(i,0));
+            for (int j=0; j<4; j++) {
+                Mat Corner = corners.get(j);
+                markerInfo.put(i,1,Corner.get(i,j));
+            }
+
         }
         
-        for (i=0; i<4; i++) {
-            for (j=0; j<4; j++) {
-                System.out.println(markerInfo[i][j]);
+        for (int i=0; i<4; i++) {
+            for (int j=0; j<4; j++) {
+                System.out.println(markerInfo.get(i, j));
             }
         }
 
+        return markerInfo;
     }
 
 }
