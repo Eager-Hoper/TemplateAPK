@@ -119,8 +119,6 @@ public class YourService extends KiboRpcService {
         Aruco.detectMarkers(image, dictionary, corners, list_ids);
         Aruco.drawDetectedMarkers(image, corners, list_ids);
 
-        List<Mat> ids = list_ids.get(0);
-
         double sum_x = 0;
         double sum_y = 0;
         for (int i=0; i<4; i++) {
