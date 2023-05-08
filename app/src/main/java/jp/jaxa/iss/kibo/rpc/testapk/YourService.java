@@ -51,25 +51,34 @@ public class YourService extends KiboRpcService {
         Point point_6 = new Point(11.355d, -8.989d, 4.8305d);
         Quaternion quaternion_6 = new Quaternion(0f, 0f, 0f, 1f);
         api.moveTo(point_6, quaternion_6, true);
+
+        // プログラム進行確認
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Aruco.detectMarkers(image_correction(api.getMatNavCam()), dictionary, corners, list_ids);
+
+        getAR_center(1, corners);
+
         
         // 画像からターゲット中心からの相対座標を取得
-        double[] relative = getRelative(api.getMatNavCam());
+        // double[] relative = getRelative(api.getMatNavCam());
 
         // 現在地から相対座標分修正
-        Kinematics kinematics = api.getRobotKinematics();
-        Point real_point = kinematics.getPosition();
-        double dest_y = real_point.getY() + relative[0];
-        double dest_z = real_point.getZ() + relative[1];
+        // Kinematics kinematics = api.getRobotKinematics();
+        // Point real_point = kinematics.getPosition();
+        // double dest_y = real_point.getY() + relative[0];
+        // double dest_z = real_point.getZ() + relative[1];
 
         // 新座標を指定
-        Point new_point = new Point(real_point.getX(), dest_y, dest_z);
+        // Point new_point = new Point(real_point.getX(), dest_y, dest_z);
 
         // 再移動
-        api.moveTo(new_point, quaternion_6, true);
-        api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
+        // api.moveTo(new_point, quaternion_6, true);
+        // api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
 
         // spot laser
-        api.laserControl(true);
+        // api.laserControl(true);
 
         // move to target_1
         // Point point_1 = new Point(11.2746d, -9.92284d, 5.2988d);
