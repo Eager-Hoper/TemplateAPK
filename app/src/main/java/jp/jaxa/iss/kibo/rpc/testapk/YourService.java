@@ -71,9 +71,6 @@ public class YourService extends KiboRpcService {
         // spot laser
         api.laserControl(true);
 
-        // ミッション完了報告
-        api.reportMissionCompletion();
-
         // move to target_1
         // Point point_1 = new Point(11.2746d, -9.92284d, 5.2988d);
         // Quaternion quaternion_1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
@@ -222,7 +219,7 @@ public class YourService extends KiboRpcService {
         int n = corners.size();
 
         for (int i=0; i<n; i++) {
-            int ID = AR_info[i][0];
+            double ID = AR_info[i][0];
 
             // IDを4で割った余りが1ならx方向に-10cm分、y方向に+3.75cm分移動
             if (ID%4 == 1) { 
@@ -250,7 +247,8 @@ public class YourService extends KiboRpcService {
 
         }
 
-        double target_x, target_y;
+        double target_x = 0;
+        double target_y = 0;
         
         for (int i=0; i<n; i++) {
             target_x += AR_info[i][1];
@@ -259,8 +257,12 @@ public class YourService extends KiboRpcService {
         target_x = target_x / n;
         target_y = target_y / n;
 
+        double[] target_center = new double[2];
+        target_center[0] = target_x;
+        target_center[1] = target_y;
+
         Log.i(TAG, "caluculate target_center");
-        return target_center(target_x, target_y); // 最終的に各AR_markerから推測したターゲットの中心座標の平均値を求めた
+        return target_center; // 最終的に各AR_markerから推測したターゲットの中心座標の平均値を求めた
 
     }
 
