@@ -42,7 +42,7 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan1() {
         // remain start_log
-        Log. i(TAG, "start mission");
+        Log. i(TAG, "arata: start mission");
         
         // the mission starts
         api.startMission();
@@ -58,7 +58,7 @@ public class YourService extends KiboRpcService {
         List<Mat> corners = new ArrayList<>();
         Aruco.detectMarkers(image_correction(api.getMatNavCam()), dictionary, corners, list_ids);
 
-        getAR_center(1, corners);
+        getAR_center(0, corners);
 
         
         // 画像からターゲット中心からの相対座標を取得
@@ -136,7 +136,7 @@ public class YourService extends KiboRpcService {
         Mat correct_image = new Mat();
         undistort(image, correct_image, cameraMat, distortion);
 
-        Log.i(TAG, "get correct_image");
+        Log.i(TAG, "arata: get correct_image");
         return correct_image;
 
     }
@@ -161,12 +161,14 @@ public class YourService extends KiboRpcService {
         relative[0] = 640 - target_center[0];
         relative[1] = 480 - target_center[1];
 
+        Log.i(TAG, "arata: get relative");
+
         // 縮尺をmeterに変換
         double scale = getScale(corners);
         relative[0] = relative[0] * scale;
         relative[1] = relative[1] * scale;
 
-        Log.i(TAG, "get relative in picture");
+        Log.i(TAG, "arata: get relative in picture");
         return relative;
 
     }
@@ -176,11 +178,13 @@ public class YourService extends KiboRpcService {
 
         double[][] AR_corners =
         {
-            {(int) corners.get(order).get(0,0)[0], (int) corners.get(order).get(0,0)[1]},
-            {(int) corners.get(order).get(0,1)[0], (int) corners.get(order).get(0,1)[1]},
-            {(int) corners.get(order).get(0,2)[0], (int) corners.get(order).get(0,2)[1]},
-            {(int) corners.get(order).get(0,3)[0], (int) corners.get(order).get(0,3)[1]},
+            {(double) corners.get(order).get(0,0)[0], (double) corners.get(order).get(0,0)[1]},
+            {(double) corners.get(order).get(0,1)[0], (double) corners.get(order).get(0,1)[1]},
+            {(double) corners.get(order).get(0,2)[0], (double) corners.get(order).get(0,2)[1]},
+            {(double) corners.get(order).get(0,3)[0], (double) corners.get(order).get(0,3)[1]},
         };
+
+        Log.i(TAG, "arata: get AR_corner");
 
         double sum_x = 0;
         double sum_y = 0;
@@ -189,11 +193,13 @@ public class YourService extends KiboRpcService {
             sum_y += AR_corners[i][1];
         }
 
+        Log.i(TAG, "arata: get sum_x and sum_y");
+
         double[] AR_center = new double[2];
         AR_center[0] = sum_x / 4;
         AR_center[1] = sum_y / 4;
 
-        Log.i(TAG, "get AR_center");
+        Log.i(TAG, "arata: get AR_center");
         return AR_center;
 
     }    
@@ -205,6 +211,8 @@ public class YourService extends KiboRpcService {
         // AR_info作成パート
         int n = corners.size(); // 画像中にあるAR_markerの数
         double[][] AR_info = new double[n][3]; // AR_infoを宣言
+
+        Log.i(TAG, "arata: declare AR_info");
         
         for (int i=0; i<n; i++) {
 
@@ -215,9 +223,11 @@ public class YourService extends KiboRpcService {
             AR_info[i][1] = AR_center[0]; // i行2列にi個目のAR_marker中心x座標を代入
             AR_info[i][2] = AR_center[1]; // i行3列にi個目のAR_marker中心y座標を代入
 
+            Log.i(TAG, "arata: substitute to AR_corner");
+
         }
 
-        Log.i(TAG, "get AR_info");
+        Log.i(TAG, "arata: get AR_info");
         return AR_info;
 
     }
@@ -251,10 +261,12 @@ public class YourService extends KiboRpcService {
                 AR_info[i][2] += -0.0375/getScale(corners);
 
             } else {
-                Log.i(TAG, "can't caluculate target_center");
+                Log.i(TAG, "arata: can't caluculate target_center");
             }
 
         }
+
+        Log.i(TAG, "arata: calculate AR_info");
 
         double target_x = 0;
         double target_y = 0;
@@ -266,11 +278,13 @@ public class YourService extends KiboRpcService {
         target_x = target_x / n;
         target_y = target_y / n;
 
+        Log.i(TAG, "arata: get target_x,y");
+
         double[] target_center = new double[2];
         target_center[0] = target_x;
         target_center[1] = target_y;
 
-        Log.i(TAG, "caluculate target_center");
+        Log.i(TAG, "arata: caluculate target_center");
         return target_center; // 最終的に各AR_markerから推測したターゲットの中心座標の平均値を求めた
 
     }
@@ -291,7 +305,7 @@ public class YourService extends KiboRpcService {
 
         double scale = side_length / 0.05;
 
-        Log.i(TAG, "get Scale");
+        Log.i(TAG, "ararta: get Scale");
         return scale;
 
     }
