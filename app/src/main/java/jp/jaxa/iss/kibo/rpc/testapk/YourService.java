@@ -178,10 +178,10 @@ public class YourService extends KiboRpcService {
 
         double[][] AR_corners =
         {
-            {(double) corners.get(order).get(0,0)[0], (double) corners.get(order).get(0,0)[1]},
-            {(double) corners.get(order).get(0,1)[0], (double) corners.get(order).get(0,1)[1]},
-            {(double) corners.get(order).get(0,2)[0], (double) corners.get(order).get(0,2)[1]},
-            {(double) corners.get(order).get(0,3)[0], (double) corners.get(order).get(0,3)[1]},
+            {(int) corners.get(order).get(0,0)[0], (int) corners.get(order).get(0,0)[1]},
+            {(int) corners.get(order).get(0,1)[0], (int) corners.get(order).get(0,1)[1]},
+            {(int) corners.get(order).get(0,2)[0], (int) corners.get(order).get(0,2)[1]},
+            {(int) corners.get(order).get(0,3)[0], (int) corners.get(order).get(0,3)[1]},
         };
 
         Log.i(TAG, "arata: get AR_corner");
