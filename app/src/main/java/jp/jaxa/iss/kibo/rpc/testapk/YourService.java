@@ -168,14 +168,16 @@ public class YourService extends KiboRpcService {
     }
 
     // AR_markerの四隅(corners)を入力して、AR_markerの中心座標（画像内座標）を出力
-    public double[] getAR_center (int order, List<Mat> corners) {
+    public double[] getAR_center (int n, List<Mat> corners) {
+
+        Log.i(TAG, "arata: move to getAR_canter");
 
         double[][] AR_corners =
         {
-            {(int) corners.get(order).get(0,0)[0], (int) corners.get(order).get(0,0)[1]},
-            {(int) corners.get(order).get(0,1)[0], (int) corners.get(order).get(0,1)[1]},
-            {(int) corners.get(order).get(0,2)[0], (int) corners.get(order).get(0,2)[1]},
-            {(int) corners.get(order).get(0,3)[0], (int) corners.get(order).get(0,3)[1]},
+            {(int) corners.get(n).get(0,0)[0], (int) corners.get(n).get(0,0)[1]}, // 左上
+            {(int) corners.get(n).get(0,1)[0], (int) corners.get(n).get(0,1)[1]}, // 右上
+            {(int) corners.get(n).get(0,2)[0], (int) corners.get(n).get(0,2)[1]}, // 右下
+            {(int) corners.get(n).get(0,3)[0], (int) corners.get(n).get(0,3)[1]}, // 左下
         };
 
         Log.i(TAG, "arata: get AR_corner");
@@ -213,7 +215,7 @@ public class YourService extends KiboRpcService {
             AR_info[i][0] = list_ids.get(0,i)[0]; // i行1列にID番号を代入
 
             double[] AR_center = new double[2];
-            AR_center = getAR_center(n, corners); // AR_markerの中心座標を取得
+            AR_center = getAR_center(i, corners); // AR_markerの中心座標を取得
             AR_info[i][1] = AR_center[0]; // i行2列にi個目のAR_marker中心x座標を代入
             AR_info[i][2] = AR_center[1]; // i行3列にi個目のAR_marker中心y座標を代入
 
