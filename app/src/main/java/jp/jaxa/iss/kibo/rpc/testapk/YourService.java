@@ -58,8 +58,8 @@ public class YourService extends KiboRpcService {
         // 現在地から相対座標分修正
         Kinematics kinematics = api.getRobotKinematics();
         Point real_point = kinematics.getPosition();
-        double dest_y = real_point.getY() + relative[0];
-        double dest_z = real_point.getZ() + relative[1];
+        double dest_y = real_point.getY() - relative[0];
+        double dest_z = real_point.getZ() - relative[1];
         Log.i(TAG, "arata: get dest_x,y");
 
         // 新座標を指定
