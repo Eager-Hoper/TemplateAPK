@@ -63,7 +63,7 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "arata: get dest_x,y");
 
         // 新座標を指定
-        Point new_point = new Point(real_point.getX(), 30 * dest_y, 30 * dest_z); // 試しにゲインをとても大きくしてみた
+        Point new_point = new Point(real_point.getX(), dest_y, dest_z);
         Log.i(TAG, "arata: get new_point");
 
         // 再移動
@@ -159,8 +159,8 @@ public class YourService extends KiboRpcService {
 
         // 縮尺をmeterに変換
         double scale = getScale(corners);
-        relative[0] = relative[0] * scale;
-        relative[1] = relative[1] * scale;
+        relative[0] = relative[0] / scale;
+        relative[1] = relative[1] / scale;
 
         Log.i(TAG, "arata: get relative in picture");
         return relative;
@@ -238,23 +238,23 @@ public class YourService extends KiboRpcService {
 
             // IDを4で割った余りが1ならx方向に-10cm分、y方向に+3.75cm分移動
             if (ID%4 == 1) { 
-                AR_info[i][1] += -0.1/getScale(corners);
-                AR_info[i][2] += 0.0375/getScale(corners);
+                AR_info[i][1] += -0.1 * getScale(corners);
+                AR_info[i][2] += 0.0375 * getScale(corners);
 
             // IDを4で割った余りが2ならx方向に+10cm分、y方向に+3.75cm分移動
             } else if (ID%4 == 2) {
-                AR_info[i][1] += 0.1/getScale(corners);
-                AR_info[i][2] += 0.0375/getScale(corners);
+                AR_info[i][1] += 0.1 * getScale(corners);
+                AR_info[i][2] += 0.0375 * getScale(corners);
 
             // IDを4で割った余りが3ならx方向に+10cm分、y方向に-3.75cm分移動
             }else if (ID%4 == 3) {
-                AR_info[i][1] += 0.1/getScale(corners);
-                AR_info[i][2] += -0.0375/getScale(corners);
+                AR_info[i][1] += 0.1 * getScale(corners);
+                AR_info[i][2] += -0.0375 * getScale(corners);
 
             // IDを4で割った余りが0ならx方向に-10cm分、y方向に-3.75cm分移動
             } else if (ID%4 == 0) {
-                AR_info[i][1] += -0.1/getScale(corners);
-                AR_info[i][2] += -0.0375/getScale(corners);
+                AR_info[i][1] += -0.1 * getScale(corners);
+                AR_info[i][2] += -0.0375 * getScale(corners);
 
             } else {
                 Log.i(TAG, "arata: can't caluculate target_center");
@@ -285,7 +285,7 @@ public class YourService extends KiboRpcService {
 
     }
 
-    // 画像の縮尺を求める（meter/pixel)
+    // 画像の縮尺を求める（pixel/meter)
     public double getScale (List<Mat> corners) {
 
         double[][] AR_corners =
