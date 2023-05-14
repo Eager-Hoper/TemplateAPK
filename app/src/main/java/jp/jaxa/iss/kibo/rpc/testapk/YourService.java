@@ -63,7 +63,7 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "arata: get dest_x,y");
 
         // 新座標を指定
-        Point new_point = new Point(real_point.getX(), dest_y, dest_z);
+        Point new_point = new Point(real_point.getX(), 30 * dest_y, 30 * dest_z); // 試しにゲインをとても大きくしてみた
         Log.i(TAG, "arata: get new_point");
 
         // 再移動
