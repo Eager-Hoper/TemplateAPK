@@ -118,7 +118,7 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
     
-    // 画像の歪み補正のメソッド
+    // 画像の歪み補正のメソッド 撮影した画像（Mat形式）を入力、歪み補正した画像（Mat形式）を出力
     public Mat image_correction(Mat image) {
 
         double[][] NavCamIntrinsics = api.getNavCamIntrinsics();
