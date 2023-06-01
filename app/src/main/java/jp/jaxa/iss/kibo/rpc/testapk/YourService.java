@@ -48,7 +48,7 @@ public class YourService extends KiboRpcService {
         api.startMission();
 
         // move to target_6
-        Point point_6 = new Point(11.355d, -9.0501d, 4.9416d);
+        Point point_6 = new Point(11.355d, -9.0462d, 4.9416d);
         Quaternion quaternion_6 = new Quaternion(0f, 0f, 0f, 1f);
         api.moveTo(point_6, quaternion_6, true);
 
@@ -76,7 +76,7 @@ public class YourService extends KiboRpcService {
         // Log.i(TAG, "arata: moveTo new_point");
 
         // move to target_1
-        Point point_1 = new Point(11.2174d, -9.92284d, 5.4099d);
+        Point point_1 = new Point(11.2053d, -9.92284d, 5.4736d);
         Quaternion quaternion_1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
         api.moveTo(point_1, quaternion_1, true);
         // image = image_correction(api.getMatNavCam());
@@ -87,7 +87,7 @@ public class YourService extends KiboRpcService {
         api.laserControl(false);
 
         // move to taget_5
-        Point point_5 = new Point(11.0568d, -7.8645d, 5.3393d);
+        Point point_5 = new Point(11.0448d, -7.9193d, 5.3393d);
         Quaternion quaternion_5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
         api.moveTo(point_5, quaternion_5, true);
         // image = image_correction(api.getMatNavCam());
@@ -98,7 +98,7 @@ public class YourService extends KiboRpcService {
         api.laserControl(false);
 
         // move to taget_4
-        Point point_4 = new Point(10.51d, -6.6613d, 5.2915d);
+        Point point_4 = new Point(10.51d, -6.562872d, 5.20641d);
         Quaternion quaternion_4 = new Quaternion(0f, 0f, -1f, 0f);
         api.moveTo(point_4, quaternion_4, true);
         // image = image_correction(api.getMatNavCam());
