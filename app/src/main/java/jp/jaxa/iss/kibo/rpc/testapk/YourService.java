@@ -71,7 +71,7 @@ public class YourService extends KiboRpcService {
         // spot laser
         api.laserControl(true);
         api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
-        api.laserControl(false;
+        api.laserControl(false);
         Log.i(TAG, "arata: moveTo new_point");
 
 //        // spot laser
