@@ -68,11 +68,14 @@ public class YourService extends KiboRpcService {
 
         // 再移動
         api.moveTo(new_point, quaternion_6, true);
-        api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
-        Log.i(TAG, "arata: moveTo new_point");
-
         // spot laser
         api.laserControl(true);
+        api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
+        api.laserControl(false;
+        Log.i(TAG, "arata: moveTo new_point");
+
+//        // spot laser
+//        api.laserControl(true);
 
         // move to target_1
         // Point point_1 = new Point(11.2746d, -9.92284d, 5.2988d);
