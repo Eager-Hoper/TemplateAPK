@@ -15,6 +15,7 @@ public class testLogMessage{
         for (int i=1; i<=10; i++) {
             System.out.println(i);
         }
-        Log.e("TAG", "hello");
+//        localのPC上ではandroid環境がないため実行できない
+//        Log.i("TAG", "hello");
     }
 }
