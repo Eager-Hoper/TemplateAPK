@@ -41,6 +41,9 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
+        // log test
+        int a = 1;
+        Log.i(TAG, "-------------- LOGTEST: a=" + a);
         // remain start_log
         Log. i(TAG, "arata: start mission");
         
