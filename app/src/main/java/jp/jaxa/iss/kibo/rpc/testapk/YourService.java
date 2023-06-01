@@ -48,52 +48,65 @@ public class YourService extends KiboRpcService {
         api.startMission();
 
         // move to target_6
-        Point point_6 = new Point(11.355d, -8.989d, 4.8305d);
+        Point point_6 = new Point(11.355d, -9.0501d, 4.9416d);
         Quaternion quaternion_6 = new Quaternion(0f, 0f, 0f, 1f);
         api.moveTo(point_6, quaternion_6, true);
+
+        api.laserControl(true);
+        api.takeTargetSnapshot(6);
+        api.laserControl(false);
         
         // 画像からターゲット中心からの相対座標を取得
-        double[] relative = getRelative(api.getMatNavCam());
+        // double[] relative = getRelative(api.getMatNavCam());
 
         // 現在地から相対座標分修正
-        Kinematics kinematics = api.getRobotKinematics();
-        Point real_point = kinematics.getPosition();
-        double dest_y = real_point.getY() + relative[0];
-        double dest_z = real_point.getZ() + relative[1];
-        Log.i(TAG, "arata: get dest_x,y");
+        // Kinematics kinematics = api.getRobotKinematics();
+        // Point real_point = kinematics.getPosition();
+        // double dest_y = real_point.getY() + relative[0];
+        // double dest_z = real_point.getZ() + relative[1];
+        // Log.i(TAG, "arata: get dest_x,y");
 
         // 新座標を指定
-        Point new_point = new Point(real_point.getX(), dest_y, dest_z);
-        Log.i(TAG, "arata: get new_point");
+        // Point new_point = new Point(real_point.getX(), dest_y, dest_z);
+        // Log.i(TAG, "arata: get new_point");
 
         // 再移動
-        api.moveTo(new_point, quaternion_6, true);
-        api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
-        Log.i(TAG, "arata: moveTo new_point");
-
-        // spot laser
-        api.laserControl(true);
+        // api.moveTo(new_point, quaternion_6, true);
+        // api.saveMatImage(image_correction(api.getMatNavCam()), "target_6.png");
+        // Log.i(TAG, "arata: moveTo new_point");
 
         // move to target_1
-        // Point point_1 = new Point(11.2746d, -9.92284d, 5.2988d);
-        // Quaternion quaternion_1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
-        // api.moveTo(point_1, quaternion_1, true);
+        Point point_1 = new Point(11.2174d, -9.92284d, 5.4099d);
+        Quaternion quaternion_1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+        api.moveTo(point_1, quaternion_1, true);
         // image = image_correction(api.getMatNavCam());
         // api.saveMatImage(image, "target_1.png");
 
+        api.laserControl(true);
+        api.takeTargetSnapshot(1);
+        api.laserControl(false);
+
         // move to taget_5
-        // Point point_5 = new Point(11.114d, -7.9756d, 5.3393d);
-        // Quaternion quaternion_5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
-        // api.moveTo(point_5, quaternion_5, true);
+        Point point_5 = new Point(11.0568d, -7.8645d, 5.3393d);
+        Quaternion quaternion_5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
+        api.moveTo(point_5, quaternion_5, true);
         // image = image_correction(api.getMatNavCam());
         // api.saveMatImage(image, "target_5.png");
 
+        api.laserControl(true);
+        api.takeTargetSnapshot(5);
+        api.laserControl(false);
+
         // move to taget_4
-        // Point point_4 = new Point(10.51d, -6.7185d, 5.1804d);
-        // Quaternion quaternion_4 = new Quaternion(0f, 0f, -1f, 0f);
-        // api.moveTo(point_4, quaternion_4, true);
+        Point point_4 = new Point(10.51d, -6.6613d, 5.2915d);
+        Quaternion quaternion_4 = new Quaternion(0f, 0f, -1f, 0f);
+        api.moveTo(point_4, quaternion_4, true);
         // image = image_correction(api.getMatNavCam());
         // api.saveMatImage(image, "target_4.png");
+
+        api.laserControl(true);
+        api.takeTargetSnapshot(4);
+        api.laserControl(false);
 
         // Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
         // Mat list_ids = new Mat();
@@ -101,10 +114,6 @@ public class YourService extends KiboRpcService {
 
         // Aruco.detectMarkers(image, dictionary, corners, list_ids);
         // Aruco.drawDetectedMarkers(image, corners, list_ids);
-
-        
-        // spot laser
-        api.laserControl(true);
 
     }
 
