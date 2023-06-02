@@ -75,7 +75,7 @@ public class YourService extends KiboRpcService {
         api.laserControl(false);
 
         // move to taget_4
-        Point point_4 = new Point(10.51d, -6.562872d, 5.20641d);
+        Point point_4 = new Point(10.51d, -6.612872d, 5.20641d);
         Quaternion quaternion_4 = new Quaternion(0f, 0f, -1f, 0f);
         api.moveTo(point_4, quaternion_4, true);
         
