@@ -41,6 +41,9 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
+
+        List<Long> time = new ArrayList<Long>();
+
         // remain start_log
         Log. i(TAG, "arata: start mission");
         
@@ -105,6 +108,15 @@ public class YourService extends KiboRpcService {
         
         // spot laser
         api.laserControl(true);
+
+        time = api.getTimeRemaining();
+        if(time.get(1) <30000){
+            Point Goal = new Point(11.143d, -6.7607d, 4.9654d);
+            Quaternion quaternion_Goal = new Quaternion(0f, 0f, -0.707f, 0.707f);
+            api.moveTo(Goal, quaternion_Goal, true);
+        }
+
+
 
     }
 
