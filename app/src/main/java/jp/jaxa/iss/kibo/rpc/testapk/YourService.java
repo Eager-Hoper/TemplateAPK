@@ -70,31 +70,31 @@ public class YourService extends KiboRpcService {
 
         //ReadQRCode
         Mat QRimage = image_correction(api.getMatNavCam());
-        //Generate png image for dabug
+        //Generate png image for debug
         api.saveMatImage(QRimage, "QR.png");
 
         QRCodeDetector decoder = new QRCodeDetector();
         String data = decoder.detectAndDecode(QRimage);
 
-        String reportMassage = null;
+        String reportMessage = null;
         switch(data) {
             case "JEM":
-                reportMassage = "STAY_AT_JEM";
+                reportMessage = "STAY_AT_JEM";
                 break;
             case "COLUMBUS":
-                reportMassage = "GO_TO_COLUMBUS";
+                reportMessage = "GO_TO_COLUMBUS";
                 break;
             case "RACK1":
-                reportMassage = "CHECK_RUCK_1";
+                reportMessage = "CHECK_RACK_1";
                 break;
             case "ASTROBEE":
-                reportMassage = "I_AM_HERE";
+                reportMessage = "I_AM_HERE";
                 break;
             case "INTBALL":
-                reportMassage = "LOOKING_FORWARD_TO_SEE_YOU";
+                reportMessage = "LOOKING_FORWARD_TO_SEE_YOU";
                 break;
             case "BLANK":
-                reportMassage = "NO_PROBLEM";
+                reportMessage = "NO_PROBLEM";
                 break;
             default:
                 break;
@@ -136,7 +136,7 @@ public class YourService extends KiboRpcService {
         api.moveTo(Goal, quaternion_Goal, true);
 
         //report goal message and finish
-        api.reportMissionCompletion(reportMassage);
+        api.reportMissionCompletion(reportMessage);
 
     }
 
