@@ -1,36 +1,36 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
-import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
+        import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
 
-import gov.nasa.arc.astrobee.Kinematics;
-import gov.nasa.arc.astrobee.Result;
-import gov.nasa.arc.astrobee.types.Point;
-import gov.nasa.arc.astrobee.types.Quaternion;
-import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
+        import gov.nasa.arc.astrobee.Kinematics;
+        import gov.nasa.arc.astrobee.Result;
+        import gov.nasa.arc.astrobee.types.Point;
+        import gov.nasa.arc.astrobee.types.Quaternion;
+        import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
 // astrobee library (for definition of Point and Quaternion etc.)
 
-import android.util.Log;
+        import android.util.Log;
 // android library (for log)
 
-import org.opencv.aruco.Aruco;
-import org.opencv.aruco.Dictionary;
-import org.opencv.core.CvType;
-import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.core.Rect;
-import org.opencv.objdetect.QRCodeDetector;
+        import org.opencv.aruco.Aruco;
+        import org.opencv.aruco.Dictionary;
+        import org.opencv.core.CvType;
+        import org.opencv.core.Mat;
+        import org.opencv.core.Scalar;
+        import org.opencv.core.Size;
+        import org.opencv.core.Rect;
+        import org.opencv.objdetect.QRCodeDetector;
 
-import static org.opencv.android.Utils.matToBitmap;
-import static org.opencv.imgproc.Imgproc.boundingRect;
-import static org.opencv.imgproc.Imgproc.undistort;
+        import static org.opencv.android.Utils.matToBitmap;
+        import static org.opencv.imgproc.Imgproc.boundingRect;
+        import static org.opencv.imgproc.Imgproc.undistort;
 // opencv library (for detect ARmarkers)
 
-import java.security.IdentityScope;
-import java.util.ArrayList;
-import java.util.List;
-import java.lang.Math;
+        import java.security.IdentityScope;
+        import java.util.ArrayList;
+        import java.util.List;
+        import java.lang.Math;
 // java library (for basic operate)
 
 /**
@@ -44,7 +44,224 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
-        trip(2, 5, 6, 4);
+
+        // required time data
+        long[][] times = new long[8][8];
+        times[0][0] = 0;
+        times[0][1] = 0; // never used
+        times[0][2] = 0;
+        times[0][3] = 0;
+        times[0][4] = 42928;
+        times[0][5] = 33928;
+        times[0][6] = 25424;
+        times[0][7] = 31480;
+        times[1][0] = 20872;
+        times[1][1] = 0;
+        times[1][2] = 0; // never used
+        times[1][3] = 44624;
+        times[1][4] = 0;
+        times[1][5] = 31016;
+        times[1][6] = 0;
+        times[1][7] = 0;
+        times[2][0] = 0;
+        times[2][1] = 0;
+        times[2][2] = 44624;
+        times[2][3] = 0; // never used
+        times[2][4] = 0;
+        times[2][5] = 0;
+        times[2][6] = 0;
+        times[2][7] = 0;
+        times[3][0] = 0;
+        times[3][1] = 42928;
+        times[3][2] = 0;
+        times[3][3] = 0;
+        times[3][4] = 0; // never used
+        times[3][5] = 29016;
+        times[3][6] = 37976;
+        times[3][7] = 0;
+        times[4][0] = 35880;
+        times[4][1] = 33928;
+        times[4][2] = 31016;
+        times[4][3] = 0;
+        times[4][4] = 29016;
+        times[4][5] = 0; // never used
+        times[4][6] = 27304;
+        times[4][7] = 0;
+        times[5][0] = 29456;
+        times[5][1] = 25424;
+        times[5][2] = 0;
+        times[5][3] = 0;
+        times[5][4] = 37976;
+        times[5][5] = 27304;
+        times[5][6] = 0; // never used
+        times[5][7] = 18152;
+        times[6][0] = 0;
+        times[6][1] = 31480;
+        times[6][2] = 0;
+        times[6][3] = 0;
+        times[6][4] = 0;
+        times[6][5] = 0;
+        times[6][6] = 18152;
+        times[6][7] = 0; // never used
+        times[7][0] = 0;
+        times[7][1] = 0;
+        times[7][2] = 0;
+        times[7][3] = 24008;
+        times[7][4] = 18392;
+        times[7][5] = 24152;
+        times[7][6] = 32992;
+        times[7][7] = 0;
+
+        //points data
+        int[] points = {30, 20, 40, 20, 30, 30};
+
+        //start mission
+        api.startMission();
+
+        //get time
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTimeRemaining = TimeRemaining.get(0);
+        Long MissionTimeRemaining = TimeRemaining.get(1);
+
+        //get active targets
+        List<Integer> ActiveTargets = api.getActiveTargets();
+        int NumberOfActiveTargets = ActiveTargets.size();
+        int points1 = 0;
+        int points2 = 0 ;
+        points1 = points[(ActiveTargets.get(0)-1)];
+        if(NumberOfActiveTargets == 2) {
+            points2 = points[(ActiveTargets.get(1)-1)];
+        }
+
+        //initialize the varients
+        long route1 = 0;
+        long route2 = 0;
+
+        //initialize current point
+        int currentPoint = 0;
+        String reportMessage = null;
+        int QRcount = 0;
+
+        //move between targets
+        while (MissionTimeRemaining > 90000) {
+            if (NumberOfActiveTargets == 1) {
+                moveAndShot(currentPoint, ActiveTargets.get(0));
+                if(ActiveTargets.get(0) == 6 && QRcount == 0){
+                    moveAndShot(6, 7);
+                    reportMessage = ReadQR();
+                    QRcount ++;
+                    currentPoint = 7;
+                }else{
+                    currentPoint = ActiveTargets.get(0);
+                }
+            } else {
+                //search for the best route
+                route1 = times[(ActiveTargets.get(0)-1)][currentPoint] + times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
+                route2 = times[(ActiveTargets.get(1)-1)][currentPoint] + times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
+                if (route1 >= route2 && route2 < ActiveTimeRemaining) {
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
+                        TimeRemaining = api.getTimeRemaining();
+                        ActiveTimeRemaining = TimeRemaining.get(0);
+                        if(ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0)-1)][7]){
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount ++;
+                            moveAndShot(7, ActiveTargets.get(0));
+                        }else{
+                            moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                        }
+                    }else{
+                        moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                    }
+                    currentPoint = ActiveTargets.get(0);
+                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }else if(route1 < route2 && route1 < ActiveTimeRemaining){
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
+                        TimeRemaining = api.getTimeRemaining();
+                        ActiveTimeRemaining = TimeRemaining.get(0);
+                        if(ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(1)-1)][7]){
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount ++;
+                            moveAndShot(7, ActiveTargets.get(1));
+                        }else{
+                            moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                        }
+                    }else{
+                        moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                    }
+                    currentPoint = ActiveTargets.get(1);
+                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }else if(points1 > points2){
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    currentPoint = ActiveTargets.get(0);
+                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }else if(points1 < points2){
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                    currentPoint = ActiveTargets.get(1);
+                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }else if(times[(ActiveTargets.get(0)-1)][currentPoint] > times[(ActiveTargets.get(1)-1)][currentPoint]){
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                    currentPoint = ActiveTargets.get(1);
+                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }else{
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    currentPoint = ActiveTargets.get(0);
+                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount ++;
+                        currentPoint = 7;
+                    }
+                }
+
+            }
+
+            //get next target
+            ActiveTargets = api.getActiveTargets();
+            NumberOfActiveTargets = ActiveTargets.size();
+            points1 = points[(ActiveTargets.get(0)-1)];
+            if(NumberOfActiveTargets == 2) {
+                points2 = points[(ActiveTargets.get(1)-1)];
+            }
+
+            //get current time remaining
+            TimeRemaining = api.getTimeRemaining();
+            ActiveTimeRemaining  = TimeRemaining.get(0);
+            MissionTimeRemaining = TimeRemaining.get(1);
+        }
+
+        api.notifyGoingToGoal();
+        moveAndShot(currentPoint, 8);
+        api.reportMissionCompletion(reportMessage);
+
     }
 
     @Override
@@ -57,100 +274,10 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-    public void trip(int p1, int p2){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0);
-        Long MissionTime = TimeRemaining.get(1);
 
-        //start
-        api.startMission();
-        String reportMessage = null;
-
-        //move between targets
-        moveAndShot(0, p1);
-        if (p1 == 7){
-            reportMessage = ReadQR();
-        }
-
+    public void moveAndShot(int p1, int p2, int p3){
         moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
-        // add if timer
-        api.notifyGoingToGoal();
-        moveAndShot(p2, 8);
-        api.reportMissionCompletion(reportMessage);
-    }
-
-    public void trip(int p1, int p2, int p3){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0) / 1000;
-        Long MissionTime = TimeRemaining.get(1) / 1000;
-
-        //start
-        String reportMessage = null;
-        api.startMission();
-
-        //move between targets
-        moveAndShot(0, p1);
-        if (p1 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
         moveAndShot(p2, p3);
-        if (p3 == 7){
-            reportMessage = ReadQR();
-        }
-
-        // add if timer
-        api.notifyGoingToGoal();
-        moveAndShot(p3, 8);
-        api.reportMissionCompletion(reportMessage);
-    }
-
-    public void trip(int p1, int p2, int p3, int p4){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0) / 1000;
-        Long MissionTime = TimeRemaining.get(1) / 1000;
-
-        //start
-        String reportMessage = null;
-        api.startMission();
-
-        //move between targets
-        moveAndShot(0, p1);
-        if (p1 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p2, p3);
-        if (p3 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p3, p4);
-        if (p4 == 7){
-            reportMessage = ReadQR();
-        }
-
-        // add if timer
-        api.notifyGoingToGoal();
-        moveAndShot(p4, 8);
-        api.reportMissionCompletion(reportMessage);
     }
 
     public void moveAndShot(int from, int to){
@@ -455,6 +582,7 @@ public class YourService extends KiboRpcService {
             api.laserControl(false);
         }
 
+        //get time required (can be deleted)
         TimeRemaining = api.getTimeRemaining();
         ActiveTimeRemaining  = TimeRemaining.get(0);
         MissionTimeRemaining = TimeRemaining.get(1);
@@ -462,6 +590,7 @@ public class YourService extends KiboRpcService {
         long countEnd = MissionTimeRemaining;
         long timeRequired = countStart - countEnd;
         Log.i(TAG, "-------------- LOG: timerequired" + from + to + "=" + timeRequired);
+        Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
 
     }
 
@@ -515,6 +644,97 @@ public class YourService extends KiboRpcService {
                 break;
         }
         return reportMessage;
+    }
+
+    //trush
+
+    public void trip(int p1, int p2){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTimeRemaining  = TimeRemaining.get(0);
+        Long MissionTimeRemaining = TimeRemaining.get(1);
+
+        String reportMessage = null;
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        if(MissionTimeRemaining < 60000) {
+            api.notifyGoingToGoal();
+            moveAndShot(p2, 8);
+            api.reportMissionCompletion(reportMessage);
+        }
+    }
+
+    public void trip(int p1, int p2, int p3){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTime  = TimeRemaining.get(0) / 1000;
+        Long MissionTime = TimeRemaining.get(1) / 1000;
+
+        //start
+        String reportMessage = null;
+        api.startMission();
+
+        //move between targets
+        moveAndShot(0, p1);
+        if (p1 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p2, p3);
+        if (p3 == 7){
+            reportMessage = ReadQR();
+        }
+
+        // add if timer
+        api.notifyGoingToGoal();
+        moveAndShot(p3, 8);
+        api.reportMissionCompletion(reportMessage);
+    }
+
+    public void trip(int p1, int p2, int p3, int p4){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTime  = TimeRemaining.get(0) / 1000;
+        Long MissionTime = TimeRemaining.get(1) / 1000;
+
+        //start
+        String reportMessage = null;
+        api.startMission();
+
+        //move between targets
+        moveAndShot(0, p1);
+        if (p1 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p2, p3);
+        if (p3 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p3, p4);
+        if (p4 == 7){
+            reportMessage = ReadQR();
+        }
+
+        // add if timer
+        api.notifyGoingToGoal();
+        moveAndShot(p4, 8);
+        api.reportMissionCompletion(reportMessage);
     }
 
 }
