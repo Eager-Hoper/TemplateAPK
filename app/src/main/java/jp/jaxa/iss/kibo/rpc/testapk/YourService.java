@@ -44,26 +44,7 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0) / 1000;
-        Long MissionTime = TimeRemaining.get(1) / 1000;
-
-        // the mission starts
-        //example 2 5 6 7 6
-        api.startMission();
-        moveAndShot(0, 2);
-
-        moveAndShot(2, 5);
-        moveAndShot(5, 6);
-        String reportMessage = moveAndShot(6, 7);
-        moveAndShot(7, 6);
-
-        // move to the goal
-        api.notifyGoingToGoal();
-        moveAndShot(6, 8);
-
-        //report goal message and finish
-        api.reportMissionCompletion(reportMessage);
+        trip();
     }
 
     @Override
@@ -76,7 +57,76 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-    public String moveAndShot(int from, int to){
+    public void trip(int p1, int p2, int p3){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTime  = TimeRemaining.get(0) / 1000;
+        Long MissionTime = TimeRemaining.get(1) / 1000;
+
+        //start
+        String reportMessage = null;
+        api.startMission();
+
+        //move between targets
+        moveAndShot(0, p1);
+        if (p1 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p2, p3);
+        if (p3 == 7){
+            reportMessage = ReadQR();
+        }
+
+        // add if timer
+        api.notifyGoingToGoal();
+        moveAndShot(p3, 8);
+        api.reportMissionCompletion(reportMessage);
+    }
+
+    public void trip(int p1, int p2, int p3, int p4){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTime  = TimeRemaining.get(0) / 1000;
+        Long MissionTime = TimeRemaining.get(1) / 1000;
+
+        //start
+        String reportMessage = null;
+        api.startMission();
+
+        //move between targets
+        moveAndShot(0, p1);
+        if (p1 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p2, p3);
+        if (p3 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p3, p4);
+        if (p4 == 7){
+            reportMessage = ReadQR();
+        }
+
+        // add if timer
+        api.notifyGoingToGoal();
+        moveAndShot(p4, 8);
+        api.reportMissionCompletion(reportMessage);
+    }
+
+    public void moveAndShot(int from, int to){
         Point point1 = new Point(11.2053d, -9.92284d, 5.4736d);
         Point point2 = new Point(10.456184d, -9.196272d, 4.48d);
         Point point3 = new Point(10.7142d, -7.76727d, 4.48d);
@@ -86,7 +136,7 @@ public class YourService extends KiboRpcService {
         Point point7 = new Point(11.369d, -8.5518d, 4.48d);
         Point point8= new Point(11.143d, -6.7607d, 4.9654d);
 
-        Quaternion quartanion1 = new Quaternion(0f, 0f, -0.707f, -0.707f);
+        Quaternion quartanion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
         Quaternion quartanion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
         Quaternion quartanion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion4 = new Quaternion(0f, 0f, -1f, 0f);
@@ -117,8 +167,6 @@ public class YourService extends KiboRpcService {
 
         Point viapoint78 = new Point();
 
-        String reportMessage = null;
-
         switch (from){
             case 0:
                 switch(to){
@@ -148,6 +196,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 1:
                 switch(to){
                     case 2:
@@ -176,6 +225,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 2:
                 switch(to){
                     case 1:
@@ -208,6 +258,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 3:
                 switch(to){
                     case 1:
@@ -239,6 +290,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 4:
                 switch(to){
                     case 1:
@@ -268,6 +320,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 5:
                 switch(to){
                     case 1:
@@ -295,6 +348,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 6:
                 switch(to){
                     case 1:
@@ -323,6 +377,7 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             case 7:
                 switch(to){
                     case 1:
@@ -353,22 +408,20 @@ public class YourService extends KiboRpcService {
                     default:
                         break;
                 }
+                break;
             default:
                 break;
         }
 
-        if(to == 7){
-            reportMessage = ReadQR();
-        }else if(to == 8){
-
+        if(to == 7 || to == 8){
         }else{
             api.laserControl(true);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
 
-        return reportMessage;
     }
+
 
     public Mat image_correction(Mat image) {
 
@@ -389,11 +442,11 @@ public class YourService extends KiboRpcService {
     public String ReadQR(){
         //ReadQRCode
         Mat QRimage = image_correction(api.getMatNavCam());
-        //Generate png image for debug
-        api.saveMatImage(QRimage, "QR.png");
-
         QRCodeDetector decoder = new QRCodeDetector();
         String data = decoder.detectAndDecode(QRimage);
+
+        //Generate png image for debug
+        //api.saveMatImage(QRimage, "QR.png");
 
         String reportMessage = null;
         switch(data) {
