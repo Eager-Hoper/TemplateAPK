@@ -44,7 +44,7 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
-        trip();
+        trip(2, 5, 6, 4);
     }
 
     @Override
@@ -55,6 +55,33 @@ public class YourService extends KiboRpcService {
     @Override
     protected void runPlan3() {
         // write your plan 3 here
+    }
+
+    public void trip(int p1, int p2){
+        //timer
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTime  = TimeRemaining.get(0);
+        Long MissionTime = TimeRemaining.get(1);
+
+        //start
+        api.startMission();
+        String reportMessage = null;
+
+        //move between targets
+        moveAndShot(0, p1);
+        if (p1 == 7){
+            reportMessage = ReadQR();
+        }
+
+        moveAndShot(p1, p2);
+        if (p2 == 7){
+            reportMessage = ReadQR();
+        }
+
+        // add if timer
+        api.notifyGoingToGoal();
+        moveAndShot(p2, 8);
+        api.reportMissionCompletion(reportMessage);
     }
 
     public void trip(int p1, int p2, int p3){
@@ -127,6 +154,11 @@ public class YourService extends KiboRpcService {
     }
 
     public void moveAndShot(int from, int to){
+        //get time
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTimeRemaining  = TimeRemaining.get(0);
+        Long MissionTimeRemaining = TimeRemaining.get(1);
+
         Point point1 = new Point(11.2053d, -9.92284d, 5.4736d);
         Point point2 = new Point(10.456184d, -9.196272d, 4.48d);
         Point point3 = new Point(10.7142d, -7.76727d, 4.48d);
@@ -152,7 +184,7 @@ public class YourService extends KiboRpcService {
         Point viapoint12 = new Point();
         Point viapoint18 = new Point();
 
-        Point viapoint23 = new Point(10.66512d, -8.3278d, 4.75812d);
+        Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
         Point viapoint24 = new Point();
         Point viapoint26 = new Point();
         Point viapoint27 = new Point();
@@ -166,6 +198,9 @@ public class YourService extends KiboRpcService {
         Point viapoint47 = new Point();
 
         Point viapoint78 = new Point();
+
+        long countStart = MissionTimeRemaining;
+        Log.i(TAG, "-------------- LOG: initialTime=" + MissionTimeRemaining);
 
         switch (from){
             case 0:
@@ -419,6 +454,14 @@ public class YourService extends KiboRpcService {
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
+
+        TimeRemaining = api.getTimeRemaining();
+        ActiveTimeRemaining  = TimeRemaining.get(0);
+        MissionTimeRemaining = TimeRemaining.get(1);
+
+        long countEnd = MissionTimeRemaining;
+        long timeRequired = countStart - countEnd;
+        Log.i(TAG, "-------------- LOG: timerequired" + from + to + "=" + timeRequired);
 
     }
 
