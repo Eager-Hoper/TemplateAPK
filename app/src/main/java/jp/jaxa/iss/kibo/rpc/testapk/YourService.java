@@ -126,16 +126,16 @@ public class YourService extends KiboRpcService {
         //get active targets
         List<Integer> ActiveTargets = api.getActiveTargets();
         int NumberOfActiveTargets = ActiveTargets.size();
-        int points1 = 0;
+        int points1;
         int points2 = 0 ;
         points1 = points[(ActiveTargets.get(0)-1)];
         if(NumberOfActiveTargets == 2) {
             points2 = points[(ActiveTargets.get(1)-1)];
         }
 
-        //initialize the varients
-        long route1 = 0;
-        long route2 = 0;
+        //define the varients
+        long route1;
+        long route2;
 
         //initialize current point
         int currentPoint = 0;
@@ -274,16 +274,9 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-
-    public void moveAndShot(int p1, int p2, int p3){
-        moveAndShot(p1, p2);
-        moveAndShot(p2, p3);
-    }
-
     public void moveAndShot(int from, int to){
         //get time
         List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTimeRemaining  = TimeRemaining.get(0);
         Long MissionTimeRemaining = TimeRemaining.get(1);
 
         Point point1 = new Point(11.2053d, -9.92284d, 5.4736d);
@@ -576,6 +569,7 @@ public class YourService extends KiboRpcService {
         }
 
         if(to == 7 || to == 8){
+
         }else{
             api.laserControl(true);
             api.takeTargetSnapshot(to);
@@ -584,7 +578,7 @@ public class YourService extends KiboRpcService {
 
         //get time required (can be deleted)
         TimeRemaining = api.getTimeRemaining();
-        ActiveTimeRemaining  = TimeRemaining.get(0);
+        Long ActiveTimeRemaining = TimeRemaining.get(0);
         MissionTimeRemaining = TimeRemaining.get(1);
 
         long countEnd = MissionTimeRemaining;
@@ -644,97 +638,6 @@ public class YourService extends KiboRpcService {
                 break;
         }
         return reportMessage;
-    }
-
-    //trush
-
-    public void trip(int p1, int p2){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTimeRemaining  = TimeRemaining.get(0);
-        Long MissionTimeRemaining = TimeRemaining.get(1);
-
-        String reportMessage = null;
-
-        moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
-        if(MissionTimeRemaining < 60000) {
-            api.notifyGoingToGoal();
-            moveAndShot(p2, 8);
-            api.reportMissionCompletion(reportMessage);
-        }
-    }
-
-    public void trip(int p1, int p2, int p3){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0) / 1000;
-        Long MissionTime = TimeRemaining.get(1) / 1000;
-
-        //start
-        String reportMessage = null;
-        api.startMission();
-
-        //move between targets
-        moveAndShot(0, p1);
-        if (p1 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p2, p3);
-        if (p3 == 7){
-            reportMessage = ReadQR();
-        }
-
-        // add if timer
-        api.notifyGoingToGoal();
-        moveAndShot(p3, 8);
-        api.reportMissionCompletion(reportMessage);
-    }
-
-    public void trip(int p1, int p2, int p3, int p4){
-        //timer
-        List<Long> TimeRemaining = api.getTimeRemaining();
-        Long ActiveTime  = TimeRemaining.get(0) / 1000;
-        Long MissionTime = TimeRemaining.get(1) / 1000;
-
-        //start
-        String reportMessage = null;
-        api.startMission();
-
-        //move between targets
-        moveAndShot(0, p1);
-        if (p1 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p1, p2);
-        if (p2 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p2, p3);
-        if (p3 == 7){
-            reportMessage = ReadQR();
-        }
-
-        moveAndShot(p3, p4);
-        if (p4 == 7){
-            reportMessage = ReadQR();
-        }
-
-        // add if timer
-        api.notifyGoingToGoal();
-        moveAndShot(p4, 8);
-        api.reportMissionCompletion(reportMessage);
     }
 
 }
