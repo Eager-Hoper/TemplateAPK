@@ -46,77 +46,99 @@ public class YourService extends KiboRpcService {
     protected void runPlan1() {
 
         // required time data
+        //[end point-1][start point]
         long[][] times = new long[8][8];
-        times[0][0] = 0;
+        times[0][0] = 40880;
         times[0][1] = 0; // never used
-        times[0][2] = 0;
-        times[0][3] = 0;
+        times[0][2] = 41776;
+        times[0][3] = 50608;
         times[0][4] = 42928;
         times[0][5] = 33928;
         times[0][6] = 25424;
         times[0][7] = 31480;
-        times[1][0] = 20872;
-        times[1][1] = 0;
+        times[1][0] = 20992;
+        times[1][1] = 41776;
         times[1][2] = 0; // never used
         times[1][3] = 44624;
-        times[1][4] = 0;
+        times[1][4] = 52856;
         times[1][5] = 31016;
-        times[1][6] = 0;
-        times[1][7] = 0;
-        times[2][0] = 0;
-        times[2][1] = 0;
+        times[1][6] = 35312;
+        times[1][7] = 38416;
+        times[2][0] = 50136;
+        times[2][1] = 50608;
         times[2][2] = 44624;
         times[2][3] = 0; // never used
-        times[2][4] = 0;
-        times[2][5] = 0;
-        times[2][6] = 0;
-        times[2][7] = 0;
-        times[3][0] = 0;
+        times[2][4] = 41944;
+        times[2][5] = 36648;
+        times[2][6] = 41272;
+        times[2][7] = 40432;
+        times[3][0] = 59544;
         times[3][1] = 42928;
-        times[3][2] = 0;
-        times[3][3] = 0;
+        times[3][2] = 52856;
+        times[3][3] = 42496;
         times[3][4] = 0; // never used
         times[3][5] = 29016;
         times[3][6] = 37976;
-        times[3][7] = 0;
+        times[3][7] = 50200;
         times[4][0] = 35880;
         times[4][1] = 33928;
         times[4][2] = 31016;
-        times[4][3] = 0;
+        times[4][3] = 36648;
         times[4][4] = 29016;
         times[4][5] = 0; // never used
-        times[4][6] = 27304;
-        times[4][7] = 0;
-        times[5][0] = 29456;
+        times[4][6] = 27336;
+        times[4][7] = 38712;
+        times[5][0] = 29504;
         times[5][1] = 25424;
-        times[5][2] = 0;
-        times[5][3] = 0;
+        times[5][2] = 35304;
+        times[5][3] = 41272;
         times[5][4] = 37976;
-        times[5][5] = 27304;
+        times[5][5] = 27336;
         times[5][6] = 0; // never used
         times[5][7] = 18152;
-        times[6][0] = 0;
+        times[6][0] = 41080;
         times[6][1] = 31480;
-        times[6][2] = 0;
-        times[6][3] = 0;
-        times[6][4] = 0;
-        times[6][5] = 0;
-        times[6][6] = 18152;
+        times[6][2] = 38416;
+        times[6][3] = 40432;
+        times[6][4] = 50200;
+        times[6][5] = 38712;
+        times[6][6] = 18200;
         times[6][7] = 0; // never used
-        times[7][0] = 0;
-        times[7][1] = 0;
-        times[7][2] = 0;
+        times[7][0] = 0; // never used
+        times[7][1] = 55568;
+        times[7][2] = 49312;
         times[7][3] = 24008;
         times[7][4] = 18392;
-        times[7][5] = 24152;
+        times[7][5] = 24208;
         times[7][6] = 32992;
-        times[7][7] = 0;
+        times[7][7] = 43032;
 
         //points data
         int[] points = {30, 20, 40, 20, 30, 30};
 
+        //define the varients
+        long route1;
+        long route2;
+
+        //initialize current point
+        int currentPoint = 0;
+        String reportMessage = null;
+        int QRcount = 0;
+
+        //data end here
         //start mission
         api.startMission();
+
+        //for viapoint test
+        //moveAndShot(0, 3);
+        //moveAndShot(3, 5);
+        //moveAndShot(5, 6);
+        //moveAndShot(6, 3);
+        //reportMessage = ReadQR();
+        //api.notifyGoingToGoal();
+        //moveAndShot(3, 8);
+        //api.reportMissionCompletion(reportMessage);
+        //viapoint test end here
 
         //get time
         List<Long> TimeRemaining = api.getTimeRemaining();
@@ -132,15 +154,6 @@ public class YourService extends KiboRpcService {
         if(NumberOfActiveTargets == 2) {
             points2 = points[(ActiveTargets.get(1)-1)];
         }
-
-        //define the varients
-        long route1;
-        long route2;
-
-        //initialize current point
-        int currentPoint = 0;
-        String reportMessage = null;
-        int QRcount = 0;
 
         //move between targets
         while (MissionTimeRemaining > 90000) {
@@ -298,26 +311,31 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
         //Viapoints
-        Point viapoint03 = new Point();
-        Point viapoint07 = new Point();
+        Point viapoint01 = new Point(10.88628d , -9.9605d , 5.06316d);
+        Point viapoint03 = new Point(10.5d, -8.3326d, 4.9425d);
+        Point viapoint04 = new Point(10.4d, -8.3826d, 4.8995d);
+        Point viapoint07 = new Point(11.1228d, -9.2334d, 4.388d);
 
-        Point viapoint12 = new Point();
-        Point viapoint18 = new Point();
+        Point viapoint12 = new Point(11.2973d, -9.6929d, 5.0665d);
+        Point viapoint13 = new Point(10.95975d, -8.2826d, 4.8988d);
+        Point viapoint18 = new Point(11.2053d , -8.0635d , 4.87923d);
 
         Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
-        Point viapoint24 = new Point();
-        Point viapoint26 = new Point();
-        Point viapoint27 = new Point();
-        Point viapoint28 = new Point();
+        Point viapoint24 = new Point(10.47268d , -8.40436d , 4.73903d);
+        Point viapoint26 = new Point(10.90559d, -9.12124d, 4.86637d);
+        Point viapoint27 = new Point(10.8652d , -8.50513d , 4.48d);
+        Point viapoint28 = new Point(10.6795d , -8.40436d , 4.73903d);
 
-        Point viapoint34 = new Point();
-        Point viapoint35 = new Point();
-        Point viapoint36 = new Point();
-        Point viapoint37 = new Point();
+        Point viapoint34 = new Point(10.6121d , -7.3049d , 4.9764d);
+        Point viapoint35 = new Point(10.97867d , -7.63738d , 5.16743d);
+        Point viapoint36 = new Point(10.95772d , -8.25329d , 4.74769d);
+        Point viapoint37 = new Point(11.0416d , -8.3826d , 4.95651d);
 
-        Point viapoint47 = new Point();
+        Point viapoint47 = new Point(10.9395d , -8.3826d , 4.89877d);
 
-        Point viapoint78 = new Point();
+        Point viapoint57 = new Point(11.2069d , -8.28977d , 5.1305d);
+
+        Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
         long countStart = MissionTimeRemaining;
         Log.i(TAG, "-------------- LOG: initialTime=" + MissionTimeRemaining);
@@ -326,6 +344,7 @@ public class YourService extends KiboRpcService {
             case 0:
                 switch(to){
                     case 1:
+                        api.moveTo(viapoint01, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
                         break;
                     case 2:
@@ -336,6 +355,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point3, quartanion3, true);
                         break;
                     case 4:
+                        api.moveTo(viapoint04, quartanion4, true);
                         api.moveTo(point4, quartanion4, true);
                         break;
                     case 5:
@@ -355,10 +375,11 @@ public class YourService extends KiboRpcService {
             case 1:
                 switch(to){
                     case 2:
-                        api.moveTo(viapoint12, quartanion2, true);
+                        api.moveTo(viapoint12, quartanion1, true);
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 3:
+                        api.moveTo(viapoint13, quartanion3, true);
                         api.moveTo(point3, quartanion3, true);
                         break;
                     case 4:
@@ -417,6 +438,7 @@ public class YourService extends KiboRpcService {
             case 3:
                 switch(to){
                     case 1:
+                        api.moveTo(viapoint13, quartanion3, true);
                         api.moveTo(point1, quartanion1, true);
                         break;
                     case 2:
@@ -456,7 +478,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 3:
-                        api.moveTo(viapoint34, quartanion4, true);
+                        api.moveTo(viapoint34, quartanion3, true);
                         api.moveTo(point3, quartanion3, true);
                         break;
                     case 5:
@@ -495,6 +517,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
+                        api.moveTo(viapoint57, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
                         break;
                     case 8:
@@ -543,21 +566,22 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 3:
-                        api.moveTo(viapoint37, quartanion3, true);
+                        api.moveTo(viapoint37, quartanion7, true);
                         api.moveTo(point3, quartanion3, true);
                         break;
                     case 4:
-                        api.moveTo(viapoint47, quartanion4, true);
+                        api.moveTo(viapoint47, quartanion7, true);
                         api.moveTo(point4, quartanion4, true);
                         break;
                     case 5:
+                        api.moveTo(viapoint57, quartanion5, true);
                         api.moveTo(point5, quartanion5, true);
                         break;
                     case 6:
                         api.moveTo(point6, quartanion6, true);
                         break;
                     case 8:
-                        api.moveTo(viapoint78, quartanion8, true);
+                        api.moveTo(viapoint78, quartanion7, true);
                         api.moveTo(point8, quartanion8, true);
                         break;
                     default:
