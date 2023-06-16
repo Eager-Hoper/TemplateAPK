@@ -156,124 +156,244 @@ public class YourService extends KiboRpcService {
         }
 
         //move between targets
-        while (MissionTimeRemaining > 90000) {
-            if (NumberOfActiveTargets == 1) {
-                moveAndShot(currentPoint, ActiveTargets.get(0));
-                if(ActiveTargets.get(0) == 6 && QRcount == 0){
-                    moveAndShot(6, 7);
-                    reportMessage = ReadQR();
-                    QRcount ++;
-                    currentPoint = 7;
-                }else{
-                    currentPoint = ActiveTargets.get(0);
-                }
-            } else {
-                //search for the best route
-                route1 = times[(ActiveTargets.get(0)-1)][currentPoint] + times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
-                route2 = times[(ActiveTargets.get(1)-1)][currentPoint] + times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
-                if (route1 >= route2 && route2 < ActiveTimeRemaining) {
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
-                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
-                        TimeRemaining = api.getTimeRemaining();
-                        ActiveTimeRemaining = TimeRemaining.get(0);
-                        if(ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0)-1)][7]){
-                            moveAndShot(6, 7);
-                            reportMessage = ReadQR();
-                            QRcount ++;
-                            moveAndShot(7, ActiveTargets.get(0));
-                        }else{
+        while (MissionTimeRemaining > 0) {
+            if(MissionTimeRemaining > 90000) {
+                if (NumberOfActiveTargets == 1) {
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    if (ActiveTargets.get(0) == 6 && QRcount == 0) {
+                        moveAndShot(6, 7);
+                        reportMessage = ReadQR();
+                        QRcount++;
+                        currentPoint = 7;
+                    } else {
+                        currentPoint = ActiveTargets.get(0);
+                    }
+                } else {
+                    //search for the best route
+                    route1 = times[(ActiveTargets.get(0) - 1)][currentPoint] + times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
+                    route2 = times[(ActiveTargets.get(1) - 1)][currentPoint] + times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
+                    if (route1 >= route2 && route2 < ActiveTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                            TimeRemaining = api.getTimeRemaining();
+                            ActiveTimeRemaining = TimeRemaining.get(0);
+                            if (ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0) - 1)][7]) {
+                                moveAndShot(6, 7);
+                                reportMessage = ReadQR();
+                                QRcount++;
+                                moveAndShot(7, ActiveTargets.get(0));
+                            } else {
+                                moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                            }
+                        } else {
                             moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
                         }
-                    }else{
-                        moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
-                    }
-                    currentPoint = ActiveTargets.get(0);
-                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
-                }else if(route1 < route2 && route1 < ActiveTimeRemaining){
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
-                        TimeRemaining = api.getTimeRemaining();
-                        ActiveTimeRemaining = TimeRemaining.get(0);
-                        if(ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(1)-1)][7]){
+                        currentPoint = ActiveTargets.get(0);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0) {
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
-                            QRcount ++;
-                            moveAndShot(7, ActiveTargets.get(1));
-                        }else{
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (route1 < route2 && route1 < ActiveTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0) {
+                            TimeRemaining = api.getTimeRemaining();
+                            ActiveTimeRemaining = TimeRemaining.get(0);
+                            if (ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(1) - 1)][7]) {
+                                moveAndShot(6, 7);
+                                reportMessage = ReadQR();
+                                QRcount++;
+                                moveAndShot(7, ActiveTargets.get(1));
+                            } else {
+                                moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                            }
+                        } else {
                             moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
                         }
-                    }else{
-                        moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                        currentPoint = ActiveTargets.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (points1 > points2) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (points1 < points2) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        currentPoint = ActiveTargets.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (times[(ActiveTargets.get(0) - 1)][currentPoint] > times[(ActiveTargets.get(1) - 1)][currentPoint]) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        currentPoint = ActiveTargets.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
                     }
-                    currentPoint = ActiveTargets.get(1);
-                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
-                }else if(points1 > points2){
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                    currentPoint = ActiveTargets.get(0);
-                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
-                }else if(points1 < points2){
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
-                    currentPoint = ActiveTargets.get(1);
-                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
-                }else if(times[(ActiveTargets.get(0)-1)][currentPoint] > times[(ActiveTargets.get(1)-1)][currentPoint]){
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
-                    currentPoint = ActiveTargets.get(1);
-                    if(ActiveTargets.get(1) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
-                }else{
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                    currentPoint = ActiveTargets.get(0);
-                    if(ActiveTargets.get(0) == 6 && QRcount == 0){
-                        moveAndShot(6, 7);
-                        reportMessage = ReadQR();
-                        QRcount ++;
-                        currentPoint = 7;
-                    }
+
                 }
 
-            }
+                //get next target
+                ActiveTargets = api.getActiveTargets();
+                NumberOfActiveTargets = ActiveTargets.size();
+                points1 = points[(ActiveTargets.get(0) - 1)];
+                if (NumberOfActiveTargets == 2) {
+                    points2 = points[(ActiveTargets.get(1) - 1)];
+                }
 
-            //get next target
-            ActiveTargets = api.getActiveTargets();
-            NumberOfActiveTargets = ActiveTargets.size();
-            points1 = points[(ActiveTargets.get(0)-1)];
-            if(NumberOfActiveTargets == 2) {
-                points2 = points[(ActiveTargets.get(1)-1)];
-            }
+                //get current time remaining
+                TimeRemaining = api.getTimeRemaining();
+                ActiveTimeRemaining = TimeRemaining.get(0);
+                MissionTimeRemaining = TimeRemaining.get(1);
 
-            //get current time remaining
-            TimeRemaining = api.getTimeRemaining();
-            ActiveTimeRemaining  = TimeRemaining.get(0);
-            MissionTimeRemaining = TimeRemaining.get(1);
+            }else{ // approach the goal
+                if (NumberOfActiveTargets == 1) {
+                    if ((times[(ActiveTargets.get(0)-1)][currentPoint] + times[7][ActiveTargets.get(0)]) < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0 && (times[6][ActiveTargets.get(0)] + times[7][7]) < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        } else {
+                            currentPoint = ActiveTargets.get(0);
+                        }
+                    }
+                } else {
+                    route1 = times[(ActiveTargets.get(0) - 1)][currentPoint] + times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)] + times[7][ActiveTargets.get(1)];
+                    route2 = times[(ActiveTargets.get(1) - 1)][currentPoint] + times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)] + times[7][ActiveTargets.get(0)];
+                    if (route1 >= route2 && route2 < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                            TimeRemaining = api.getTimeRemaining();
+                            MissionTimeRemaining = TimeRemaining.get(1);
+                            if (MissionTimeRemaining > times[6][6] + times[(ActiveTargets.get(0) - 1)][7] + times[7][ActiveTargets.get(0)]) {
+                                moveAndShot(6, 7);
+                                reportMessage = ReadQR();
+                                QRcount++;
+                                moveAndShot(7, ActiveTargets.get(0));
+                            } else {
+                                moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                            }
+                        } else {
+                            moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                        }
+                        currentPoint = ActiveTargets.get(0);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0 && (times[6][ActiveTargets.get(0)] + times[7][7]) < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (route1 < route2 && route1 < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0) {
+                            TimeRemaining = api.getTimeRemaining();
+                            MissionTimeRemaining = TimeRemaining.get(1);
+                            if (MissionTimeRemaining > times[6][6] + times[(ActiveTargets.get(1) - 1)][7] + times[7][ActiveTargets.get(1)]) {
+                                moveAndShot(6, 7);
+                                reportMessage = ReadQR();
+                                QRcount++;
+                                moveAndShot(7, ActiveTargets.get(1));
+                            } else {
+                                moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                            }
+                        } else {
+                            moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                        }
+                        currentPoint = ActiveTargets.get(1);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0 && (times[6][ActiveTargets.get(1)] + times[7][7]) < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (points1 > points2 && times[ActiveTargets.get(0)-1][currentPoint] + times[7][ActiveTargets.get(0)] < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0 && times[6][ActiveTargets.get(0)] + times[7][7] < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (points1 < points2 && times[ActiveTargets.get(1)-1][currentPoint] + times[7][ActiveTargets.get(1)] < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        currentPoint = ActiveTargets.get(1);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0 && times[6][ActiveTargets.get(1)] + times[7][7] < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (times[(ActiveTargets.get(0) - 1)][currentPoint] > times[(ActiveTargets.get(1) - 1)][currentPoint] && times[ActiveTargets.get(1)-1][currentPoint] + times[7][ActiveTargets.get(1)] < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(1));
+                        currentPoint = ActiveTargets.get(1);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(1) == 6 && QRcount == 0 && times[6][ActiveTargets.get(1)] + times[7][7] < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    } else if (times[(ActiveTargets.get(0) - 1)][currentPoint] < times[(ActiveTargets.get(1) - 1)][currentPoint] && times[ActiveTargets.get(0)-1][currentPoint] + times[7][ActiveTargets.get(0)] < MissionTimeRemaining) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
+                        TimeRemaining = api.getTimeRemaining();
+                        MissionTimeRemaining = TimeRemaining.get(1);
+                        if (ActiveTargets.get(0) == 6 && QRcount == 0 && times[6][ActiveTargets.get(0)] + times[7][7] < MissionTimeRemaining) {
+                            moveAndShot(6, 7);
+                            reportMessage = ReadQR();
+                            QRcount++;
+                            currentPoint = 7;
+                        }
+                    }
+
+                }
+
+                api.notifyGoingToGoal();
+                moveAndShot(currentPoint, 8);
+                api.reportMissionCompletion(reportMessage);
+                break;
+
+            }
         }
-
-        api.notifyGoingToGoal();
-        moveAndShot(currentPoint, 8);
-        api.reportMissionCompletion(reportMessage);
 
     }
 
