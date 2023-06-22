@@ -1,36 +1,36 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
-        import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
+import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
 
-        import gov.nasa.arc.astrobee.Kinematics;
-        import gov.nasa.arc.astrobee.Result;
-        import gov.nasa.arc.astrobee.types.Point;
-        import gov.nasa.arc.astrobee.types.Quaternion;
-        import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
+import gov.nasa.arc.astrobee.Kinematics;
+import gov.nasa.arc.astrobee.Result;
+import gov.nasa.arc.astrobee.types.Point;
+import gov.nasa.arc.astrobee.types.Quaternion;
+import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
 // astrobee library (for definition of Point and Quaternion etc.)
 
-        import android.util.Log;
+import android.util.Log;
 // android library (for log)
 
-        import org.opencv.aruco.Aruco;
-        import org.opencv.aruco.Dictionary;
-        import org.opencv.core.CvType;
-        import org.opencv.core.Mat;
-        import org.opencv.core.Scalar;
-        import org.opencv.core.Size;
-        import org.opencv.core.Rect;
-        import org.opencv.objdetect.QRCodeDetector;
+import org.opencv.aruco.Aruco;
+import org.opencv.aruco.Dictionary;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Scalar;
+import org.opencv.core.Size;
+import org.opencv.core.Rect;
+import org.opencv.objdetect.QRCodeDetector;
 
-        import static org.opencv.android.Utils.matToBitmap;
-        import static org.opencv.imgproc.Imgproc.boundingRect;
-        import static org.opencv.imgproc.Imgproc.undistort;
+import static org.opencv.android.Utils.matToBitmap;
+import static org.opencv.imgproc.Imgproc.boundingRect;
+import static org.opencv.imgproc.Imgproc.undistort;
 // opencv library (for detect ARmarkers)
 
-        import java.security.IdentityScope;
-        import java.util.ArrayList;
-        import java.util.List;
-        import java.lang.Math;
+import java.security.IdentityScope;
+import java.util.ArrayList;
+import java.util.List;
+import java.lang.Math;
 // java library (for basic operate)
 
 /**
@@ -50,14 +50,14 @@ public class YourService extends KiboRpcService {
         long[][] times = new long[8][8];
         times[0][0] = 40880;
         times[0][1] = 0; // never used
-        times[0][2] = 41776;
-        times[0][3] = 50608;
+        times[0][2] = 40240;
+        times[0][3] = 49440;
         times[0][4] = 42928;
         times[0][5] = 33928;
         times[0][6] = 25424;
         times[0][7] = 31480;
         times[1][0] = 20992;
-        times[1][1] = 41776;
+        times[1][1] = 40240;
         times[1][2] = 0; // never used
         times[1][3] = 44624;
         times[1][4] = 52856;
@@ -65,7 +65,7 @@ public class YourService extends KiboRpcService {
         times[1][6] = 35312;
         times[1][7] = 38416;
         times[2][0] = 50136;
-        times[2][1] = 50608;
+        times[2][1] = 49440;
         times[2][2] = 44624;
         times[2][3] = 0; // never used
         times[2][4] = 41944;
@@ -75,43 +75,43 @@ public class YourService extends KiboRpcService {
         times[3][0] = 59544;
         times[3][1] = 42928;
         times[3][2] = 52856;
-        times[3][3] = 42496;
+        times[3][3] = 41944;
         times[3][4] = 0; // never used
         times[3][5] = 29016;
         times[3][6] = 37976;
-        times[3][7] = 50200;
+        times[3][7] = 46288;
         times[4][0] = 35880;
         times[4][1] = 33928;
         times[4][2] = 31016;
         times[4][3] = 36648;
         times[4][4] = 29016;
         times[4][5] = 0; // never used
-        times[4][6] = 27336;
+        times[4][6] = 27536;
         times[4][7] = 38712;
         times[5][0] = 29504;
         times[5][1] = 25424;
         times[5][2] = 35304;
         times[5][3] = 41272;
         times[5][4] = 37976;
-        times[5][5] = 27336;
+        times[5][5] = 27536;
         times[5][6] = 0; // never used
-        times[5][7] = 18152;
+        times[5][7] = 18280;
         times[6][0] = 41080;
         times[6][1] = 31480;
         times[6][2] = 38416;
         times[6][3] = 40432;
-        times[6][4] = 50200;
+        times[6][4] = 46288;
         times[6][5] = 38712;
-        times[6][6] = 18200;
+        times[6][6] = 18280;
         times[6][7] = 0; // never used
         times[7][0] = 0; // never used
-        times[7][1] = 55568;
-        times[7][2] = 49312;
-        times[7][3] = 24008;
-        times[7][4] = 18392;
-        times[7][5] = 24208;
-        times[7][6] = 32992;
-        times[7][7] = 43032;
+        times[7][1] = 56000;
+        times[7][2] = 50000;
+        times[7][3] = 25000;
+        times[7][4] = 19000;
+        times[7][5] = 25000;
+        times[7][6] = 34000;
+        times[7][7] = 44000;
 
         //points data
         int[] points = {30, 20, 40, 20, 30, 30};
@@ -396,11 +396,11 @@ public class YourService extends KiboRpcService {
         //Viapoints
         Point viapoint01 = new Point(10.88628d , -9.9605d , 5.06316d);
         Point viapoint03 = new Point(10.5d, -8.3326d, 4.9425d);
-        Point viapoint04 = new Point(10.51d, -8.3826d, 4.8995d);
+        Point viapoint04 = new Point(10.4d, -8.3826d, 4.8995d);
         Point viapoint07 = new Point(11.1228d, -9.2334d, 4.388d);
 
-        Point viapoint12 = new Point(11.2973d, -9.6929d, 5.0665d);
-        Point viapoint13 = new Point(10.95975d, -8.2826d, 4.8988d);
+        Point viapoint12 = new Point(10.89137d, -9.61836d, 5.13316d);
+        Point viapoint13 = new Point(10.82433d , -8.25068d , 4.74585d);
         Point viapoint18 = new Point(11.2053d , -8.0635d , 4.87923d);
 
         Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
@@ -414,7 +414,7 @@ public class YourService extends KiboRpcService {
         Point viapoint36 = new Point(10.95772d , -8.25329d , 4.74769d);
         Point viapoint37 = new Point(11.0416d , -8.3826d , 4.95651d);
 
-        Point viapoint47 = new Point(10.9395d , -8.3826d , 4.89877d);
+        Point viapoint47 = new Point(11.31976d , -8.44065d , 4.74025d);
 
         Point viapoint57 = new Point(11.2069d , -8.28977d , 5.1305d);
 
@@ -743,4 +743,3 @@ public class YourService extends KiboRpcService {
     }
 
 }
-
