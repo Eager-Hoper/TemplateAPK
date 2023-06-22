@@ -105,13 +105,13 @@ public class YourService extends KiboRpcService {
         times[6][6] = 18280;
         times[6][7] = 0; // never used
         times[7][0] = 0; // never used
-        times[7][1] = 56000;
-        times[7][2] = 50000;
-        times[7][3] = 25000;
-        times[7][4] = 19000;
-        times[7][5] = 25000;
-        times[7][6] = 34000;
-        times[7][7] = 44000;
+        times[7][1] = 56568;
+        times[7][2] = 50312;
+        times[7][3] = 25008;
+        times[7][4] = 19392;
+        times[7][5] = 25208;
+        times[7][6] = 33992;
+        times[7][7] = 44032;
 
         //points data
         int[] points = {30, 20, 40, 20, 30, 30};
@@ -198,7 +198,7 @@ public class YourService extends KiboRpcService {
                         ActiveTimeRemaining = TimeRemaining.get(0);
                         MissionTimeRemaining = TimeRemaining.get(1);
 
-                        if (MissionTimeRemaining > times[6][6] + times[(ActiveTargets.get(0) - 1)][7] + times[7][ActiveTargets.get(0)] &&
+                        if (MissionTimeRemaining> times[6][6] + times[(ActiveTargets.get(0) - 1)][7] + times[7][ActiveTargets.get(0)] &&
                                 ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0) - 1)][7]) {
 
                             moveAndShot(6, 7);
