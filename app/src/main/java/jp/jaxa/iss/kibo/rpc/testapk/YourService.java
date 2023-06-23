@@ -64,7 +64,7 @@ public class YourService extends KiboRpcService {
         times[1][5] = 31016;
         times[1][6] = 35312;
         times[1][7] = 38416;
-        times[2][0] = 50136;
+        times[2][0] = 48696;
         times[2][1] = 49440;
         times[2][2] = 44624;
         times[2][3] = 0; // never used
@@ -72,7 +72,7 @@ public class YourService extends KiboRpcService {
         times[2][5] = 36648;
         times[2][6] = 41272;
         times[2][7] = 40432;
-        times[3][0] = 59544;
+        times[3][0] = 59392;
         times[3][1] = 42928;
         times[3][2] = 52856;
         times[3][3] = 41944;
@@ -395,8 +395,8 @@ public class YourService extends KiboRpcService {
 
         //Viapoints
         Point viapoint01 = new Point(10.88628d , -9.9605d , 5.06316d);
-        Point viapoint03 = new Point(10.5d, -8.3326d, 4.9425d);
-        Point viapoint04 = new Point(10.51d, -8.3826d, 4.8995d);
+        Point viapoint03 = new Point(10.5d,-8.3326d,4.8025d);
+        Point viapoint04 = new Point(10.51d,-8.3826d,4.7695d);
         Point viapoint07 = new Point(11.1228d, -9.2334d, 4.388d);
 
         Point viapoint12 = new Point(10.89137d, -9.61836d, 5.13316d);
