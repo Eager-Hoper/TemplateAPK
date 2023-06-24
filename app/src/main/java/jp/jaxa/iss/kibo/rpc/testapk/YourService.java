@@ -179,6 +179,12 @@ public class YourService extends KiboRpcService {
                         }
                     }
                 }else{
+                    if(times[6][currentPoint]+times[7][7] < MissionTimeRemaining && QRcount == 0){
+                        moveAndShot(currentPoint, 7);
+                        reportMessage = ReadQR();
+                        QRcount++;
+                        currentPoint = 7;
+                    }
                     break;
                 }
 
@@ -333,6 +339,12 @@ public class YourService extends KiboRpcService {
                     }
 
                 }else{
+                    if(times[6][currentPoint]+times[7][7] < MissionTimeRemaining && QRcount == 0){
+                        moveAndShot(currentPoint, 7);
+                        reportMessage = ReadQR();
+                        QRcount++;
+                        currentPoint = 7;
+                    }
                     break;
                 }
 
