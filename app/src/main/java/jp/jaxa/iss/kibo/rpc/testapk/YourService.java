@@ -62,7 +62,7 @@ public class YourService extends KiboRpcService {
         times[1][3] = 44624;
         times[1][4] = 52856;
         times[1][5] = 31016;
-        times[1][6] = 35312;
+        times[1][6] = 36144;
         times[1][7] = 38416;
         times[2][0] = 48696;
         times[2][1] = 49440;
@@ -90,7 +90,7 @@ public class YourService extends KiboRpcService {
         times[4][7] = 38712;
         times[5][0] = 29504;
         times[5][1] = 25424;
-        times[5][2] = 35304;
+        times[5][2] = 36144;
         times[5][3] = 41272;
         times[5][4] = 37976;
         times[5][5] = 27536;
@@ -108,8 +108,8 @@ public class YourService extends KiboRpcService {
         times[7][1] = 56568;
         times[7][2] = 50312;
         times[7][3] = 25008;
-        times[7][4] = 19392;
-        times[7][5] = 25208;
+        times[7][4] = 19568;
+        times[7][5] = 25448;
         times[7][6] = 33992;
         times[7][7] = 44032;
 
@@ -721,6 +721,7 @@ public class YourService extends KiboRpcService {
 
     public String ReadQR(){
         //ReadQRCode
+        api.flashlightControlFront(0.05f);
         Mat QRimage = image_correction(api.getMatNavCam());
         QRCodeDetector decoder = new QRCodeDetector();
         String data = decoder.detectAndDecode(QRimage);
