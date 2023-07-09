@@ -178,8 +178,6 @@ public class YourService extends KiboRpcService {
                     if(checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0));
-                        // TimeRemaining = api.getTimeRemaining();
-                        // MissionTimeRemaining = TimeRemaining.get(1);
 
                         if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
@@ -215,9 +213,6 @@ public class YourService extends KiboRpcService {
 
                     if (ActiveTargets.get(1) == 6 && QRcount == 0) {
 
-                        //TimeRemaining = api.getTimeRemaining();
-                        // ActiveTimeRemaining = TimeRemaining.get(0);
-                        // MissionTimeRemaining = TimeRemaining.get(1);
 
                         if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime) &&
                                 checkActiveTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7])){
@@ -235,8 +230,6 @@ public class YourService extends KiboRpcService {
                     }
 
                     currentPoint = ActiveTargets.get(0);
-//                    TimeRemaining = api.getTimeRemaining();
-                    //MissionTimeRemaining = TimeRemaining.get(1);
 
                     if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
@@ -251,10 +244,6 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(0));
 
                     if (ActiveTargets.get(0) == 6 && QRcount == 0) {
-
-//                        TimeRemaining = api.getTimeRemaining();
-//                        ActiveTimeRemaining = TimeRemaining.get(0);
-//                        MissionTimeRemaining = TimeRemaining.get(1);
 
                         if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime) &&
                                 checkActiveTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7])) {
@@ -272,8 +261,6 @@ public class YourService extends KiboRpcService {
                     }
 
                     currentPoint = ActiveTargets.get(1);
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
 
                     if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
@@ -289,9 +276,6 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(0));
                     currentPoint = ActiveTargets.get(0);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
                     if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
 
                         moveAndShot(6, 7);
@@ -305,9 +289,6 @@ public class YourService extends KiboRpcService {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
-
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
 
                     if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
@@ -324,9 +305,6 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
                     if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
                         moveAndShot(6, 7);
@@ -341,9 +319,6 @@ public class YourService extends KiboRpcService {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0));
                     currentPoint = ActiveTargets.get(0);
-
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
 
                     if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
@@ -372,7 +347,6 @@ public class YourService extends KiboRpcService {
 
             //get current time remaining
             TimeRemaining = api.getTimeRemaining();
-            // ActiveTimeRemaining = TimeRemaining.get(0);
             MissionTimeRemaining = TimeRemaining.get(1);
 
             currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
