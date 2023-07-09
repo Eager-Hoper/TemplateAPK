@@ -201,7 +201,7 @@ public class YourService extends KiboRpcService {
                 }
 
             } else {
-                //TODO: Change name
+                //TODO: Change name after merged
                 route1 = currentToFirstTargetTime + FirstTargetToSecondTarget;
                 route2 = currentToSecondTargetTime + SecondTargetToFirstTarget;
                 routeToGoal1 = route1 + SecondTargetToGoalTime;
