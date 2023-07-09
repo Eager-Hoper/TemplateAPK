@@ -218,8 +218,8 @@ public class YourService extends KiboRpcService {
                         ActiveTimeRemaining = TimeRemaining.get(0);
                         MissionTimeRemaining = TimeRemaining.get(1);
 
-                        if (MissionTimeRemaining> times[6][6] + times[(ActiveTargets.get(0) - 1)][7] + FirstTargetToGoalTime &&
-                                ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0) - 1)][7]) {
+                        if (MissionTimeRemaining> times[6][6] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime &&
+                                ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(0)-1)][7]) {
 
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
@@ -255,8 +255,8 @@ public class YourService extends KiboRpcService {
                         ActiveTimeRemaining = TimeRemaining.get(0);
                         MissionTimeRemaining = TimeRemaining.get(1);
 
-                        if (MissionTimeRemaining > times[6][6] + times[(ActiveTargets.get(1) - 1)][7] + SecondTargetToGoalTime &&
-                                ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(1) - 1)][7]) {
+                        if (MissionTimeRemaining > times[6][6] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime &&
+                                ActiveTimeRemaining > times[6][6] + times[(ActiveTargets.get(1)-1)][7]) {
 
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
@@ -367,9 +367,9 @@ public class YourService extends KiboRpcService {
             //get next target
             ActiveTargets = api.getActiveTargets();
             NumberOfActiveTargets = ActiveTargets.size();
-            points1 = points[(ActiveTargets.get(0) - 1)];
+            points1 = points[(ActiveTargets.get(0)-1)];
             if (NumberOfActiveTargets == 2) {
-                points2 = points[(ActiveTargets.get(1) - 1)];
+                points2 = points[(ActiveTargets.get(1)-1)];
             }
 
             //get current time remaining
