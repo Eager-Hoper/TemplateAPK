@@ -368,9 +368,6 @@ public class YourService extends KiboRpcService {
             ActiveTargets = api.getActiveTargets();
             NumberOfActiveTargets = ActiveTargets.size();
             points1 = points[(ActiveTargets.get(0)-1)];
-            if (NumberOfActiveTargets == 2) {
-                points2 = points[(ActiveTargets.get(1)-1)];
-            }
 
             //get current time remaining
             TimeRemaining = api.getTimeRemaining();
@@ -379,7 +376,14 @@ public class YourService extends KiboRpcService {
 
             currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
             FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
-            SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
+
+            if (NumberOfActiveTargets == 2) {
+                points2 = points[(ActiveTargets.get(1)-1)];
+                currentToSecondTargetTime = times[(ActiveTargets.get(1)-1)][currentPoint];
+                SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
+                FirstTargetToSecondTarget = times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
+                SecondTargetToFirstTarget = times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
+            }
 
         }
 
