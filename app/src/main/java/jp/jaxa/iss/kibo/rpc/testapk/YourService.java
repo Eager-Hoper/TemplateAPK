@@ -777,4 +777,15 @@ public class YourService extends KiboRpcService {
         return reportMessage;
     }
 
+    public boolean checkMissionTime(long requiredTime){
+        List<Long> TimeRemaining = api.getTimeRemaining();
+        Long MissionTimeRemaining = TimeRemaining.get(1);
+
+        // if MissionTimeRemaining is larger than requiredTime, Astrobee can go to the target
+        if(MissionTimeRemaining > requiredTime){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
