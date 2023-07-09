@@ -166,8 +166,8 @@ public class YourService extends KiboRpcService {
         if(NumberOfActiveTargets == 2) {
             SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
             currentToSecondTargetTime = times[(ActiveTargets.get(1)-1)][currentPoint];
-            FirstTargetToSecondTarget = FirstTargetToSecondTarget;
-            SecondTargetToFirstTarget = SecondTargetToFirstTarget;
+            FirstTargetToSecondTarget = times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
+            SecondTargetToFirstTarget = times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
         }
 
         //move
