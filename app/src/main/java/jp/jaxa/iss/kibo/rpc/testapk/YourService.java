@@ -156,16 +156,26 @@ public class YourService extends KiboRpcService {
             points2 = points[(ActiveTargets.get(1)-1)];
         }
 
-        long currentToTarget1Time = times[(ActiveTargets.get(0)-1)][currentPoint];
+        long currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
+        long currentToSecondTargetTime = 0;
         long FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
-        long SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
+        long SecondTargetToGoalTime = 0;
+        long FirstTargetToSecondTarget = 0;
+        long SecondTargetToFirstTarget = 0;
+        // TODO: check again
+        if(NumberOfActiveTargets == 2) {
+            SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
+            currentToSecondTargetTime = times[(ActiveTargets.get(1)-1)][currentPoint];
+            FirstTargetToSecondTarget = FirstTargetToSecondTarget;
+            SecondTargetToFirstTarget = SecondTargetToFirstTarget;
+        }
 
         //move
         while (MissionTimeRemaining > 0) {
 
             if (NumberOfActiveTargets == 1) {
-                if ((currentToTarget1Time + FirstTargetToGoalTime) < MissionTimeRemaining) {
-                    if((currentToTarget1Time + FirstTargetToGoalTime) < ActiveTimeRemaining) {
+                if ((currentToFirstTargetTime + FirstTargetToGoalTime) < MissionTimeRemaining) {
+                    if((currentToFirstTargetTime + FirstTargetToGoalTime) < ActiveTimeRemaining) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0));
                         TimeRemaining = api.getTimeRemaining();
@@ -193,8 +203,8 @@ public class YourService extends KiboRpcService {
                 }
 
             } else {
-                route1 = times[(ActiveTargets.get(0) - 1)][currentPoint] + times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
-                route2 = times[(ActiveTargets.get(1) - 1)][currentPoint] + times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
+                route1 = currentToFirstTargetTime + FirstTargetToSecondTarget;
+                route2 = currentToSecondTargetTime + SecondTargetToFirstTarget;
                 routeToGoal1 = route1 + SecondTargetToGoalTime;
                 routeToGoal2 = route2 + FirstTargetToGoalTime;
 
@@ -306,7 +316,7 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
-                } else if (times[(ActiveTargets.get(0) - 1)][currentPoint] >= times[(ActiveTargets.get(1) - 1)][currentPoint] &&
+                } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
                         times[ActiveTargets.get(1)-1][currentPoint] + SecondTargetToGoalTime < MissionTimeRemaining &&
                         times[ActiveTargets.get(1)-1][currentPoint] < ActiveTimeRemaining) {
 
@@ -324,7 +334,7 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
-                } else if (times[(ActiveTargets.get(0) - 1)][currentPoint] < times[(ActiveTargets.get(1) - 1)][currentPoint] &&
+                } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
                         times[ActiveTargets.get(0)-1][currentPoint] + FirstTargetToGoalTime < MissionTimeRemaining &&
                         times[ActiveTargets.get(0)-1][currentPoint] < ActiveTimeRemaining) {
 
@@ -367,7 +377,7 @@ public class YourService extends KiboRpcService {
             ActiveTimeRemaining = TimeRemaining.get(0);
             MissionTimeRemaining = TimeRemaining.get(1);
 
-            currentToTarget1Time = times[(ActiveTargets.get(0)-1)][currentPoint];
+            currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
             FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
             SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
 
