@@ -125,7 +125,7 @@ public class YourService extends KiboRpcService {
         //initialize current status
         int currentPoint = 0;
         String reportMessage = null;
-        int QRcount = 0;
+        boolean QRflag = false;
 
         //start mission
         api.startMission();
@@ -178,14 +178,12 @@ public class YourService extends KiboRpcService {
                     if(checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0));
-                        // TimeRemaining = api.getTimeRemaining();
-                        // MissionTimeRemaining = TimeRemaining.get(1);
 
-                        if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                        if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
-                            QRcount++;
+                            QRflag = true;
                             currentPoint = 7;
 
                         } else {
@@ -193,17 +191,17 @@ public class YourService extends KiboRpcService {
                         }
                     }
                 }else{
-                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && QRcount == 0){
+                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && !QRflag){
                         moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
                     break;
                 }
 
             } else {
-                //TODO: Change name
+                //TODO: Change name after merged
                 route1 = currentToFirstTargetTime + FirstTargetToSecondTarget;
                 route2 = currentToSecondTargetTime + SecondTargetToFirstTarget;
                 routeToGoal1 = route1 + SecondTargetToGoalTime;
@@ -213,18 +211,15 @@ public class YourService extends KiboRpcService {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1));
 
-                    if (ActiveTargets.get(1) == 6 && QRcount == 0) {
+                    if (ActiveTargets.get(1) == 6 && !QRflag) {
 
-                        //TimeRemaining = api.getTimeRemaining();
-                        // ActiveTimeRemaining = TimeRemaining.get(0);
-                        // MissionTimeRemaining = TimeRemaining.get(1);
 
                         if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime) &&
                                 checkActiveTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7])){
 
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
-                            QRcount++;
+                            QRflag = true;
                             moveAndShot(7, ActiveTargets.get(0));
 
                         } else {
@@ -235,14 +230,12 @@ public class YourService extends KiboRpcService {
                     }
 
                     currentPoint = ActiveTargets.get(0);
-//                    TimeRemaining = api.getTimeRemaining();
-                    //MissionTimeRemaining = TimeRemaining.get(1);
 
-                    if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
@@ -250,18 +243,14 @@ public class YourService extends KiboRpcService {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0));
 
-                    if (ActiveTargets.get(0) == 6 && QRcount == 0) {
-
-//                        TimeRemaining = api.getTimeRemaining();
-//                        ActiveTimeRemaining = TimeRemaining.get(0);
-//                        MissionTimeRemaining = TimeRemaining.get(1);
+                    if (ActiveTargets.get(0) == 6 && !QRflag) {
 
                         if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime) &&
                                 checkActiveTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7])) {
 
                             moveAndShot(6, 7);
                             reportMessage = ReadQR();
-                            QRcount++;
+                            QRflag = true;
                             moveAndShot(7, ActiveTargets.get(1));
 
                         } else {
@@ -272,14 +261,12 @@ public class YourService extends KiboRpcService {
                     }
 
                     currentPoint = ActiveTargets.get(1);
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
 
-                    if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
@@ -289,14 +276,11 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(0));
                     currentPoint = ActiveTargets.get(0);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
-                    if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
+                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
@@ -306,14 +290,11 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
-                    if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
@@ -324,14 +305,11 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
-                    if (ActiveTargets.get(1) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
@@ -342,22 +320,19 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(0));
                     currentPoint = ActiveTargets.get(0);
 
-//                    TimeRemaining = api.getTimeRemaining();
-//                    MissionTimeRemaining = TimeRemaining.get(1);
-
-                    if (ActiveTargets.get(0) == 6 && QRcount == 0 && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
                         moveAndShot(6, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
 
                 }else{
-                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && QRcount == 0){
+                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && !QRflag){
                         moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
-                        QRcount++;
+                        QRflag = true;
                         currentPoint = 7;
                     }
                     break;
@@ -372,7 +347,6 @@ public class YourService extends KiboRpcService {
 
             //get current time remaining
             TimeRemaining = api.getTimeRemaining();
-            // ActiveTimeRemaining = TimeRemaining.get(0);
             MissionTimeRemaining = TimeRemaining.get(1);
 
             currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
@@ -390,7 +364,7 @@ public class YourService extends KiboRpcService {
 
         api.notifyGoingToGoal();
         moveAndShot(currentPoint, 8);
-        Log.i(TAG, "-------------- LOG: QRcount=" + QRcount);
+        Log.i(TAG, "-------------- LOG: QRflag=" + QRflag);
         api.reportMissionCompletion(reportMessage);
 
     }
