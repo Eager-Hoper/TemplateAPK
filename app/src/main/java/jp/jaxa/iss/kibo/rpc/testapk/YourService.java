@@ -705,12 +705,10 @@ public class YourService extends KiboRpcService {
         if(to == 7 || to == 8){
 
         }else{
-            reMove_AR_moveTo(to); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.laserControl(true);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
-            Mat targetImage = image_correction(api.getMatNavCam());
-            api.saveMatImage(targetImage, "targetImage" + numberOfPhotos + ".png");
         }
 
         //get timeRequired
@@ -912,7 +910,7 @@ public class YourService extends KiboRpcService {
 
     }
 
-    public void reMove_AR_moveTo(int to) {
+    public void reMove_AR_moveTo(int to, int numberOfPhotos) {
 
         Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
         Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
@@ -929,57 +927,57 @@ public class YourService extends KiboRpcService {
         // TODO: consider setting gain
         switch(to){
             case 1:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_1_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target1Image_" + numberOfPhotos + "_before.png");
                 double dest_x1 = current_point.getX() - relative[0];
                 double dest_z1 = current_point.getZ() - relative[1];
                 Point new_point1 = new Point(dest_x1,current_point.getY(),dest_z1 );
                 api.moveTo(new_point1, quaternion1, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_1_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target1Image_" + numberOfPhotos + "_after.png");
                 break;
 
             case 2:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_2_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target2Image_" + numberOfPhotos + "_before.png");
                 double dest_x2 = current_point.getX() - relative[0];
                 double dest_y2 = current_point.getY() + relative[1];
                 Point new_point2 = new Point(dest_x2, dest_y2 ,current_point.getZ());
                 api.moveTo(new_point2, quaternion2, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_2_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target2Image_" + numberOfPhotos + "_after.png");
                 break;
 
             case 3:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_3_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target3Image_" + numberOfPhotos + "_before.png");
                 double dest_x3 = current_point.getX() - relative[0];
                 double dest_y3 = current_point.getY() - relative[1];
                 Point new_point3 = new Point(dest_x3, dest_y3 ,current_point.getZ());
                 api.moveTo(new_point3, quaternion3, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_3_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target3Image_" + numberOfPhotos + "_after.png");
                 break;
 
             case 4:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_4_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target4Image_" + numberOfPhotos + "_before.png");
                 double dest_y4 = current_point.getY() + relative[0];
                 double dest_z4 = current_point.getZ() - relative[1];
                 Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_4_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target4Image_" + numberOfPhotos + "_after.png");
                 break;
 
             case 5:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_5_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target5Image_" + numberOfPhotos + "_before.png");
                 double dest_x5 = current_point.getX() - relative[0];
                 double dest_y5 = current_point.getY() - relative[1];
                 Point new_point5 = new Point(dest_x5, dest_y5 ,current_point.getZ());
                 api.moveTo(new_point5, quaternion5, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_5_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target5Image_" + numberOfPhotos + "_after.png");
                 break;
 
             case 6:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_6_before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target6Image_" + numberOfPhotos + "_before.png");
                 double dest_y6 = current_point.getY() - relative[0];
                 double dest_z6 = current_point.getZ() - relative[1];
                 Point new_point6 = new Point(current_point.getX(), dest_y6, dest_z6);
                 api.moveTo(new_point6, quaternion6, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "target_6_after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target6Image_" + numberOfPhotos + "_after.png");
                 break;
 
             default:
