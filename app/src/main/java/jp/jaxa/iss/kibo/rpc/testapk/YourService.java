@@ -747,7 +747,6 @@ public class YourService extends KiboRpcService {
         Mat correct_image = new Mat();
         undistort(image, correct_image, cameraMat, distortion);
 
-        Log.i(TAG, "arata: get correct_image");
         return correct_image;
 
     }
@@ -828,6 +827,9 @@ public class YourService extends KiboRpcService {
         relative[0] = target_center[0] - 640;
         relative[1] = target_center[1] - 480;
 
+        Log.i(TAG, "-------------- DEBUG: relative[0](in image)=" + relative[0]);
+        Log.i(TAG, "-------------- DEBUG: relative[1](in image)=" + relative[1]);
+
         // change scale (from pixel to meter)
         double scale = getScale(corners);
         relative[0] = relative[0] / scale;
@@ -836,6 +838,9 @@ public class YourService extends KiboRpcService {
         // adjust difference between NavCam and LaserPointer
         relative[0] += 0.0994;
         relative[1] -= 0.0285;
+
+        Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
+        Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
 
         return relative;
 
@@ -885,7 +890,9 @@ public class YourService extends KiboRpcService {
         for (int i=0; i<n; i++) {
             target_x += center_cand[i][0];
             target_y += center_cand[i][1];
+            Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
+        Log.i(TAG, "-------------- DEBUG: ここが一致していなければgetTargetCenterに問題あり");
 
         target_center[0] = target_x / n;
         target_center[1] = target_y / n;
@@ -909,6 +916,9 @@ public class YourService extends KiboRpcService {
         (AR_corners[2][0]-AR_corners[3][0])+(AR_corners[3][1]-AR_corners[0][1])) / 4;
 
         double scale = side_length / 0.05;
+
+        Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
+        Log.i(TAG, "-------------- DEBUG: 7000~9000ぐらいの値が予想される");
 
         return scale;
 
@@ -936,6 +946,8 @@ public class YourService extends KiboRpcService {
         double[] relative = getRelative(api.getMatNavCam());
         Kinematics kinematics = api.getRobotKinematics();
         Point current_point = kinematics.getPosition();
+
+        Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
 
         // TODO: check again
         // TODO: consider setting gain
@@ -997,5 +1009,12 @@ public class YourService extends KiboRpcService {
             default:
                 break;
         }
+
+        Kinematics kinematics_after = api.getRobotKinematics();
+        Point after_point = kinematics_after.getPosition();
+
+        Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
+        Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
+        
     }
 }
