@@ -404,6 +404,20 @@ public class YourService extends KiboRpcService {
         double TurbY = new java.util.Random().nextInt(11) / 100d;
         double TurbZ = new java.util.Random().nextInt(11) / 100d;
 
+        boolean MinusX = new java.util.Random().nextBoolean();
+        boolean MinusY = new java.util.Random().nextBoolean();
+        boolean MinusZ = new java.util.Random().nextBoolean();
+
+        if(MinusX){
+            TurbX = -TurbX;
+        }
+        if(MinusY){
+            TurbY = -TurbY;
+        }
+        if(MinusZ){
+            TurbZ = -TurbZ;
+        }
+
         Point point1 = new Point(11.2053d + TurbX, -9.92284d + TurbY, 5.4736d + TurbZ);
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.48d + TurbZ);
         Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.48d + TurbZ);
