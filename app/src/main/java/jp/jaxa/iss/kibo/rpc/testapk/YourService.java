@@ -923,7 +923,7 @@ public class YourService extends KiboRpcService {
 
         double[] relative = getRelative(api.getMatNavCam());
         Kinematics kinematics = api.getRobotKinematics();
-        Point current_point = kinematics1.getPosition();
+        Point current_point = kinematics.getPosition();
 
         // TODO: check again
         // TODO: consider setting gain
