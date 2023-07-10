@@ -684,6 +684,7 @@ public class YourService extends KiboRpcService {
         if(to == 7 || to == 8){
 
         }else{
+            reMove_AR_moveTo(to); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.laserControl(true);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
@@ -773,6 +774,193 @@ public class YourService extends KiboRpcService {
             return true;
         }else{
             return false;
+        }
+    }
+
+    public double[] getRelative (Mat image) {
+
+        // detect AR markers
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+
+        // get target center
+        double[] target_center = getTargetCenter(list_ids, corners);
+
+        // calculate relative cordinate in image
+        double[] relative = new double[2];
+        relative[0] = target_center[0] - 640;
+        relative[1] = target_center[1] - 480;
+
+        // change scale (from pixel to meter)
+        double scale = getScale(corners);
+        relative[0] = relative[0] / scale;
+        relative[1] = relative[1] / scale;
+
+        // adjust difference between NavCam and LaserPointer
+        relative[0] += 0.0994;
+        relative[1] -= 0.0285;
+
+        return relative;
+
+    }
+
+    public double[] getTargetCenter (Mat list_ids, List<Mat> corners) {
+
+        int n = corners.size();
+        double[][] center_cand = new double[n][2];
+        double scale = getScale(corners);
+
+        for (int i=0; i<n; i++) {
+            double ID = list_ids.get(i,0)[0];
+
+            // if ID≡1(mod4), X=x-10[cm] and Y=y+3.75[cm]
+            if (ID%4 == 1) { 
+                center_cand[i][0] = corners.get(i).get(0,3)[0] += -0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,3)[1] += 0.0125 * scale;
+
+            // if ID≡2(mod4), X=x+10[cm] and Y=y+3.75[cm]
+            } else if (ID%4 == 2) {
+                center_cand[i][0] = corners.get(i).get(0,1)[0] += 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,1)[1] += 0.0125 * scale;
+
+            // if ID≡3(mod4), X=x+10[cm] and Y=y-3.75[cm]
+            }else if (ID%4 == 3) {
+                center_cand[i][0] = corners.get(i).get(0,2)[0] += 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,2)[1] += -0.0125 * scale;
+
+            // if ID≡0(mod4), X=x-10[cm] and Y=y-3.75[cm]
+            } else if (ID%4 == 0) {
+                center_cand[i][0] = corners.get(i).get(0,0)[0] += -0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] += -0.0125 * scale;
+
+            } else {
+                // TODO: Concern what to do if camera can't find AR marker
+                Log.i(TAG, "can't caluculate target_center");
+            }
+
+        }
+
+        // get average of center_candidate
+        double target_x = 0;
+        double target_y = 0;
+        double[] target_center = new double[2];
+
+        for (int i=0; i<n; i++) {
+            target_x += center_cand[i][0];
+            target_y += center_cand[i][1];
+        }
+
+        target_center[0] = target_x / n;
+        target_center[1] = target_y / n;
+
+        return target_center;
+
+    }
+
+    // get scale in image (pixel/meter)
+    public double getScale (List<Mat> corners) {
+
+        double[][] AR_corners =
+        {
+            {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
+            {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
+            {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
+            {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
+        };
+
+        double side_length = ((AR_corners[1][0]-AR_corners[0][0])+(AR_corners[2][1]-AR_corners[1][1])+
+        (AR_corners[2][0]-AR_corners[3][0])+(AR_corners[3][1]-AR_corners[0][1])) / 4;
+
+        double scale = side_length / 0.05;
+
+        return scale;
+
+    }
+
+    public void reMove_AR_relativeMoveTo(int to) {
+
+        double[] relative = getRelative(api.getMatNavCam());
+        Point relative_dist = Point(0, relative[0], relative[1]);
+        Quaternion relative_orient = Quaternion(0f,0f,0f,0f);
+
+        api.relativeMoveTo(relative_dist, relative_orient, true);
+
+    }
+
+    public void reMove_AR_moveTo(int to) {
+
+        Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+        Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+        Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+        Quaternion quaternion5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
+        Quaternion quaternion6 = new Quaternion(0f, 0f, 0f, 1f);
+
+        double[] relative = getRelative(api.getMatNavCam());
+        Kinematics kinematics = api.getRobotKinematics();
+        Point current_point = kinematics1.getPosition();
+
+        // TODO: check again
+        // TODO: consider setting gain
+        switch(to){
+            case 1:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_1_before.png");
+                double dest_x1 = current_point.getX() - relative[0];
+                double dest_z1 = current_point.getZ() - relative[1];
+                Point new_point1 = new Point(dest_x1,current_point.getY(),dest_z1 );
+                api.moveTo(new_point1, quaternion1, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_1_after.png");
+                break;
+
+            case 2:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_2_before.png");
+                double dest_x2 = current_point.getX() - relative[0];
+                double dest_y2 = current_point.getY() + relative[1];
+                Point new_point2 = new Point(dest_x2, dest_y2 ,current_point.getZ());
+                api.moveTo(new_point2, quaternion2, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_2_after.png");
+                break;
+
+            case 3:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_3_before.png");
+                double dest_x3 = current_point.getX() - relative[0];
+                double dest_y3 = current_point.getY() - relative[1];
+                Point new_point3 = new Point(dest_x3, dest_y3 ,current_point.getZ());
+                api.moveTo(new_point3, quaternion3, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_3_after.png");
+                break;
+
+            case 4:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_4_before.png");
+                double dest_y4 = current_point.getY() + relative[0];
+                double dest_z4 = current_point.getZ() - relative[1];
+                Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
+                api.moveTo(new_point4, quaternion4, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_4_after.png");
+                break;
+
+            case 5:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_5_before.png");
+                double dest_x5 = current_point.getX() - relative[0];
+                double dest_y5 = current_point.getY() - relative[1];
+                Point new_point5 = new Point(dest_x5, dest_y5 ,current_point.getZ());
+                api.moveTo(new_point5, quaternion5, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_5_after.png");
+                break;
+
+            case 6:
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_6_before.png");
+                double dest_y6 = current_point.getY() - relative[0];
+                double dest_z6 = current_point.getZ() - relative[1];
+                Point new_point6 = new Point(current_point.getX(), dest_y6, dest_z6);
+                api.moveTo(new_point6, quaternion6, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), "target_6_after.png");
+                break;
+
+            default:
+                break;
         }
     }
 }
