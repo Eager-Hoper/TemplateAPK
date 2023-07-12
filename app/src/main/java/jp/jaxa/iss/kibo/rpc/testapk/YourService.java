@@ -836,8 +836,8 @@ public class YourService extends KiboRpcService {
         relative[1] = relative[1] / scale;
 
         // adjust difference between NavCam and LaserPointer
-        relative[0] += 0.0994;
-        relative[1] -= 0.0285;
+        relative[0] -= 0.0994;
+        relative[1] += 0.0285;
 
         Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
         Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
@@ -915,9 +915,10 @@ public class YourService extends KiboRpcService {
             {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
         };
 
-        double side_length = ((AR_corners[1][0]-AR_corners[0][0])+(AR_corners[2][1]-AR_corners[1][1])+
-        (AR_corners[2][0]-AR_corners[3][0])+(AR_corners[3][1]-AR_corners[0][1])) / 4;
-
+        double side_length = 0;
+        for (int i=0; i<4; i++) {
+            side_length += sqrt(pow(AR_corners[i+1][0]-AR_corners[i][0],2)+pow(AR_corners[i+1][1]-AR_corners[i][1],2));
+        }
         double scale = side_length / 0.05;
 
         Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
