@@ -852,6 +852,9 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
+        Log.i(TAG, "-------------- DEBUG: list_ids=" + list_ids);
+        Log.i(TAG, "-------------- DEBUG: corners=" + corners);
+
         for (int i=0; i<n; i++) {
             double ID = list_ids.get(i,0)[0];
 
@@ -918,7 +921,7 @@ public class YourService extends KiboRpcService {
         double scale = side_length / 0.05;
 
         Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
-        Log.i(TAG, "-------------- DEBUG: 7000~9000ぐらいの値が予想される");
+        Log.i(TAG, "-------------- DEBUG: 700~900ぐらいの値が予想される");
 
         return scale;
 
