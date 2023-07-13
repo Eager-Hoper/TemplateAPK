@@ -1055,7 +1055,7 @@ public class YourService extends KiboRpcService {
         Mat binMat = new Mat();
         threshold(image, binMat, 50, 255, THRESH_BINARY);
 
-        api.saveMatImage(binMat, numberOfPhotos + "/binarization Image");
+        api.saveMatImage(binMat, numberOfPhotos + ":binarization_Image.png");
 
     }
 }
