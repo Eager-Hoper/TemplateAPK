@@ -1055,7 +1055,7 @@ public class YourService extends KiboRpcService {
         Mat binMat = new Mat();
 
         for (int i=0; i<10; i++) {
-            threshold(image, binMat, 255-i*5, 0, THRESH_BINARY);
+            threshold(image, binMat, 255-i*5, 255, THRESH_BINARY);
             api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*5) + "_Image.png");
         }
 
