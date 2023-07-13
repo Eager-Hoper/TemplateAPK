@@ -933,7 +933,7 @@ public class YourService extends KiboRpcService {
                 side_length += Math.sqrt(Math.pow(AR_corners[0][0]-AR_corners[i][0],2)+Math.pow(AR_corners[0][1]-AR_corners[i][1],2));
             }
         }
-        double scale = side_length / 0.05;
+        double scale = side_length / 4 / 0.05;
 
         Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
         Log.i(TAG, "-------------- DEBUG: 700~900ぐらいの値が予想される");
