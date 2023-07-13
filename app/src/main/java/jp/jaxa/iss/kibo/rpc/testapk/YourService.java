@@ -929,7 +929,7 @@ public class YourService extends KiboRpcService {
         for (int i=0; i<4; i++) {
             if (i<3) {
                 side_length += Math.sqrt(Math.pow(AR_corners[i+1][0]-AR_corners[i][0],2)+Math.pow(AR_corners[i+1][1]-AR_corners[i][1],2));
-            } else if(i=3) {
+            } else if(i==3) {
                 side_length += Math.sqrt(Math.pow(AR_corners[0][0]-AR_corners[i][0],2)+Math.pow(AR_corners[0][1]-AR_corners[i][1],2));
             }
         }
