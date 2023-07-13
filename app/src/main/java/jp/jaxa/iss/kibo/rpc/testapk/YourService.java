@@ -723,7 +723,7 @@ public class YourService extends KiboRpcService {
         }else{
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
-            LaserDetect(api.getMatNavCam());
+            laser_detect(api.getMatNavCam(), numberOfPhotos);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
