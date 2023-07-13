@@ -858,7 +858,7 @@ public class YourService extends KiboRpcService {
             Log.i(TAG, "-------------- DEBUG: corners=" + corners);
 
         } catch(Exception e) {
-            
+
             Log.i(TAG, "-------------- DEBUG: can't display list_ids and corners");
 
         }
@@ -923,9 +923,15 @@ public class YourService extends KiboRpcService {
             {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
         };
 
+        Log.i(TAG, "-------------- DEBUG: in getScale method");
+
         double side_length = 0;
         for (int i=0; i<4; i++) {
-            side_length += Math.sqrt(Math.pow(AR_corners[i+1][0]-AR_corners[i][0],2)+Math.pow(AR_corners[i+1][1]-AR_corners[i][1],2));
+            if (i<3) {
+                side_length += Math.sqrt(Math.pow(AR_corners[i+1][0]-AR_corners[i][0],2)+Math.pow(AR_corners[i+1][1]-AR_corners[i][1],2));
+            } else if(i=3) {
+                side_length += Math.sqrt(Math.pow(AR_corners[0][0]-AR_corners[i][0],2)+Math.pow(AR_corners[0][1]-AR_corners[i][1],2));
+            }
         }
         double scale = side_length / 0.05;
 
