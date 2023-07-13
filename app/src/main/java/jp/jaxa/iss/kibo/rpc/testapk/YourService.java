@@ -23,6 +23,7 @@ import org.opencv.core.Rect;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
+import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
 import static org.opencv.imgproc.Imgproc.boundingRect;
 import static org.opencv.imgproc.Imgproc.undistort;
 import static org.opencv.imgproc.Imgproc.threshold;
@@ -1038,7 +1039,7 @@ public class YourService extends KiboRpcService {
         
     }
 
-    public laser_detect(Mat image, int numberOfPhotos) {
+    public void laser_detect(Mat image, int numberOfPhotos) {
 
         // detect AR markers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
@@ -1053,7 +1054,7 @@ public class YourService extends KiboRpcService {
         Mat binMat = new Mat();
         threshold(image, binMat, 10, 255, THRESH_BINARY);
 
-        api.savaMatImage(binMat, "binarization Image" + numberOfPhotos);
+        api.saveMatImage(binMat, "binarization Image" + numberOfPhotos);
 
     }
 }
