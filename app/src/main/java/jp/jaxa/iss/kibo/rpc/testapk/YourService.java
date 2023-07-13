@@ -852,8 +852,16 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        Log.i(TAG, "-------------- DEBUG: list_ids=" + list_ids);
-        Log.i(TAG, "-------------- DEBUG: corners=" + corners);
+        try {
+
+            Log.i(TAG, "-------------- DEBUG: list_ids=" + list_ids);
+            Log.i(TAG, "-------------- DEBUG: corners=" + corners);
+
+        } catch(Exception e) {
+            
+            Log.i(TAG, "-------------- DEBUG: can't display list_ids and corners");
+
+        }
 
         for (int i=0; i<n; i++) {
             double ID = list_ids.get(i,0)[0];
