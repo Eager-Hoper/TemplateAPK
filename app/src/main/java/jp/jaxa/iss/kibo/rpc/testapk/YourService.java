@@ -25,6 +25,7 @@ import org.opencv.objdetect.QRCodeDetector;
 import static org.opencv.android.Utils.matToBitmap;
 import static org.opencv.imgproc.Imgproc.boundingRect;
 import static org.opencv.imgproc.Imgproc.undistort;
+import static org.opencv.imgproc.Imgproc.threshold;
 // opencv library (for detect ARmarkers)
 
 import java.security.IdentityScope;
@@ -719,8 +720,8 @@ public class YourService extends KiboRpcService {
         if(to == 7 || to == 8){
 
         }else{
-            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.laserControl(true);
+            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -1035,5 +1036,24 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
         Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
         
+    }
+
+    public laser_detect(Mat image, int numberOfPhotos) {
+
+        // detect AR markers
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+
+        // get target center
+        double[] target_center = getTargetCenter(list_ids, corners);
+
+        // binarization
+        Mat binMat = new Mat();
+        threshold(image, binMat, 10, 255, THRESH_BINARY);
+
+        api.savaMatImage(binMat, "binarization Image" + numberOfPhotos);
+
     }
 }
