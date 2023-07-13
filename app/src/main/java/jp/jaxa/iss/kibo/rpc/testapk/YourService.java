@@ -723,6 +723,7 @@ public class YourService extends KiboRpcService {
         }else{
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            LaserDetect(api.getMatNavCam());
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -1054,7 +1055,7 @@ public class YourService extends KiboRpcService {
         Mat binMat = new Mat();
         threshold(image, binMat, 50, 255, THRESH_BINARY);
 
-        api.saveMatImage(binMat, "binarization Image" + numberOfPhotos);
+        api.saveMatImage(binMat, numberOfPhotos + "/binarization Image");
 
     }
 }
