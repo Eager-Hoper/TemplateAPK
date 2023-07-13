@@ -170,7 +170,7 @@ public class YourService extends KiboRpcService {
             SecondTargetToFirstTarget = times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
         }
 
-        int numberOfPhotos = 0;
+        int numberOfPhotos = 1;
 
         //move
         while (MissionTimeRemaining > 0) {
@@ -180,7 +180,7 @@ public class YourService extends KiboRpcService {
                     if(checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                        numberOfPhotos++;
+                        numberOfPhotos += 2;
 
                         if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
@@ -213,7 +213,7 @@ public class YourService extends KiboRpcService {
                 if (route1 >= route2 && checkMissionTime(routeToGoal2) && checkActiveTime(route2)) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
 
                     if (ActiveTargets.get(1) == 6 && !QRflag) {
 
@@ -225,15 +225,15 @@ public class YourService extends KiboRpcService {
                             reportMessage = ReadQR();
                             QRflag = true;
                             moveAndShot(7, ActiveTargets.get(0), numberOfPhotos);
-                            numberOfPhotos++;
+                            numberOfPhotos += 2;
 
                         } else {
                             moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0), numberOfPhotos);
-                            numberOfPhotos++;
+                            numberOfPhotos += 2;
                         }
                     } else {
                         moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0), numberOfPhotos);
-                        numberOfPhotos++;
+                        numberOfPhotos += 2;
                     }
 
                     currentPoint = ActiveTargets.get(0);
@@ -249,7 +249,7 @@ public class YourService extends KiboRpcService {
                 } else if (route1 < route2 && checkMissionTime(routeToGoal1) && checkActiveTime(route1)) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
 
                     if (ActiveTargets.get(0) == 6 && !QRflag) {
 
@@ -260,15 +260,15 @@ public class YourService extends KiboRpcService {
                             reportMessage = ReadQR();
                             QRflag = true;
                             moveAndShot(7, ActiveTargets.get(1), numberOfPhotos);
-                            numberOfPhotos++;
+                            numberOfPhotos += 2;
 
                         } else {
                             moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1), numberOfPhotos);
-                            numberOfPhotos++;
+                            numberOfPhotos += 2;
                         }
                     } else {
                         moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1), numberOfPhotos);
-                        numberOfPhotos++;
+                        numberOfPhotos += 2;
                     }
 
                     currentPoint = ActiveTargets.get(1);
@@ -285,7 +285,7 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(0)-1][currentPoint])){
 
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
                     if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
@@ -300,7 +300,7 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(1)-1][currentPoint])){
 
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
                     if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
@@ -316,7 +316,7 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(1)-1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
                     if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
@@ -332,7 +332,7 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(0)-1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos++;
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
                     if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
@@ -971,57 +971,57 @@ public class YourService extends KiboRpcService {
         // TODO: consider setting gain
         switch(to){
             case 1:
-                api.saveMatImage(image_correction(api.getMatNavCam()),  "number" + numberOfPhotos + ":target1Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()),  numberOfPhotos + ":target1Image__before.png");
                 double dest_x1 = current_point.getX() + relative[0];
                 double dest_z1 = current_point.getZ() + relative[1];
                 Point new_point1 = new Point(dest_x1,current_point.getY(),dest_z1 );
                 api.moveTo(new_point1, quaternion1, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target1Image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
                 break;
 
             case 2:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target2Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
                 double dest_x2 = current_point.getX() + relative[0];
                 double dest_y2 = current_point.getY() - relative[1];
                 Point new_point2 = new Point(dest_x2, dest_y2 ,current_point.getZ());
                 api.moveTo(new_point2, quaternion2, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target2Image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
                 break;
 
             case 3:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target3Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
                 double dest_y3 = current_point.getY() + relative[0];
                 double dest_x3 = current_point.getX() + relative[1];
                 Point new_point3 = new Point(dest_x3, dest_y3 ,current_point.getZ());
                 api.moveTo(new_point3, quaternion3, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target3Image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
                 break;
 
             case 4:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target4Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
                 double dest_y4 = current_point.getY() - relative[0];
                 double dest_z4 = current_point.getZ() + relative[1];
                 Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target4Image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
                 break;
 
             case 5:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target5Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target5Image__before.png");
                 double dest_x5 = current_point.getX() + relative[0];
                 double dest_y5 = current_point.getY() + relative[1];
                 Point new_point5 = new Point(dest_x5, dest_y5 ,current_point.getZ());
                 api.moveTo(new_point5, quaternion5, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target5Image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target5Image__after.png");
                 break;
 
             case 6:
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target6Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target6Image__before.png");
                 double dest_y6 = current_point.getY() + relative[0];
                 double dest_z6 = current_point.getZ() + relative[1];
                 Point new_point6 = new Point(current_point.getX(), dest_y6, dest_z6);
                 api.moveTo(new_point6, quaternion6, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), "number" + numberOfPhotos + ":target6image__after.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target6image__after.png");
                 break;
 
             default:
