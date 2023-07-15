@@ -855,57 +855,6 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        double ID_1st, ID_2nd, ID_3rd, ID_4th;
-        ID_1st = ID_2nd = ID_3rd = ID_4th = 0;
-
-        try{
-            ID_1st = list_ids.get(0,0)[0];
-            Log.i(TAG, "-------------- DEBUG: ID_1st=" + ID_1st);
-            Log.i(TAG, "-------------- DEBUG: 1st_corners");
-            Log.i(TAG, "-------------- DEBUG: UL(x,y)=" + "(" + corners.get(0).get(0,0)[0] + "," + corners.get(0).get(0,0)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: UR(x,y)=" + "(" + corners.get(0).get(0,1)[0] + "," + corners.get(0).get(0,1)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BR(x,y)=" + "(" + corners.get(0).get(0,2)[0] + "," + corners.get(0).get(0,2)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BL(x,y)=" + "(" + corners.get(0).get(0,3)[0] + "," + corners.get(0).get(0,3)[1] + ")");
-        } catch(Exception e) {
-            Log.i(TAG, "-------------- DEBUG: ID_1st is NULL");
-        }
-
-        try{
-            ID_2nd = list_ids.get(1,0)[0];
-            Log.i(TAG, "-------------- DEBUG: ID_2nd=" + ID_2nd);
-            Log.i(TAG, "-------------- DEBUG: 2nd_corners");
-            Log.i(TAG, "-------------- DEBUG: UL(x,y)=" + "(" + corners.get(1).get(0,0)[0] + "," + corners.get(1).get(0,0)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: UR(x,y)=" + "(" + corners.get(1).get(0,1)[0] + "," + corners.get(1).get(0,1)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BR(x,y)=" + "(" + corners.get(1).get(0,2)[0] + "," + corners.get(1).get(0,2)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BL(x,y)=" + "(" + corners.get(1).get(0,3)[0] + "," + corners.get(1).get(0,3)[1] + ")");
-        } catch(Exception e) {
-            Log.i(TAG, "-------------- DEBUG: ID_2nd is NULL");
-        }
-
-        try{
-            ID_3rd = list_ids.get(2,0)[0];
-            Log.i(TAG, "-------------- DEBUG: ID_3rd=" + ID_3rd);
-            Log.i(TAG, "-------------- DEBUG: 3rd_corners");
-            Log.i(TAG, "-------------- DEBUG: UL(x,y)=" + "(" + corners.get(2).get(0,0)[0] + "," + corners.get(2).get(0,0)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: UR(x,y)=" + "(" + corners.get(2).get(0,1)[0] + "," + corners.get(2).get(0,1)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BR(x,y)=" + "(" + corners.get(2).get(0,2)[0] + "," + corners.get(2).get(0,2)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BL(x,y)=" + "(" + corners.get(2).get(0,3)[0] + "," + corners.get(2).get(0,3)[1] + ")");
-        } catch(Exception e) {
-            Log.i(TAG, "-------------- DEBUG: ID_3rd is NULL");
-        }
-
-        try{
-            ID_4th = list_ids.get(3,0)[0];
-            Log.i(TAG, "-------------- DEBUG: ID_4th=" + ID_4th);
-            Log.i(TAG, "-------------- DEBUG: 4th_corners");
-            Log.i(TAG, "-------------- DEBUG: UL(x,y)=" + "(" + corners.get(3).get(0,0)[0] + "," + corners.get(3).get(0,0)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: UR(x,y)=" + "(" + corners.get(3).get(0,1)[0] + "," + corners.get(3).get(0,1)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BR(x,y)=" + "(" + corners.get(3).get(0,2)[0] + "," + corners.get(3).get(0,2)[1] + ")");
-            Log.i(TAG, "-------------- DEBUG: BL(x,y)=" + "(" + corners.get(3).get(0,3)[0] + "," + corners.get(3).get(0,3)[1] + ")");
-        } catch(Exception e) {
-            Log.i(TAG, "-------------- DEBUG: ID_4th is NULL");
-        }
-
         for (int i=0; i<n; i++) {
             double ID = list_ids.get(i,0)[0];
 
@@ -916,13 +865,13 @@ public class YourService extends KiboRpcService {
 
             // if ID≡2(mod4), X=x+10[cm] and Y=y+3.75[cm]
             } else if (ID%4 == 2) {
-                center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,1)[1] + 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,2)[1] + 0.0125 * scale;
 
             // if ID≡3(mod4), X=x+10[cm] and Y=y-3.75[cm]
             }else if (ID%4 == 3) {
-                center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,2)[1] - 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,1)[1] - 0.0125 * scale;
 
             // if ID≡0(mod4), X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
