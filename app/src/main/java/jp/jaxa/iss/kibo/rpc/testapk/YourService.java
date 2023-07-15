@@ -855,15 +855,67 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        try {
+        int ID_1st, ID_2nd, ID_3rd, ID_4th;
+        ID_1st = ID_2nd = ID_3rd = ID_4th = 0;
 
-            Log.i(TAG, "-------------- DEBUG: list_ids=" + list_ids);
-            Log.i(TAG, "-------------- DEBUG: corners=" + corners);
-
+        try{
+            ID_1st = list_ids.get(0,0)[0];
+            double[][] AR_corners =
+                {
+                    {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
+                    {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
+                    {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
+                    {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
+                };
+            Log.i(TAG, "-------------- DEBUG: ID_1st=" + ID_1st);
+            Log.i(TAG, "-------------- DEBUG: 1st_corners=" + AR_corners);
         } catch(Exception e) {
+            Log.i(TAG, "-------------- DEBUG: ID_1st is NULL");
+        }
 
-            Log.i(TAG, "-------------- DEBUG: can't display list_ids and corners");
+        try{
+            ID_2nd = list_ids.get(1,0)[0];
+            double[][] AR_corners =
+                {
+                    {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
+                    {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
+                    {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
+                    {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
+                };
+            Log.i(TAG, "-------------- DEBUG: ID_2nd=" + ID_2nd);
+            Log.i(TAG, "-------------- DEBUG: 2nd_corners=" + AR_corners);
+        } catch(Exception e) {
+            Log.i(TAG, "-------------- DEBUG: ID_2nd is NULL");
+        }
 
+        try{
+            ID_3rd = list_ids.get(2,0)[0];
+            double[][] AR_corners =
+                {
+                    {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
+                    {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
+                    {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
+                    {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
+                };
+            Log.i(TAG, "-------------- DEBUG: ID_3rd=" + ID_3rd);
+            Log.i(TAG, "-------------- DEBUG: 3rd_corners=" + AR_corners);
+        } catch(Exception e) {
+            Log.i(TAG, "-------------- DEBUG: ID_3rd is NULL");
+        }
+
+        try{
+            ID_4th = list_ids.get(3,0)[0];
+            double[][] AR_corners =
+                {
+                    {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
+                    {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
+                    {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
+                    {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
+                };
+            Log.i(TAG, "-------------- DEBUG: ID_4th=" + ID_4th);
+            Log.i(TAG, "-------------- DEBUG: 4th_corners=" + AR_corners);
+        } catch(Exception e) {
+            Log.i(TAG, "-------------- DEBUG: ID_4th is NULL");
         }
 
         for (int i=0; i<n; i++) {
@@ -871,23 +923,23 @@ public class YourService extends KiboRpcService {
 
             // if ID≡1(mod4), X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
-                center_cand[i][0] = corners.get(i).get(0,3)[0] += -0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,3)[1] += 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,3)[0] - 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,3)[1] + 0.0125 * scale;
 
             // if ID≡2(mod4), X=x+10[cm] and Y=y+3.75[cm]
             } else if (ID%4 == 2) {
-                center_cand[i][0] = corners.get(i).get(0,1)[0] += 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,1)[1] += 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,1)[1] + 0.0125 * scale;
 
             // if ID≡3(mod4), X=x+10[cm] and Y=y-3.75[cm]
             }else if (ID%4 == 3) {
-                center_cand[i][0] = corners.get(i).get(0,2)[0] += 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,2)[1] += -0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,2)[1] - 0.0125 * scale;
 
             // if ID≡0(mod4), X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
-                center_cand[i][0] = corners.get(i).get(0,0)[0] += -0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,0)[1] += -0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,0)[0] - 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] - 0.0125 * scale;
 
             } else {
                 // TODO: Concern what to do if camera can't find AR marker
@@ -1054,9 +1106,9 @@ public class YourService extends KiboRpcService {
         // binarization
         Mat binMat = new Mat();
 
-        for (int i=0; i<10; i++) {
-            threshold(image, binMat, 255-i*5, 255, THRESH_BINARY);
-            api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*5) + "_Image.png");
+        for (int i=0; i<5; i++) {
+            threshold(image, binMat, 255-i*2, 255, THRESH_BINARY);
+            api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*2) + "_Image.png");
         }
 
     }
