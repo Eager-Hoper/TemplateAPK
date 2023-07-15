@@ -855,7 +855,7 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        int ID_1st, ID_2nd, ID_3rd, ID_4th;
+        double ID_1st, ID_2nd, ID_3rd, ID_4th;
         ID_1st = ID_2nd = ID_3rd = ID_4th = 0;
 
         try{
