@@ -23,8 +23,10 @@ import org.opencv.core.Rect;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
+import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
 import static org.opencv.imgproc.Imgproc.boundingRect;
 import static org.opencv.imgproc.Imgproc.undistort;
+import static org.opencv.imgproc.Imgproc.threshold;
 // opencv library (for detect ARmarkers)
 
 import java.security.IdentityScope;
@@ -719,8 +721,9 @@ public class YourService extends KiboRpcService {
         if(to == 7 || to == 8){
 
         }else{
-            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.laserControl(true);
+            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            laser_detect(api.getMatNavCam(), numberOfPhotos);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -852,39 +855,28 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        try {
-
-            Log.i(TAG, "-------------- DEBUG: list_ids=" + list_ids);
-            Log.i(TAG, "-------------- DEBUG: corners=" + corners);
-
-        } catch(Exception e) {
-
-            Log.i(TAG, "-------------- DEBUG: can't display list_ids and corners");
-
-        }
-
         for (int i=0; i<n; i++) {
             double ID = list_ids.get(i,0)[0];
 
             // if ID≡1(mod4), X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
-                center_cand[i][0] = corners.get(i).get(0,3)[0] += -0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,3)[1] += 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,3)[0] - 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,3)[1] + 0.0125 * scale;
 
             // if ID≡2(mod4), X=x+10[cm] and Y=y+3.75[cm]
             } else if (ID%4 == 2) {
-                center_cand[i][0] = corners.get(i).get(0,1)[0] += 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,1)[1] += 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,2)[1] + 0.0125 * scale;
 
             // if ID≡3(mod4), X=x+10[cm] and Y=y-3.75[cm]
             }else if (ID%4 == 3) {
-                center_cand[i][0] = corners.get(i).get(0,2)[0] += 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,2)[1] += -0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,1)[1] - 0.0125 * scale;
 
             // if ID≡0(mod4), X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
-                center_cand[i][0] = corners.get(i).get(0,0)[0] += -0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,0)[1] += -0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,0)[0] - 0.075 * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] - 0.0125 * scale;
 
             } else {
                 // TODO: Concern what to do if camera can't find AR marker
@@ -1036,5 +1028,26 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
         Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
         
+    }
+
+    public void laser_detect(Mat image, int numberOfPhotos) {
+
+        // detect AR markers
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+
+        // get target center
+        double[] target_center = getTargetCenter(list_ids, corners);
+
+        // binarization
+        Mat binMat = new Mat();
+
+        for (int i=0; i<5; i++) {
+            threshold(image, binMat, 255-i*2, 255, THRESH_BINARY);
+            api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*2) + "_Image.png");
+        }
+
     }
 }
