@@ -832,6 +832,9 @@ public class YourService extends KiboRpcService {
         relative[0] = target_center[0] - 640;
         relative[1] = target_center[1] - 480;
 
+        Log.i(TAG, "-------------- DEBUG: relative[0](in image)=" + relative[0]);
+        Log.i(TAG, "-------------- DEBUG: relative[1](in image)=" + relative[1]);
+
         // change scale (from pixel to meter)
         double scale = getScale(corners);
         relative[0] = relative[0] / scale;
@@ -840,6 +843,9 @@ public class YourService extends KiboRpcService {
         // adjust difference between NavCam and LaserPointer
         relative[0] -= 0.0994;
         relative[1] += 0.0285;
+
+        Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
+        Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
 
         return relative;
 
@@ -889,6 +895,7 @@ public class YourService extends KiboRpcService {
         for (int i=0; i<n; i++) {
             target_x += center_cand[i][0];
             target_y += center_cand[i][1];
+            Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
 
         target_center[0] = target_x / n;
@@ -920,6 +927,9 @@ public class YourService extends KiboRpcService {
 
         double scale = side_length / (4*0.05);
 
+        Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
+        Log.i(TAG, "-------------- DEBUG: 700~900ぐらいの値が予想される");
+
         return scale;
 
     }
@@ -947,73 +957,73 @@ public class YourService extends KiboRpcService {
         Kinematics kinematics = api.getRobotKinematics();
         Point current_point = kinematics.getPosition();
 
+        Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
+
         switch(to){
             case 1:
+                api.saveMatImage(image_correction(api.getMatNavCam()),  numberOfPhotos + ":target1Image__before.png");
                 double dest_x1 = current_point.getX() + relative[0];
                 double dest_z1 = current_point.getZ() + relative[1];
                 Point new_point1 = new Point(dest_x1,current_point.getY(),dest_z1 );
                 api.moveTo(new_point1, quaternion1, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
                 break;
 
             case 2:
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
                 double dest_x2 = current_point.getX() + relative[0];
                 double dest_y2 = current_point.getY() - relative[1];
                 Point new_point2 = new Point(dest_x2, dest_y2 ,current_point.getZ());
                 api.moveTo(new_point2, quaternion2, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
                 break;
 
             case 3:
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
                 double dest_y3 = current_point.getY() + relative[0];
                 double dest_x3 = current_point.getX() + relative[1];
                 Point new_point3 = new Point(dest_x3, dest_y3 ,current_point.getZ());
                 api.moveTo(new_point3, quaternion3, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
                 break;
 
             case 4:
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
                 double dest_y4 = current_point.getY() - relative[0];
                 double dest_z4 = current_point.getZ() + relative[1];
                 Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
                 break;
 
             case 5:
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target5Image__before.png");
                 double dest_x5 = current_point.getX() + relative[0];
                 double dest_y5 = current_point.getY() + relative[1];
                 Point new_point5 = new Point(dest_x5, dest_y5 ,current_point.getZ());
                 api.moveTo(new_point5, quaternion5, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target5Image__after.png");
                 break;
 
             case 6:
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target6Image__before.png");
                 double dest_y6 = current_point.getY() + relative[0];
                 double dest_z6 = current_point.getZ() + relative[1];
                 Point new_point6 = new Point(current_point.getX(), dest_y6, dest_z6);
                 api.moveTo(new_point6, quaternion6, true);
+                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target6image__after.png");
                 break;
 
             default:
                 break;
         }
+
+        Kinematics kinematics_after = api.getRobotKinematics();
+        Point after_point = kinematics_after.getPosition();
+
+        Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
+        Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
         
     }
 
-    public void laser_detect(Mat image, int numberOfPhotos) {
-
-        // detect AR markers
-        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
-        Mat list_ids = new Mat();
-        List<Mat> corners = new ArrayList<>();
-        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
-
-        // get target center
-        double[] target_center = getTargetCenter(list_ids, corners);
-
-        // binarization
-        Mat binMat = new Mat();
-
-        for (int i=0; i<5; i++) {
-            threshold(image, binMat, 255-i*2, 255, THRESH_BINARY);
-            api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*2) + "_Image.png");
-        }
-
-    }
 }
