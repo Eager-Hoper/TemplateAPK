@@ -815,8 +815,6 @@ public class YourService extends KiboRpcService {
         Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
         Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
-        Quaternion quaternion5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
-        Quaternion quaternion6 = new Quaternion(0f, 0f, 0f, 1f);
 
         double[] relative = getRelative(api.getMatNavCam());
         Kinematics kinematics = api.getRobotKinematics();
@@ -859,24 +857,6 @@ public class YourService extends KiboRpcService {
                 Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
                 api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
-                break;
-
-            case 5:
-                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target5Image__before.png");
-                double dest_x5 = current_point.getX() + relative[0];
-                double dest_y5 = current_point.getY() + relative[1];
-                Point new_point5 = new Point(dest_x5, dest_y5 ,current_point.getZ());
-                api.moveTo(new_point5, quaternion5, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target5Image__after.png");
-                break;
-
-            case 6:
-                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target6Image__before.png");
-                double dest_y6 = current_point.getY() + relative[0];
-                double dest_z6 = current_point.getZ() + relative[1];
-                Point new_point6 = new Point(current_point.getX(), dest_y6, dest_z6);
-                api.moveTo(new_point6, quaternion6, true);
-                api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target6image__after.png");
                 break;
 
             default:
