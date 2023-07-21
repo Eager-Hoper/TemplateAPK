@@ -212,9 +212,9 @@ public class YourService extends KiboRpcService {
 
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -421,7 +421,6 @@ public class YourService extends KiboRpcService {
 
         Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
         Point viapoint24 = new Point(10.47268d , -8.40436d , 4.73903d);
-        Point viapoint26 = new Point(10.90559d, -9.12124d, 4.86637d);
         Point viapoint27 = new Point(10.8652d , -8.50513d , 4.48d);
         Point viapoint28 = new Point(10.6795d , -8.40436d , 4.73903d);
 
