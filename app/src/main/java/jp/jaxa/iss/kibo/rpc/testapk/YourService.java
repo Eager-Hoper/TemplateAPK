@@ -398,8 +398,6 @@ public class YourService extends KiboRpcService {
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.48d + TurbZ);
         Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.48d + TurbZ);
         Point point4 = new Point(10.51d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
-        Point point5 = new Point(11.0448d + TurbX, -7.9193d + TurbY, 5.3393d + TurbZ);
-        Point point6 = new Point(11.355d + TurbX, -9.0462d + TurbY, 4.9416d + TurbZ);
         Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.48d + TurbZ);
         Point point8 = new Point(11.143d + TurbX, -6.7607d + TurbY, 4.9654d + TurbZ);
 
@@ -408,8 +406,6 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
         Quaternion quartanion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion4 = new Quaternion(0f, 0f, -1f, 0f);
-        Quaternion quartanion5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
-        Quaternion quartanion6 = new Quaternion(0f, 0f, 0f, 1f);
         Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
@@ -430,13 +426,9 @@ public class YourService extends KiboRpcService {
         Point viapoint28 = new Point(10.6795d , -8.40436d , 4.73903d);
 
         Point viapoint34 = new Point(10.6121d , -7.3049d , 4.9764d);
-        Point viapoint35 = new Point(10.97867d , -7.63738d , 5.16743d);
-        Point viapoint36 = new Point(10.95772d , -8.25329d , 4.74769d);
         Point viapoint37 = new Point(11.0416d , -8.3826d , 4.95651d);
 
         Point viapoint47 = new Point(11.31976d , -8.44065d , 4.74025d);
-
-        Point viapoint57 = new Point(11.2069d , -8.28977d , 5.1305d);
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
@@ -458,12 +450,6 @@ public class YourService extends KiboRpcService {
                         api.moveTo(viapoint04, quartanion4, true);
                         api.moveTo(point4, quartanion4, true);
                         break;
-                    case 5:
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(point6, quartanion6, true);
-                        break;
                     case 7:
                         api.moveTo(viapoint07, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
@@ -484,12 +470,6 @@ public class YourService extends KiboRpcService {
                         break;
                     case 4:
                         api.moveTo(point4, quartanion4, true);
-                        break;
-                    case 5:
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
                         api.moveTo(point7, quartanion7, true);
@@ -515,13 +495,6 @@ public class YourService extends KiboRpcService {
                     case 4:
                         api.moveTo(viapoint24, quartanion4, true);
                         api.moveTo(point4, quartanion4, true);
-                        break;
-                    case 5:
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(viapoint26, quartanion6, true);
-                        api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
                         api.moveTo(viapoint27, quartanion7, true);
@@ -549,14 +522,6 @@ public class YourService extends KiboRpcService {
                         api.moveTo(viapoint34, quartanion4, true);
                         api.moveTo(point4, quartanion4, true);
                         break;
-                    case 5:
-                        api.moveTo(viapoint35, quartanion5, true);
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(viapoint36, quartanion6, true);
-                        api.moveTo(point6, quartanion6, true);
-                        break;
                     case 7:
                         api.moveTo(viapoint37, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
@@ -581,72 +546,8 @@ public class YourService extends KiboRpcService {
                         api.moveTo(viapoint34, quartanion3, true);
                         api.moveTo(point3, quartanion3, true);
                         break;
-                    case 5:
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(point6, quartanion6, true);
-                        break;
                     case 7:
                         api.moveTo(viapoint47, quartanion7, true);
-                        api.moveTo(point7, quartanion7, true);
-                        break;
-                    case 8:
-                        api.moveTo(point8, quartanion8, true);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case 5:
-                switch(to){
-                    case 1:
-                        api.moveTo(point1, quartanion1, true);
-                        break;
-                    case 2:
-                        api.moveTo(point2, quartanion2, true);
-                        break;
-                    case 3:
-                        api.moveTo(viapoint35, quartanion5, true);
-                        api.moveTo(point3, quartanion3, true);
-                        break;
-                    case 4:
-                        api.moveTo(point4, quartanion4, true);
-                        break;
-                    case 6:
-                        api.moveTo(point6, quartanion6, true);
-                        break;
-                    case 7:
-                        api.moveTo(viapoint57, quartanion7, true);
-                        api.moveTo(point7, quartanion7, true);
-                        break;
-                    case 8:
-                        api.moveTo(point8, quartanion8, true);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case 6:
-                switch(to){
-                    case 1:
-                        api.moveTo(point1, quartanion1, true);
-                        break;
-                    case 2:
-                        api.moveTo(viapoint26, quartanion2, true);
-                        api.moveTo(point2, quartanion2, true);
-                        break;
-                    case 3:
-                        api.moveTo(viapoint36, quartanion3, true);
-                        api.moveTo(point3, quartanion3, true);
-                        break;
-                    case 4:
-                        api.moveTo(point4, quartanion4, true);
-                        break;
-                    case 5:
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 7:
                         api.moveTo(point7, quartanion7, true);
                         break;
                     case 8:
@@ -672,13 +573,6 @@ public class YourService extends KiboRpcService {
                     case 4:
                         api.moveTo(viapoint47, quartanion7, true);
                         api.moveTo(point4, quartanion4, true);
-                        break;
-                    case 5:
-                        api.moveTo(viapoint57, quartanion5, true);
-                        api.moveTo(point5, quartanion5, true);
-                        break;
-                    case 6:
-                        api.moveTo(point6, quartanion6, true);
                         break;
                     case 8:
                         api.moveTo(viapoint78, quartanion7, true);
