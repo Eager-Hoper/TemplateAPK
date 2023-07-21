@@ -692,21 +692,11 @@ public class YourService extends KiboRpcService {
         double[] target_center = getTargetCenter(list_ids, corners);
 
         // calculate relative cordinate in image
-        double[] relative = new double[2];
-        relative[0] = target_center[0] - 640;
-        relative[1] = target_center[1] - 480;
-
-        Log.i(TAG, "-------------- DEBUG: relative[0](in image)=" + relative[0]);
-        Log.i(TAG, "-------------- DEBUG: relative[1](in image)=" + relative[1]);
-
         // change scale (from pixel to meter)
-        double scale = getScale(corners);
-        relative[0] = relative[0] / scale;
-        relative[1] = relative[1] / scale;
-
         // adjust difference between NavCam and LaserPointer
-        relative[0] -= 0.0994;
-        relative[1] += 0.0285;
+        double relative[] = 
+            {   ((target_center[0] - 640) / getScale(corners)) - 0.0994, 
+                ((target_center[1] - 480) / getScale(corners)) + 0.0285    };
 
         Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
         Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
