@@ -156,9 +156,9 @@ public class YourService extends KiboRpcService {
                         moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                         numberOfPhotos += 2;
 
-                        if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                        if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                            moveAndShot(6, 7, numberOfPhotos);
+                            moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             QRflag = true;
                             currentPoint = 7;
@@ -189,13 +189,13 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
                     numberOfPhotos += 2;
 
-                    if (ActiveTargets.get(1) == 6 && !QRflag) {
+                    if (ActiveTargets.get(1) == 1 && !QRflag) {
 
 
-                        if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime) &&
-                                checkActiveTime(times[6][6] + times[(ActiveTargets.get(0)-1)][7])){
+                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime) &&
+                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(0)-1)][7])){
 
-                            moveAndShot(6, 7, numberOfPhotos);
+                            moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             QRflag = true;
                             moveAndShot(7, ActiveTargets.get(0), numberOfPhotos);
@@ -225,12 +225,12 @@ public class YourService extends KiboRpcService {
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                     numberOfPhotos += 2;
 
-                    if (ActiveTargets.get(0) == 6 && !QRflag) {
+                    if (ActiveTargets.get(0) == 1 && !QRflag) {
 
-                        if (checkMissionTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime) &&
-                                checkActiveTime(times[6][6] + times[(ActiveTargets.get(1)-1)][7])) {
+                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime) &&
+                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(1)-1)][7])) {
 
-                            moveAndShot(6, 7, numberOfPhotos);
+                            moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             QRflag = true;
                             moveAndShot(7, ActiveTargets.get(1), numberOfPhotos);
@@ -247,9 +247,9 @@ public class YourService extends KiboRpcService {
 
                     currentPoint = ActiveTargets.get(1);
 
-                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -262,9 +262,9 @@ public class YourService extends KiboRpcService {
                     numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
+                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -277,9 +277,9 @@ public class YourService extends KiboRpcService {
                     numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
-                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -293,9 +293,9 @@ public class YourService extends KiboRpcService {
                     numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
-                    if (ActiveTargets.get(1) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -309,9 +309,9 @@ public class YourService extends KiboRpcService {
                     numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 6 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                        moveAndShot(6, 7, numberOfPhotos);
+                        moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
