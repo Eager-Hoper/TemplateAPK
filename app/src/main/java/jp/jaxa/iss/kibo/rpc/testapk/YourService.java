@@ -582,6 +582,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             default:
+                Log.i(TAG, "-------------- DEBUG: something went wrong in the next target. Acquired next target is " + to);
                 break;
         }
 
