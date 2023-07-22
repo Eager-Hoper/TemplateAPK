@@ -711,25 +711,32 @@ public class YourService extends KiboRpcService {
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
+        double a = Math.sqrt(Math.pow(corners.get(0).get(0,3)[1] - corners.get(0).get(0,0)[1], 2) + Math.pow(corners.get(0).get(0,0)[0] - corners.get(0).get(0,3)[0], 2));
+        double b = corners.get(0).get(0,0)[0] - corners.get(0).get(0,3)[0];
+        double c = corners.get(0).get(0,3)[1] - corners.get(0).get(0,0)[1];
+
+        double s = b/a;
+        double t = c/a;
+
         for (int i=0; i<n; i++) {
             double ID = list_ids.get(i,0)[0];
 
-            // if ID≡1(mod4), X=x-10[cm] and Y=y+3.75[cm]
+            // if ID≡1(mod4) UR, X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
-                center_cand[i][0] = corners.get(i).get(0,3)[0] - 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,3)[1] + 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,3)[0] + (-0.075 * s -0.075 * t) * scale;
+                center_cand[i][1] = corners.get(i).get(0,3)[1] + (0.0125 * t -0.075 * s) * scale;
 
-            // if ID≡2(mod4), X=x+10[cm] and Y=y+3.75[cm]
+            // if ID≡2(mod4) UL, X=x+10[cm] and Y=y+3.75[cm]
             } else if (ID%4 == 2) {
                 center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
                 center_cand[i][1] = corners.get(i).get(0,2)[1] + 0.0125 * scale;
 
-            // if ID≡3(mod4), X=x+10[cm] and Y=y-3.75[cm]
+            // if ID≡3(mod4) BL, X=x+10[cm] and Y=y-3.75[cm]
             }else if (ID%4 == 3) {
                 center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
                 center_cand[i][1] = corners.get(i).get(0,1)[1] - 0.0125 * scale;
 
-            // if ID≡0(mod4), X=x-10[cm] and Y=y-3.75[cm]
+            // if ID≡0(mod4) BR, X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
                 center_cand[i][0] = corners.get(i).get(0,0)[0] - 0.075 * scale;
                 center_cand[i][1] = corners.get(i).get(0,0)[1] - 0.0125 * scale;
@@ -860,4 +867,18 @@ public class YourService extends KiboRpcService {
         
     }
 
+    public Mat getMatNavCam() {
+
+        int LOOP_MAX = 5;
+        int loopCounter = 0;
+        Mat image = api.getMatNavCam();
+
+        while (image == NULL && loopCounter < LOOP_MAX) {
+            image = api.getMatNavCam();
+        }
+
+        return image;
+    }
+
+    public 
 }
