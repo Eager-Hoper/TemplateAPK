@@ -723,7 +723,7 @@ public class YourService extends KiboRpcService {
         }else{
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
-            laser_detect(api.getMatNavCam(), numberOfPhotos);
+            laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -1029,7 +1029,11 @@ public class YourService extends KiboRpcService {
         
     }
 
-    public void laser_detect(Mat image, int numberOfPhotos) {
+    public void laser_detect(int numberOfPhotos) {
+
+        // set flash light off
+        api.flashlightControlFront(0);
+        Mat image = api.getMatNavCam();
 
         // detect AR markers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
