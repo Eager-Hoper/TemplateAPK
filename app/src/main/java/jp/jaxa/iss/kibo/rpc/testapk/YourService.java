@@ -758,16 +758,13 @@ public class YourService extends KiboRpcService {
         // get average of center_candidate
         double target_x = 0;
         double target_y = 0;
-        double[] target_center = new double[2];
 
         for (int i = 0; i < n; i++) {
             target_x += center_cand[i][0];
             target_y += center_cand[i][1];
             Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
-
-        target_center[0] = target_x / n;
-        target_center[1] = target_y / n;
+        double target_center = {target_x / n , target_y / n};
 
         return target_center;
 
