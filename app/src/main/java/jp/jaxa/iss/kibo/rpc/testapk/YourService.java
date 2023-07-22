@@ -589,6 +589,7 @@ public class YourService extends KiboRpcService {
         if (!(to == 7 || to == 8)) {
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -868,6 +869,14 @@ public class YourService extends KiboRpcService {
 
         Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
         Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
+        
+    }
+
+    public void laser_detect(int numberOfPhotos) {
+
+        // set flash light off
+        api.flashlightControlFront(0);
+        Mat image = api.getMatNavCam();
 
     }
 
