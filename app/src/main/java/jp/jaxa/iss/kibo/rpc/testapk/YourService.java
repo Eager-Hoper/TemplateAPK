@@ -586,9 +586,7 @@ public class YourService extends KiboRpcService {
                 break;
         }
 
-        if (to == 7 || to == 8) {
-
-        } else {
+        if (!(to == 7 || to == 8)) {
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.takeTargetSnapshot(to);
@@ -629,7 +627,7 @@ public class YourService extends KiboRpcService {
         String data = decoder.detectAndDecode(QRimage);
 
         //Generate png image for debug
-        //api.saveMatImage(QRimage, "QR.png");
+        api.saveMatImage(QRimage, "QR.png");
 
         String reportMessage = null;
         switch (data) {
