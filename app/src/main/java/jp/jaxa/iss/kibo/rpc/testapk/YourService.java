@@ -704,8 +704,8 @@ public class YourService extends KiboRpcService {
         // change scale (from pixel to meter)
         // adjust difference between NavCam and LaserPointer
         double relative[] =
-                {((target_center[0] - 640) / getScale(corners)) - 0.0994,
-                        ((target_center[1] - 480) / getScale(corners)) + 0.0285};
+                {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
+                    ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
 
         Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
         Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
@@ -748,7 +748,7 @@ public class YourService extends KiboRpcService {
             // if ID≡0(mod4) BR, X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
                 center_cand[i][0] = corners.get(i).get(0,0)[0] + ( 0.0125 * s -0.075 * t) * scale;
-                center_cand[i][1] = corners.get(i).get(0,0)[1] * (-0.0125 * t -0.075 * s) * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] + (-0.0125 * t -0.075 * s) * scale;
 
             } else {
                 // TODO: Concern what to do if camera can't find AR marker
@@ -876,6 +876,7 @@ public class YourService extends KiboRpcService {
 
     }
 
+    // NULL check
     public Mat getMatNavCam() {
 
         int LOOP_MAX = 5;
@@ -888,4 +889,6 @@ public class YourService extends KiboRpcService {
 
         return image;
     }
+
+    public 
 }
