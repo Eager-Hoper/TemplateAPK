@@ -592,6 +592,7 @@ public class YourService extends KiboRpcService {
         if (!(to == 7 || to == 8)) {
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -705,8 +706,8 @@ public class YourService extends KiboRpcService {
         // change scale (from pixel to meter)
         // adjust difference between NavCam and LaserPointer
         double relative[] =
-                {((target_center[0] - 640) / getScale(corners)) - 0.0994,
-                        ((target_center[1] - 480) / getScale(corners)) + 0.0285};
+                {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
+                    ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
 
         Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
         Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
@@ -749,7 +750,7 @@ public class YourService extends KiboRpcService {
             // if ID≡0(mod4) BR, X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
                 center_cand[i][0] = corners.get(i).get(0,0)[0] + ( 0.0125 * s -0.075 * t) * scale;
-                center_cand[i][1] = corners.get(i).get(0,0)[1] * (-0.0125 * t -0.075 * s) * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] + (-0.0125 * t -0.075 * s) * scale;
 
             } else {
                 // TODO: Concern what to do if camera can't find AR marker
@@ -761,16 +762,13 @@ public class YourService extends KiboRpcService {
         // get average of center_candidate
         double target_x = 0;
         double target_y = 0;
-        double[] target_center = new double[2];
 
         for (int i = 0; i < n; i++) {
             target_x += center_cand[i][0];
             target_y += center_cand[i][1];
             Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
-
-        target_center[0] = target_x / n;
-        target_center[1] = target_y / n;
+        double target_center = {target_x / n , target_y / n};
 
         return target_center;
 
@@ -874,9 +872,18 @@ public class YourService extends KiboRpcService {
 
         Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
         Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
+        
+    }
+
+    public void laser_detect(int numberOfPhotos) {
+
+        // set flash light off
+        api.flashlightControlFront(0);
+        Mat image = api.getMatNavCam();
 
     }
 
+    // NULL check
     public Mat getMatNavCam() {
 
         int LOOP_MAX = 5;
@@ -889,4 +896,5 @@ public class YourService extends KiboRpcService {
 
         return image;
     }
+    
 }
