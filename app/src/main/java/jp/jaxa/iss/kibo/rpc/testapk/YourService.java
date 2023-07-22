@@ -878,6 +878,23 @@ public class YourService extends KiboRpcService {
         api.flashlightControlFront(0);
         Mat image = api.getMatNavCam();
 
+        // detect AR markers
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat list_ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+
+        // get target center
+        double[] target_center = getTargetCenter(list_ids, corners);
+
+        // binarization
+        Mat binMat = new Mat();
+
+        for (int i=0; i<5; i++) {
+            threshold(image, binMat, 255-i*2, 255, THRESH_BINARY);
+            api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*2) + "_Image.png");
+        }
+
     }
 
     // NULL check
