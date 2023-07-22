@@ -765,7 +765,7 @@ public class YourService extends KiboRpcService {
             target_y += center_cand[i][1];
             Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
-        double target_center = {target_x / n , target_y / n};
+        double[] target_center = {target_x / n , target_y / n};
 
         return target_center;
 
