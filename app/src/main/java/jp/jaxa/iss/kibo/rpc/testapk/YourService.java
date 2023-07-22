@@ -649,6 +649,10 @@ public class YourService extends KiboRpcService {
         //Generate png image for debug
         api.saveMatImage(QRimage, "QR.png");
 
+        Point closerPoint7 = new Point(0d,0d,-0.05d);
+        Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Result QRReApproachResult;
+
         String reportMessage = null;
         switch (data) {
             case "JEM":
@@ -670,7 +674,8 @@ public class YourService extends KiboRpcService {
                 reportMessage = "NO_PROBLEM";
                 break;
             case "null":
-
+                QRReApproachResult = api.relativeMoveTo(closerPoint7, quartanion7, true);
+                Log.i(TAG, "-------------- DEBUG: QRReApproachResult = " + QRReApproachResult);
                 break;
         }
         return reportMessage;
