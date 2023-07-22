@@ -732,23 +732,23 @@ public class YourService extends KiboRpcService {
 
             // if ID≡1(mod4) UR, X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
-                center_cand[i][0] = corners.get(i).get(0,3)[0] + (-0.075 * s -0.075 * t) * scale;
-                center_cand[i][1] = corners.get(i).get(0,3)[1] + (0.0125 * t -0.075 * s) * scale;
+                center_cand[i][0] = corners.get(i).get(0,3)[0] + (-0.0125 * s -0.075 * t) * scale;
+                center_cand[i][1] = corners.get(i).get(0,3)[1] + ( 0.0125 * t -0.075 * s) * scale;
 
             // if ID≡2(mod4) UL, X=x+10[cm] and Y=y+3.75[cm]
             } else if (ID%4 == 2) {
-                center_cand[i][0] = corners.get(i).get(0,2)[0] + 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,2)[1] + 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,2)[0] + (-0.0125 * s +0.075 * t) * scale;
+                center_cand[i][1] = corners.get(i).get(0,2)[1] + ( 0.0125 * t +0.075 * s) * scale;
 
             // if ID≡3(mod4) BL, X=x+10[cm] and Y=y-3.75[cm]
             }else if (ID%4 == 3) {
-                center_cand[i][0] = corners.get(i).get(0,1)[0] + 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,1)[1] - 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,1)[0] + ( 0.0125 * s +0.075 * t) * scale;
+                center_cand[i][1] = corners.get(i).get(0,1)[1] + (-0.0125 * t +0.075 * s) * scale;
 
             // if ID≡0(mod4) BR, X=x-10[cm] and Y=y-3.75[cm]
             } else if (ID%4 == 0) {
-                center_cand[i][0] = corners.get(i).get(0,0)[0] - 0.075 * scale;
-                center_cand[i][1] = corners.get(i).get(0,0)[1] - 0.0125 * scale;
+                center_cand[i][0] = corners.get(i).get(0,0)[0] + ( 0.0125 * s -0.075 * t) * scale;
+                center_cand[i][1] = corners.get(i).get(0,0)[1] * (-0.0125 * t -0.075 * s) * scale;
 
             } else {
                 // TODO: Concern what to do if camera can't find AR marker
