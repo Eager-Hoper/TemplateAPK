@@ -691,20 +691,15 @@ public class YourService extends KiboRpcService {
         }
     }
 
-    public double[] getRelative(Mat image) {
+    public double[] getRelative(int to, Mat image) {
 
         // detect AR markers
-        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
-        Mat list_ids = new Mat();
-        List<Mat> corners = new ArrayList<>();
-        Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+        List<List<Mat>> AR_info = AR_detect(to);
+        Mat ids = AR_info.get(0).get(0);
+        List<Mat> corners = AR_info.get(1);
 
-        // get target center
-        double[] target_center = getTargetCenter(list_ids, corners);
+        double[] target_center = getTargetCenter(ids, corners);
 
-        // calculate relative cordinate in image
-        // change scale (from pixel to meter)
-        // adjust difference between NavCam and LaserPointer
         double relative[] =
                 {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
                     ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
@@ -716,7 +711,7 @@ public class YourService extends KiboRpcService {
 
     }
 
-    public double[] getTargetCenter(Mat list_ids, List<Mat> corners) {
+    public double[] getTargetCenter(Mat ids, List<Mat> corners) {
 
         int n = corners.size();
         double[][] center_cand = new double[n][2];
@@ -730,7 +725,7 @@ public class YourService extends KiboRpcService {
         double t = c / a;
 
         for (int i = 0; i < n; i++) {
-            double ID = list_ids.get(i, 0)[0];
+            double ID = ids.get(i, 0)[0];
 
             // if ID≡1(mod4) UR, X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
@@ -820,7 +815,7 @@ public class YourService extends KiboRpcService {
         Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
-        double[] relative = getRelative(getMatNavCam());
+        double[] relative = getRelative(to, getMatNavCam());
         Kinematics kinematics = api.getRobotKinematics();
         Point current_point = kinematics.getPosition();
 
@@ -900,6 +895,62 @@ public class YourService extends KiboRpcService {
 
     }
 
+    public List<List<Mat>> AR_detect(int to) {
+
+        Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+        Mat ids = new Mat();
+        List<Mat> corners = new ArrayList<>();
+        Mat image = getMatNavCam();
+
+        Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+
+        int loopCounter = 0;
+        int LOOP_MAX = 3;
+        while((corners == NULL || ids == NULL) && loopCounter < LOOP_MAX) {
+            Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+            loopCounter++;
+        }
+
+        if (corners == NULL || ids == NULL) {
+            Kinematics error_kinematics = api.getRobotKinematics();
+            Point error_point = kinematics.getPosition();
+            Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+            Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+            Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+            Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+
+            switch (to) {
+                case 1:
+                    Point debug_point1 = new Point(error_point.getX(), error_point.getY()+0.10, error_point.getZ());
+                    api.moveTo(debug_point1, quaternion1, true);
+
+                case 2:
+                    Point debug_point2 = new Point(error_point.getX(), error_point.getY(), error_point.getZ()+0.10);
+                    api.moveTo(debug_point2, quaternion2, true);
+
+                case 3:
+                    Point debug_point3 = new Point(error_point.getX(), error_point.getY(), error_point.getZ()+0.10);
+                    api.moveTo(debug_point3, quaternion3, true);
+
+                case 4:
+                    Point debug_point4 = new Point(error_point.getX()+0.10, error_point.getY(), error_point.getZ());
+                    api.moveTo(debug_point4, quaternion4, true);
+            }
+
+            while((corners == NULL || ids == NULL) && loopCounter < LOOP_MAX) {
+                Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+                loopCounter++;
+            }
+
+        }
+
+        List<Mat> list_ids = new ArrayList<Mat>(Arrays.asList(ids));
+        List<List<Mat>> AR_info = new ArrayList<List<Mat>>(Arrays.asList(list_ids, corners));
+
+        return AR_info;
+
+    }
+
     // NULL check
     public Mat getMatNavCam() {
 
@@ -909,6 +960,7 @@ public class YourService extends KiboRpcService {
 
         while (image == null && loopCounter < LOOP_MAX) {
             image = api.getMatNavCam();
+            loopCounter++;
         }
 
         return image;
