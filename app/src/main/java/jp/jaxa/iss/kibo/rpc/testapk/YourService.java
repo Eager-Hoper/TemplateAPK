@@ -145,13 +145,14 @@ public class YourService extends KiboRpcService {
         }
 
         int numberOfPhotos = 1;
+        int LoopCounter = 1;
 
         //move
         while (MissionTimeRemaining > 0) {
-
+            Log.i(TAG, "-------------- LOG: Loop" + LoopCounter);
             if (NumberOfActiveTargets == 1) {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
-                    if (checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
+                    if (checkActiveTime(currentToFirstTargetTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                         numberOfPhotos += 2;
@@ -348,6 +349,8 @@ public class YourService extends KiboRpcService {
                 FirstTargetToSecondTarget = times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
                 SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
             }
+
+            LoopCounter++;
 
         }
 
