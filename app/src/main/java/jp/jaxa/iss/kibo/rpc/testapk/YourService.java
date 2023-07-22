@@ -660,11 +660,15 @@ public class YourService extends KiboRpcService {
     public boolean checkMissionTime(long requiredTime){
         List<Long> TimeRemaining = api.getTimeRemaining();
         Long MissionTimeRemaining = TimeRemaining.get(1);
+        Log.i(TAG, "-------------- DEBUG: requiredTime = " + requiredTime);
+        Log.i(TAG, "-------------- DEBUG: MissionTimeRemaining = " + MissionTimeRemaining);
 
         // if MissionTimeRemaining is larger than requiredTime, Astrobee can go to the target
         if(MissionTimeRemaining > requiredTime){
+            Log.i(TAG, "-------------- DEBUG: checkMissionTime = true");
             return true;
         }else{
+            Log.i(TAG, "-------------- DEBUG: checkMissionTime = false");
             return false;
         }
     }
@@ -672,11 +676,15 @@ public class YourService extends KiboRpcService {
     public boolean checkActiveTime(long requiredTime){
         List<Long> TimeRemaining = api.getTimeRemaining();
         Long ActiveTimeRemaining = TimeRemaining.get(0);
+        Log.i(TAG, "-------------- DEBUG: requiredTime = " + requiredTime);
+        Log.i(TAG, "-------------- DEBUG: ActiveTimeRemaining = " + ActiveTimeRemaining);
 
         // if ActiveTimeRemaining is larger than requiredTime, Astrobee can go to the target
         if(ActiveTimeRemaining > requiredTime){
+            Log.i(TAG, "-------------- DEBUG: checkActiveTime = true");
             return true;
         }else{
+            Log.i(TAG, "-------------- DEBUG: checkActiveTime = false");
             return false;
         }
     }
