@@ -392,7 +392,7 @@ public class YourService extends KiboRpcService {
             TurbZ = -TurbZ;
         }
 
-        Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=("+TurbX+","+TurbY+","+TurbZ+")");
+        Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=("+TurbX+","+TurbY+","+TurbZ+") for point" + to);
 
         Point point1 = new Point(11.2053d + TurbX, -9.92284d + TurbY, 5.4736d + TurbZ);
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.48d + TurbZ);
