@@ -119,29 +119,29 @@ public class YourService extends KiboRpcService {
         //get active targets
         List<Integer> ActiveTargets = new ArrayList<>();
         ActiveTargets.add(0);
-        while(ActiveTargets.get(0) == 0) {
+        while (ActiveTargets.get(0) == 0) {
             ActiveTargets = api.getActiveTargets();
         }
         int NumberOfActiveTargets = ActiveTargets.size();
         int points1;
-        int points2 = 0 ;
-        points1 = points[(ActiveTargets.get(0)-1)];
-        if(NumberOfActiveTargets == 2) {
-            points2 = points[(ActiveTargets.get(1)-1)];
+        int points2 = 0;
+        points1 = points[(ActiveTargets.get(0) - 1)];
+        if (NumberOfActiveTargets == 2) {
+            points2 = points[(ActiveTargets.get(1) - 1)];
         }
 
-        long currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
+        long currentToFirstTargetTime = times[(ActiveTargets.get(0) - 1)][currentPoint];
         long currentToSecondTargetTime = 0;
         long FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
         long SecondTargetToGoalTime = 0;
         long FirstTargetToSecondTarget = 0;
         long SecondTargetToFirstTarget = 0;
         // TODO: check again
-        if(NumberOfActiveTargets == 2) {
+        if (NumberOfActiveTargets == 2) {
             SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
-            currentToSecondTargetTime = times[(ActiveTargets.get(1)-1)][currentPoint];
-            FirstTargetToSecondTarget = times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
-            SecondTargetToFirstTarget = times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
+            currentToSecondTargetTime = times[(ActiveTargets.get(1) - 1)][currentPoint];
+            FirstTargetToSecondTarget = times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
+            SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
         }
 
         int numberOfPhotos = 1;
@@ -150,8 +150,8 @@ public class YourService extends KiboRpcService {
         while (MissionTimeRemaining > 0) {
 
             if (NumberOfActiveTargets == 1) {
-                if(checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)){
-                    if(checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
+                if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
+                    if (checkActiveTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                         numberOfPhotos += 2;
@@ -167,8 +167,8 @@ public class YourService extends KiboRpcService {
                             currentPoint = ActiveTargets.get(0);
                         }
                     }
-                }else{
-                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && !QRflag){
+                } else {
+                    if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
@@ -192,8 +192,8 @@ public class YourService extends KiboRpcService {
                     if (ActiveTargets.get(1) == 1 && !QRflag) {
 
 
-                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(0)-1)][7] + FirstTargetToGoalTime) &&
-                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(0)-1)][7])){
+                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7] + FirstTargetToGoalTime) &&
+                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7])) {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
@@ -227,8 +227,8 @@ public class YourService extends KiboRpcService {
 
                     if (ActiveTargets.get(0) == 1 && !QRflag) {
 
-                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(1)-1)][7] + SecondTargetToGoalTime) &&
-                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(1)-1)][7])) {
+                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7] + SecondTargetToGoalTime) &&
+                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7])) {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
@@ -255,14 +255,14 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
-                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0)-1][currentPoint] + FirstTargetToGoalTime) &&
-                        checkActiveTime(times[ActiveTargets.get(0)-1][currentPoint])){
+                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
+                        checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                     numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])){
+                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
@@ -270,8 +270,8 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
-                } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1)-1][currentPoint] + SecondTargetToGoalTime) &&
-                        checkActiveTime(times[ActiveTargets.get(1)-1][currentPoint])){
+                } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
+                        checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
                     numberOfPhotos += 2;
@@ -286,8 +286,8 @@ public class YourService extends KiboRpcService {
                     }
 
                 } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
-                        checkMissionTime(times[ActiveTargets.get(1)-1][currentPoint] + SecondTargetToGoalTime)&&
-                        checkActiveTime(times[ActiveTargets.get(1)-1][currentPoint])) {
+                        checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
+                        checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
                     numberOfPhotos += 2;
@@ -302,8 +302,8 @@ public class YourService extends KiboRpcService {
                     }
 
                 } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
-                        checkMissionTime(times[ActiveTargets.get(0)-1][currentPoint] + FirstTargetToGoalTime) &&
-                        checkActiveTime(times[ActiveTargets.get(0)-1][currentPoint])) {
+                        checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
+                        checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
                     numberOfPhotos += 2;
@@ -317,8 +317,8 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
-                }else{
-                    if(checkMissionTime(times[6][currentPoint]+times[7][7]) && !QRflag){
+                } else {
+                    if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
@@ -332,21 +332,21 @@ public class YourService extends KiboRpcService {
             //get next target
             ActiveTargets = api.getActiveTargets();
             NumberOfActiveTargets = ActiveTargets.size();
-            points1 = points[(ActiveTargets.get(0)-1)];
+            points1 = points[(ActiveTargets.get(0) - 1)];
 
             //get current time remaining
             TimeRemaining = api.getTimeRemaining();
             MissionTimeRemaining = TimeRemaining.get(1);
 
-            currentToFirstTargetTime = times[(ActiveTargets.get(0)-1)][currentPoint];
+            currentToFirstTargetTime = times[(ActiveTargets.get(0) - 1)][currentPoint];
             FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
 
             if (NumberOfActiveTargets == 2) {
-                points2 = points[(ActiveTargets.get(1)-1)];
-                currentToSecondTargetTime = times[(ActiveTargets.get(1)-1)][currentPoint];
+                points2 = points[(ActiveTargets.get(1) - 1)];
+                currentToSecondTargetTime = times[(ActiveTargets.get(1) - 1)][currentPoint];
                 SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
-                FirstTargetToSecondTarget = times[(ActiveTargets.get(1)-1)][ActiveTargets.get(0)];
-                SecondTargetToFirstTarget = times[(ActiveTargets.get(0)-1)][ActiveTargets.get(1)];
+                FirstTargetToSecondTarget = times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
+                SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
             }
 
         }
@@ -368,7 +368,7 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-    public void moveAndShot(int from, int to, int numberOfPhotos){
+    public void moveAndShot(int from, int to, int numberOfPhotos) {
         //get time for count timeRequired (LOG)
         List<Long> TimeRemaining = api.getTimeRemaining();
         long countStart = TimeRemaining.get(1);
@@ -382,17 +382,17 @@ public class YourService extends KiboRpcService {
         boolean MinusY = new java.util.Random().nextBoolean();
         boolean MinusZ = new java.util.Random().nextBoolean();
 
-        if(MinusX){
+        if (MinusX) {
             TurbX = -TurbX;
         }
-        if(MinusY){
+        if (MinusY) {
             TurbY = -TurbY;
         }
-        if(MinusZ){
+        if (MinusZ) {
             TurbZ = -TurbZ;
         }
 
-        Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=("+TurbX+","+TurbY+","+TurbZ+") for point" + to);
+        Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=(" + TurbX + "," + TurbY + "," + TurbZ + ") for point" + to);
 
         Point point1 = new Point(11.2053d + TurbX, -9.92284d + TurbY, 5.4736d + TurbZ);
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.48d + TurbZ);
@@ -410,30 +410,30 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
         //Viapoints
-        Point viapoint01 = new Point(10.88628d , -9.9605d , 5.06316d);
-        Point viapoint03 = new Point(10.5d,-8.3326d,4.8025d);
-        Point viapoint04 = new Point(10.51d,-8.3826d,4.7695d);
+        Point viapoint01 = new Point(10.88628d, -9.9605d, 5.06316d);
+        Point viapoint03 = new Point(10.5d, -8.3326d, 4.8025d);
+        Point viapoint04 = new Point(10.51d, -8.3826d, 4.7695d);
         Point viapoint07 = new Point(11.1228d, -9.2334d, 4.388d);
 
         Point viapoint12 = new Point(10.89137d, -9.61836d, 5.13316d);
-        Point viapoint13 = new Point(10.82433d , -8.25068d , 4.74585d);
-        Point viapoint18 = new Point(11.2053d , -8.0635d , 4.87923d);
+        Point viapoint13 = new Point(10.82433d, -8.25068d, 4.74585d);
+        Point viapoint18 = new Point(11.2053d, -8.0635d, 4.87923d);
 
         Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
-        Point viapoint24 = new Point(10.47268d , -8.40436d , 4.73903d);
-        Point viapoint27 = new Point(10.8652d , -8.50513d , 4.48d);
-        Point viapoint28 = new Point(10.6795d , -8.40436d , 4.73903d);
+        Point viapoint24 = new Point(10.47268d, -8.40436d, 4.73903d);
+        Point viapoint27 = new Point(10.8652d, -8.50513d, 4.48d);
+        Point viapoint28 = new Point(10.6795d, -8.40436d, 4.73903d);
 
-        Point viapoint34 = new Point(10.6121d , -7.3049d , 4.9764d);
-        Point viapoint37 = new Point(11.0416d , -8.3826d , 4.95651d);
+        Point viapoint34 = new Point(10.6121d, -7.3049d, 4.9764d);
+        Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
 
-        Point viapoint47 = new Point(11.31976d , -8.44065d , 4.74025d);
+        Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
-        switch (from){
+        switch (from) {
             case 0:
-                switch(to){
+                switch (to) {
                     case 1:
                         api.moveTo(viapoint01, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
@@ -458,7 +458,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             case 1:
-                switch(to){
+                switch (to) {
                     case 2:
                         api.moveTo(viapoint12, quartanion1, true);
                         api.moveTo(point2, quartanion2, true);
@@ -482,7 +482,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             case 2:
-                switch(to){
+                switch (to) {
                     case 1:
                         api.moveTo(viapoint12, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
@@ -508,7 +508,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             case 3:
-                switch(to){
+                switch (to) {
                     case 1:
                         api.moveTo(viapoint13, quartanion3, true);
                         api.moveTo(point1, quartanion1, true);
@@ -533,7 +533,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             case 4:
-                switch(to){
+                switch (to) {
                     case 1:
                         api.moveTo(point1, quartanion1, true);
                         break;
@@ -557,7 +557,7 @@ public class YourService extends KiboRpcService {
                 }
                 break;
             case 7:
-                switch(to){
+                switch (to) {
                     case 1:
                         api.moveTo(point1, quartanion1, true);
                         break;
@@ -586,9 +586,9 @@ public class YourService extends KiboRpcService {
                 break;
         }
 
-        if(to == 7 || to == 8){
+        if (to == 7 || to == 8) {
 
-        }else{
+        } else {
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.takeTargetSnapshot(to);
@@ -621,7 +621,7 @@ public class YourService extends KiboRpcService {
 
     }
 
-    public String ReadQR(){
+    public String ReadQR() {
         //ReadQRCode
         api.flashlightControlFront(0.05f);
         Mat QRimage = image_correction(api.getMatNavCam());
@@ -632,7 +632,7 @@ public class YourService extends KiboRpcService {
         //api.saveMatImage(QRimage, "QR.png");
 
         String reportMessage = null;
-        switch(data) {
+        switch (data) {
             case "JEM":
                 reportMessage = "STAY_AT_JEM";
                 break;
@@ -657,39 +657,39 @@ public class YourService extends KiboRpcService {
         return reportMessage;
     }
 
-    public boolean checkMissionTime(long requiredTime){
+    public boolean checkMissionTime(long requiredTime) {
         List<Long> TimeRemaining = api.getTimeRemaining();
         Long MissionTimeRemaining = TimeRemaining.get(1);
         Log.i(TAG, "-------------- DEBUG: requiredTime = " + requiredTime);
         Log.i(TAG, "-------------- DEBUG: MissionTimeRemaining = " + MissionTimeRemaining);
 
         // if MissionTimeRemaining is larger than requiredTime, Astrobee can go to the target
-        if(MissionTimeRemaining > requiredTime){
+        if (MissionTimeRemaining > requiredTime) {
             Log.i(TAG, "-------------- DEBUG: checkMissionTime = true");
             return true;
-        }else{
+        } else {
             Log.i(TAG, "-------------- DEBUG: checkMissionTime = false");
             return false;
         }
     }
 
-    public boolean checkActiveTime(long requiredTime){
+    public boolean checkActiveTime(long requiredTime) {
         List<Long> TimeRemaining = api.getTimeRemaining();
         Long ActiveTimeRemaining = TimeRemaining.get(0);
         Log.i(TAG, "-------------- DEBUG: requiredTime = " + requiredTime);
         Log.i(TAG, "-------------- DEBUG: ActiveTimeRemaining = " + ActiveTimeRemaining);
 
         // if ActiveTimeRemaining is larger than requiredTime, Astrobee can go to the target
-        if(ActiveTimeRemaining > requiredTime){
+        if (ActiveTimeRemaining > requiredTime) {
             Log.i(TAG, "-------------- DEBUG: checkActiveTime = true");
             return true;
-        }else{
+        } else {
             Log.i(TAG, "-------------- DEBUG: checkActiveTime = false");
             return false;
         }
     }
 
-    public double[] getRelative (Mat image) {
+    public double[] getRelative(Mat image) {
 
         // detect AR markers
         Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
@@ -703,9 +703,9 @@ public class YourService extends KiboRpcService {
         // calculate relative cordinate in image
         // change scale (from pixel to meter)
         // adjust difference between NavCam and LaserPointer
-        double relative[] = 
-            {   ((target_center[0] - 640) / getScale(corners)) - 0.0994, 
-                ((target_center[1] - 480) / getScale(corners)) + 0.0285    };
+        double relative[] =
+                {((target_center[0] - 640) / getScale(corners)) - 0.0994,
+                        ((target_center[1] - 480) / getScale(corners)) + 0.0285};
 
         Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
         Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
@@ -714,21 +714,21 @@ public class YourService extends KiboRpcService {
 
     }
 
-    public double[] getTargetCenter (Mat list_ids, List<Mat> corners) {
+    public double[] getTargetCenter(Mat list_ids, List<Mat> corners) {
 
         int n = corners.size();
         double[][] center_cand = new double[n][2];
         double scale = getScale(corners);
 
-        double a = Math.sqrt(Math.pow(corners.get(0).get(0,3)[1] - corners.get(0).get(0,0)[1], 2) + Math.pow(corners.get(0).get(0,0)[0] - corners.get(0).get(0,3)[0], 2));
-        double b = corners.get(0).get(0,0)[0] - corners.get(0).get(0,3)[0];
-        double c = corners.get(0).get(0,3)[1] - corners.get(0).get(0,0)[1];
+        double a = Math.sqrt(Math.pow(corners.get(0).get(0, 3)[1] - corners.get(0).get(0, 0)[1], 2) + Math.pow(corners.get(0).get(0, 0)[0] - corners.get(0).get(0, 3)[0], 2));
+        double b = corners.get(0).get(0, 0)[0] - corners.get(0).get(0, 3)[0];
+        double c = corners.get(0).get(0, 3)[1] - corners.get(0).get(0, 0)[1];
 
-        double s = b/a;
-        double t = c/a;
+        double s = b / a;
+        double t = c / a;
 
-        for (int i=0; i<n; i++) {
-            double ID = list_ids.get(i,0)[0];
+        for (int i = 0; i < n; i++) {
+            double ID = list_ids.get(i, 0)[0];
 
             // if ID≡1(mod4) UR, X=x-10[cm] and Y=y+3.75[cm]
             if (ID%4 == 1) { 
@@ -762,7 +762,7 @@ public class YourService extends KiboRpcService {
         double target_y = 0;
         double[] target_center = new double[2];
 
-        for (int i=0; i<n; i++) {
+        for (int i = 0; i < n; i++) {
             target_x += center_cand[i][0];
             target_y += center_cand[i][1];
             Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
@@ -776,26 +776,26 @@ public class YourService extends KiboRpcService {
     }
 
     // get scale in image (pixel/meter)
-    public double getScale (List<Mat> corners) {
+    public double getScale(List<Mat> corners) {
 
         double[][] AR_corners =
-        {
-            {(int) corners.get(0).get(0,0)[0], (int) corners.get(0).get(0,0)[1]}, // UL
-            {(int) corners.get(0).get(0,1)[0], (int) corners.get(0).get(0,1)[1]}, // UR
-            {(int) corners.get(0).get(0,2)[0], (int) corners.get(0).get(0,2)[1]}, // BR
-            {(int) corners.get(0).get(0,3)[0], (int) corners.get(0).get(0,3)[1]}, // BL
-        };
+                {
+                        {(int) corners.get(0).get(0, 0)[0], (int) corners.get(0).get(0, 0)[1]}, // UL
+                        {(int) corners.get(0).get(0, 1)[0], (int) corners.get(0).get(0, 1)[1]}, // UR
+                        {(int) corners.get(0).get(0, 2)[0], (int) corners.get(0).get(0, 2)[1]}, // BR
+                        {(int) corners.get(0).get(0, 3)[0], (int) corners.get(0).get(0, 3)[1]}, // BL
+                };
 
         double side_length = 0;
-        for (int i=0; i<4; i++) {
-            if (i<3) {
-                side_length += Math.sqrt(Math.pow(AR_corners[i+1][0]-AR_corners[i][0],2)+Math.pow(AR_corners[i+1][1]-AR_corners[i][1],2));
-            } else if(i==3) {
-                side_length += Math.sqrt(Math.pow(AR_corners[0][0]-AR_corners[i][0],2)+Math.pow(AR_corners[0][1]-AR_corners[i][1],2));
+        for (int i = 0; i < 4; i++) {
+            if (i < 3) {
+                side_length += Math.sqrt(Math.pow(AR_corners[i + 1][0] - AR_corners[i][0], 2) + Math.pow(AR_corners[i + 1][1] - AR_corners[i][1], 2));
+            } else if (i == 3) {
+                side_length += Math.sqrt(Math.pow(AR_corners[0][0] - AR_corners[i][0], 2) + Math.pow(AR_corners[0][1] - AR_corners[i][1], 2));
             }
         }
 
-        double scale = side_length / (4*0.05);
+        double scale = side_length / (4 * 0.05);
 
         Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
         Log.i(TAG, "-------------- DEBUG: 700~900ぐらいの値が予想される");
@@ -808,7 +808,7 @@ public class YourService extends KiboRpcService {
 
         double[] relative = getRelative(api.getMatNavCam());
         Point relative_dist = new Point(0, relative[0], relative[1]);
-        Quaternion relative_orient = new Quaternion(0f,0f,0f,0f);
+        Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
 
         api.relativeMoveTo(relative_dist, relative_orient, true);
 
@@ -827,12 +827,12 @@ public class YourService extends KiboRpcService {
 
         Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
 
-        switch(to){
+        switch (to) {
             case 1:
-                api.saveMatImage(image_correction(api.getMatNavCam()),  numberOfPhotos + ":target1Image__before.png");
+                api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
                 double dest_x1 = current_point.getX() + relative[0];
                 double dest_z1 = current_point.getZ() + relative[1];
-                Point new_point1 = new Point(dest_x1,current_point.getY(),dest_z1 );
+                Point new_point1 = new Point(dest_x1, current_point.getY(), dest_z1);
                 api.moveTo(new_point1, quaternion1, true);
                 api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
                 break;
@@ -841,7 +841,7 @@ public class YourService extends KiboRpcService {
                 api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
                 double dest_x2 = current_point.getX() + relative[0];
                 double dest_y2 = current_point.getY() - relative[1];
-                Point new_point2 = new Point(dest_x2, dest_y2 ,current_point.getZ());
+                Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ());
                 api.moveTo(new_point2, quaternion2, true);
                 api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
                 break;
@@ -850,7 +850,7 @@ public class YourService extends KiboRpcService {
                 api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
                 double dest_y3 = current_point.getY() + relative[0];
                 double dest_x3 = current_point.getX() + relative[1];
-                Point new_point3 = new Point(dest_x3, dest_y3 ,current_point.getZ());
+                Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ());
                 api.moveTo(new_point3, quaternion3, true);
                 api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
                 break;
@@ -859,7 +859,7 @@ public class YourService extends KiboRpcService {
                 api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
                 double dest_y4 = current_point.getY() - relative[0];
                 double dest_z4 = current_point.getZ() + relative[1];
-                Point new_point4 = new Point(current_point.getX(), dest_y4 ,dest_z4);
+                Point new_point4 = new Point(current_point.getX(), dest_y4, dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
                 api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
                 break;
@@ -873,7 +873,7 @@ public class YourService extends KiboRpcService {
 
         Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
         Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
-        
+
     }
 
     public Mat getMatNavCam() {
@@ -882,12 +882,10 @@ public class YourService extends KiboRpcService {
         int loopCounter = 0;
         Mat image = api.getMatNavCam();
 
-        while (image == NULL && loopCounter < LOOP_MAX) {
+        while (image == null && loopCounter < LOOP_MAX) {
             image = api.getMatNavCam();
         }
 
         return image;
     }
-
-    public 
 }
