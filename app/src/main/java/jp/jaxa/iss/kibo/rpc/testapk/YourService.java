@@ -966,4 +966,5 @@ public class YourService extends KiboRpcService {
         return image;
     }
     
+    // debug
 }
