@@ -136,7 +136,6 @@ public class YourService extends KiboRpcService {
         long SecondTargetToGoalTime = 0;
         long FirstTargetToSecondTarget = 0;
         long SecondTargetToFirstTarget = 0;
-        // TODO: check again
         if (NumberOfActiveTargets == 2) {
             SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
             currentToSecondTargetTime = times[(ActiveTargets.get(1) - 1)][currentPoint];
@@ -145,7 +144,8 @@ public class YourService extends KiboRpcService {
         }
 
         int numberOfPhotos = 1;
-        //move
+
+        //Action Start
         while (MissionTimeRemaining > 0) {
             if (NumberOfActiveTargets == 1) {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
@@ -158,7 +158,9 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            QRflag = true;
+                            if(!reportMessage.equals(null)) {
+                                QRflag = true;
+                            }
                             currentPoint = 7;
 
                         } else {
@@ -169,7 +171,9 @@ public class YourService extends KiboRpcService {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
                     break;
@@ -195,7 +199,9 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            QRflag = true;
+                            if(!reportMessage.equals(null)) {
+                                QRflag = true;
+                            }
                             moveAndShot(7, ActiveTargets.get(0), numberOfPhotos);
                             numberOfPhotos += 2;
 
@@ -214,7 +220,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -230,7 +238,9 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            QRflag = true;
+                            if(!reportMessage.equals(null)) {
+                                QRflag = true;
+                            }
                             moveAndShot(7, ActiveTargets.get(1), numberOfPhotos);
                             numberOfPhotos += 2;
 
@@ -249,7 +259,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -264,7 +276,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -279,7 +293,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -295,7 +311,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -311,7 +329,9 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
 
@@ -319,7 +339,9 @@ public class YourService extends KiboRpcService {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        QRflag = true;
+                        if(!reportMessage.equals(null)) {
+                            QRflag = true;
+                        }
                         currentPoint = 7;
                     }
                     break;
@@ -589,7 +611,6 @@ public class YourService extends KiboRpcService {
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
-            api.laserControl(false);
         }
 
         //get timeRequired
@@ -648,7 +669,8 @@ public class YourService extends KiboRpcService {
             case "BLANK":
                 reportMessage = "NO_PROBLEM";
                 break;
-            default:
+            case "null":
+
                 break;
         }
         return reportMessage;
