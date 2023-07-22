@@ -146,10 +146,10 @@ public class YourService extends KiboRpcService {
 
         int numberOfPhotos = 1;
         int LoopCounter = 1;
+        boolean pause = false;
 
         //move
         while (MissionTimeRemaining > 0) {
-            Log.i(TAG, "-------------- LOG: Loop" + LoopCounter);
             if (NumberOfActiveTargets == 1) {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
                     if (checkActiveTime(currentToFirstTargetTime)) {
@@ -168,7 +168,7 @@ public class YourService extends KiboRpcService {
                             currentPoint = ActiveTargets.get(0);
                         }
                     }
-                } else {
+                } else if(!pause) {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
@@ -271,6 +271,8 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
+                    pause = true;
+
                 } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
@@ -285,6 +287,8 @@ public class YourService extends KiboRpcService {
                         QRflag = true;
                         currentPoint = 7;
                     }
+
+                    pause = true;
 
                 } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
@@ -302,6 +306,8 @@ public class YourService extends KiboRpcService {
                         currentPoint = 7;
                     }
 
+                    pause = true;
+
                 } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
@@ -317,6 +323,8 @@ public class YourService extends KiboRpcService {
                         QRflag = true;
                         currentPoint = 7;
                     }
+
+                    pause = true;
 
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
@@ -349,8 +357,6 @@ public class YourService extends KiboRpcService {
                 FirstTargetToSecondTarget = times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
                 SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
             }
-
-            LoopCounter++;
 
         }
 
@@ -768,7 +774,7 @@ public class YourService extends KiboRpcService {
             target_y += center_cand[i][1];
             Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
         }
-        double target_center = {target_x / n , target_y / n};
+        double[] target_center = {target_x / n , target_y / n};
 
         return target_center;
 
