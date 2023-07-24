@@ -23,10 +23,7 @@ import org.opencv.core.Rect;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
-import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
-import static org.opencv.imgproc.Imgproc.boundingRect;
-import static org.opencv.imgproc.Imgproc.undistort;
-import static org.opencv.imgproc.Imgproc.threshold;
+import static org.opencv.imgproc.Imgproc.*;
 // opencv library (for detect ARmarkers)
 
 import java.security.IdentityScope;
@@ -892,6 +889,11 @@ public class YourService extends KiboRpcService {
             threshold(image, binMat, 255-i*2, 255, THRESH_BINARY);
             api.saveMatImage(binMat, numberOfPhotos + ":binarization_" + (255-i*2) + "_Image.png");
         }
+
+        Mat circles = new Mat();
+        HoughCircles(image, circles, HOUH_RADIENT, 1.0, 30);
+        Log.i(TAG, "-------------- DEBUG: circle_center (x,y) = ()" + circles.get(0).get(0) + "," + circles.get(0).get(1) + ")");
+        Log.i(TAG, "-------------- DEBUG: circle_radius       = " + circles.get(0).get(2));
 
     }
 
