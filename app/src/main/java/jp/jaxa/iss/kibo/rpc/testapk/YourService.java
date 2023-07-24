@@ -891,7 +891,7 @@ public class YourService extends KiboRpcService {
         }
 
         Mat circles = new Mat();
-        HoughCircles(image, circles, HOUH_RADIENT, 1.0, 30);
+        HoughCircles(image, circles, HOUHG_GRADIENT, 1.0, 30);
         Log.i(TAG, "-------------- DEBUG: circle_center (x,y) = ()" + circles.get(0).get(0) + "," + circles.get(0).get(1) + ")");
         Log.i(TAG, "-------------- DEBUG: circle_radius       = " + circles.get(0).get(2));
 
