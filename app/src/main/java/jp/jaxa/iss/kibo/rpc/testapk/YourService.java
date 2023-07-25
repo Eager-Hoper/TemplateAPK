@@ -98,7 +98,7 @@ public class YourService extends KiboRpcService {
 
         //initialize current status
         int currentPoint = 0;
-        String reportMessage = null;
+        String reportMessage = "empty";
         boolean QRflag = false;
 
         //start mission
@@ -157,10 +157,10 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals(null)) {
+                            if (reportMessage.equals("empty")) {
                                 reportMessage = reApproachQR();
                             }
-                            if (!reportMessage.equals(null)) {
+                            if (!reportMessage.equals("empty")) {
                                 QRflag = true;
                             }
                             currentPoint = 7;
@@ -173,10 +173,10 @@ public class YourService extends KiboRpcService {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -204,10 +204,10 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals(null)) {
+                            if (reportMessage.equals("empty")) {
                                 reportMessage = reApproachQR();
                             }
-                            if (!reportMessage.equals(null)) {
+                            if (!reportMessage.equals("empty")) {
                                 QRflag = true;
                             }
                             moveAndShot(7, ActiveTargets.get(0), numberOfPhotos);
@@ -228,10 +228,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -249,10 +249,10 @@ public class YourService extends KiboRpcService {
 
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals(null)) {
+                            if (reportMessage.equals("empty")) {
                                 reportMessage = reApproachQR();
                             }
-                            if (!reportMessage.equals(null)) {
+                            if (!reportMessage.equals("empty")) {
                                 QRflag = true;
                             }
                             moveAndShot(7, ActiveTargets.get(1), numberOfPhotos);
@@ -273,10 +273,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -293,10 +293,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -313,10 +313,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -334,10 +334,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -355,10 +355,10 @@ public class YourService extends KiboRpcService {
 
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
@@ -368,10 +368,10 @@ public class YourService extends KiboRpcService {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals(null)) {
+                        if (reportMessage.equals("empty")) {
                             reportMessage = reApproachQR();
                         }
-                        if (!reportMessage.equals(null)) {
+                        if (!reportMessage.equals("empty")) {
                             QRflag = true;
                         }
                         currentPoint = 7;
