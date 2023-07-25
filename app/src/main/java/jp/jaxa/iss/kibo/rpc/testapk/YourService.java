@@ -1,5 +1,6 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
+import gov.nasa.arc.astrobee.types.Vec3d;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
 
@@ -28,6 +29,7 @@ import static org.opencv.imgproc.Imgproc.*;
 
 import java.security.IdentityScope;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.lang.Math;
 // java library (for basic operate)
@@ -797,7 +799,7 @@ public class YourService extends KiboRpcService {
 
     public void reMove_AR_relativeMoveTo(int to) {
 
-        double[] relative = getRelative(getMatNavCam());
+        double[] relative = getRelative(to, getMatNavCam());
         Point relative_dist = new Point(0, relative[0], relative[1]);
         Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
 
@@ -891,11 +893,16 @@ public class YourService extends KiboRpcService {
         }
 
         Mat circles = new Mat();
-        HoughCircles(image, circles, HOUHG_GRADIENT, 1.0, 30);
-        Log.i(TAG, "-------------- DEBUG: circle_center (x,y) = ()" + circles.get(0).get(0) + "," + circles.get(0).get(1) + ")");
-        Log.i(TAG, "-------------- DEBUG: circle_radius       = " + circles.get(0).get(2));
-
+        HoughCircles(image, circles, HOUGH_GRADIENT, 1.0, 30);
+        double[] c = circles.get(0, 1);
+        //OpenCV's Point vs NASA's Point...Now using NASA's Point
+        //Math.round は対象の値の小数点以下を四捨五入
+        Point center = new Point(Math.round(c[0]), Math.round(c[1]), 0);
+        Log.i(TAG, "-------------- DEBUG: circle_center = " + center);
+        int radius = (int) Math.round(c[2]);
+        Log.i(TAG, "-------------- DEBUG: circle_radius = " + radius);
     }
+
 
     public List<List<Mat>> AR_detect(int to) {
 
@@ -908,14 +915,14 @@ public class YourService extends KiboRpcService {
 
         int loopCounter = 0;
         int LOOP_MAX = 3;
-        while((corners == NULL || ids == NULL) && loopCounter < LOOP_MAX) {
+        while((corners == null || ids == null) && loopCounter < LOOP_MAX) {
             Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
             loopCounter++;
         }
 
-        if (corners == NULL || ids == NULL) {
+        if (corners == null || ids == null) {
             Kinematics error_kinematics = api.getRobotKinematics();
-            Point error_point = kinematics.getPosition();
+            Point error_point = error_kinematics.getPosition();
             Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
             Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
             Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
@@ -939,7 +946,7 @@ public class YourService extends KiboRpcService {
                     api.moveTo(debug_point4, quaternion4, true);
             }
 
-            while((corners == NULL || ids == NULL) && loopCounter < LOOP_MAX) {
+            while((corners == null || ids == null) && loopCounter < LOOP_MAX) {
                 Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
                 loopCounter++;
             }
