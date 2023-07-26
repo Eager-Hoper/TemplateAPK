@@ -429,14 +429,19 @@ public class YourService extends KiboRpcService {
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
+        Point pivotPoint1 = new Point(11.12357d, -9.19627d, 4.79855d);
+        Point pivotPoint2 = new Point(11.33917d, -7.19007d, 4.84731d);
+
         switch (from){
             case 0:
                 switch(to){
                     case 1:
+                        api.moveTo(pivotPoint1, quartanion1, true);
                         api.moveTo(viapoint01, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
                         break;
                     case 2:
+                        api.moveTo(pivotPoint1, quartanion2, true);
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 3:
@@ -454,6 +459,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
+                        api.moveTo(pivotPoint1, quartanion7, true);
                         api.moveTo(viapoint07, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
                         break;
@@ -464,6 +470,7 @@ public class YourService extends KiboRpcService {
             case 1:
                 switch(to){
                     case 2:
+                        api.moveTo(pivotPoint1, quartanion2, true);
                         api.moveTo(viapoint12, quartanion1, true);
                         api.moveTo(point2, quartanion2, true);
                         break;
@@ -481,6 +488,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
+                        api.moveTo(pivotPoint1, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
                         break;
                     case 8:
@@ -494,6 +502,7 @@ public class YourService extends KiboRpcService {
             case 2:
                 switch(to){
                     case 1:
+                        api.moveTo(pivotPoint1, quartanion1, true);
                         api.moveTo(viapoint12, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
                         break;
@@ -513,6 +522,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point6, quartanion6, true);
                         break;
                     case 7:
+                        api.moveTo(pivotPoint1, quartanion7, true);
                         api.moveTo(viapoint27, quartanion7, true);
                         api.moveTo(point7, quartanion7, true);
                         break;
@@ -535,6 +545,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 4:
+                        api.moveTo(pivotPoint2, quartanion4, true);
                         api.moveTo(viapoint34, quartanion4, true);
                         api.moveTo(point4, quartanion4, true);
                         break;
@@ -551,6 +562,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point7, quartanion7, true);
                         break;
                     case 8:
+                        api.moveTo(pivotPoint2, quartanion8, true);
                         api.moveTo(point8, quartanion8, true);
                         break;
                     default:
@@ -567,6 +579,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point2, quartanion2, true);
                         break;
                     case 3:
+                        api.moveTo(pivotPoint2, quartanion3, true);
                         api.moveTo(viapoint34, quartanion3, true);
                         api.moveTo(point3, quartanion3, true);
                         break;
@@ -581,6 +594,7 @@ public class YourService extends KiboRpcService {
                         api.moveTo(point7, quartanion7, true);
                         break;
                     case 8:
+                        api.moveTo(pivotPoint2, quartanion8, true);
                         api.moveTo(point8, quartanion8, true);
                         break;
                     default:
@@ -648,9 +662,11 @@ public class YourService extends KiboRpcService {
             case 7:
                 switch(to){
                     case 1:
+                        api.moveTo(pivotPoint1, quartanion1, true);
                         api.moveTo(point1, quartanion1, true);
                         break;
                     case 2:
+                        api.moveTo(pivotPoint1, quartanion2, true);
                         api.moveTo(viapoint27, quartanion2, true);
                         api.moveTo(point2, quartanion2, true);
                         break;
