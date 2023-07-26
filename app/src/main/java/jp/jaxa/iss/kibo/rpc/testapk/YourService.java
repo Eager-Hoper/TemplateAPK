@@ -894,6 +894,16 @@ public class YourService extends KiboRpcService {
 
         Mat circles = new Mat();
         HoughCircles(image, circles, HOUGH_GRADIENT, 1.0, 30);
+
+        int width = circles.width();
+        for (int i=0; i<width; i++) {
+            double[] c = circles.get(0, i);
+            Point center = new Point(Math.round(c[0]), Math.round(c[1]), 0);
+            Log.i(TAG, "-------------- DEBUG: circle_center" + i "=" + center);
+            int radius = (int) Math.round(c[2]);
+            Log.i(TAG, "-------------- DEBUG: circle_radius" + i "=" + radius);
+        }
+
         double[] c = circles.get(0, 1);
         //OpenCV's Point vs NASA's Point...Now using NASA's Point
         //Math.round は対象の値の小数点以下を四捨五入
