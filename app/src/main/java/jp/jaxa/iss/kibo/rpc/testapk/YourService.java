@@ -589,6 +589,11 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
+            try{
+                Thread.sleep(1000);
+            } catch(InturruptedException e) {
+                e.printStackTrace();
+            }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             laser_detect(numberOfPhotos);
