@@ -1,5 +1,6 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
+import gov.nasa.arc.astrobee.types.Vec3d;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
 
@@ -23,14 +24,12 @@ import org.opencv.core.Rect;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
-import static org.opencv.imgproc.Imgproc.THRESH_BINARY;
-import static org.opencv.imgproc.Imgproc.boundingRect;
-import static org.opencv.imgproc.Imgproc.undistort;
-import static org.opencv.imgproc.Imgproc.threshold;
+import static org.opencv.imgproc.Imgproc.*;
 // opencv library (for detect ARmarkers)
 
 import java.security.IdentityScope;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.lang.Math;
 // java library (for basic operate)
@@ -638,6 +637,11 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
+            try{
+                Thread.sleep(1000);
+            } catch(InturruptedException e) {
+                e.printStackTrace();
+            }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             laser_detect(numberOfPhotos);
@@ -679,7 +683,7 @@ public class YourService extends KiboRpcService {
             undistort(image, correct_image, cameraMat, distortion);
 
             return correct_image;
-
+          
         }
 
         public String reApproachQR () {
@@ -743,7 +747,7 @@ public class YourService extends KiboRpcService {
                 return false;
             }
         }
-
+  
         public boolean checkActiveTime ( long requiredTime){
             List<Long> TimeRemaining = api.getTimeRemaining();
             Long ActiveTimeRemaining = TimeRemaining.get(0);
@@ -760,27 +764,22 @@ public class YourService extends KiboRpcService {
             }
         }
 
-        public double[] getRelative (Mat image){
+        public double[] getRelative(int to, Mat image) {
 
             // detect AR markers
-            Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
-            Mat list_ids = new Mat();
-            List<Mat> corners = new ArrayList<>();
-            Aruco.detectMarkers(image_correction(image), dictionary, corners, list_ids);
+            List<List<Mat>> AR_info = AR_detect(to);
+            Mat ids = AR_info.get(0).get(0);
+            List<Mat> corners = AR_info.get(1);
 
-            // get target center
-            double[] target_center = getTargetCenter(list_ids, corners);
+            double[] target_center = getTargetCenter(ids, corners);
 
-            // calculate relative cordinate in image
-            // change scale (from pixel to meter)
-            // adjust difference between NavCam and LaserPointer
             double relative[] =
-                    {((target_center[0] - 640) / getScale(corners)) - 0.0994,
-                            ((target_center[1] - 480) / getScale(corners)) + 0.0285};
+                    {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
+                        ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
 
             Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
             Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
-
+          
             return relative;
 
         }
@@ -897,39 +896,39 @@ public class YourService extends KiboRpcService {
 
             switch (to) {
                 case 1:
-                    api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
+                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
                     double dest_x1 = current_point.getX() + relative[0];
                     double dest_z1 = current_point.getZ() + relative[1];
-                    Point new_point1 = new Point(dest_x1, current_point.getY(), dest_z1);
-                    MoveTo(new_point1, quaternion1);
-                    api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
+                    Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
+                    api.moveTo(new_point1, quaternion1, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
                     break;
 
                 case 2:
-                    api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
+                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
                     double dest_x2 = current_point.getX() + relative[0];
                     double dest_y2 = current_point.getY() - relative[1];
-                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ());
-                    MoveTo(new_point2, quaternion2);
-                    api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
+                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
+                    api.moveTo(new_point2, quaternion2, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
                     break;
 
                 case 3:
-                    api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
+                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
                     double dest_y3 = current_point.getY() + relative[0];
                     double dest_x3 = current_point.getX() + relative[1];
-                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ());
-                    MoveTo(new_point3, quaternion3);
-                    api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
+                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
+                    api.moveTo(new_point3, quaternion3, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
                     break;
 
                 case 4:
-                    api.saveMatImage(image_correction(api.getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
+                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
                     double dest_y4 = current_point.getY() - relative[0];
                     double dest_z4 = current_point.getZ() + relative[1];
-                    Point new_point4 = new Point(current_point.getX(), dest_y4, dest_z4);
-                    MoveTo(new_point4, quaternion4);
-                    api.saveMatImage(image_correction(api.getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
+                    Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
+                    api.moveTo(new_point4, quaternion4, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
                     break;
 
                 default:
@@ -944,13 +943,62 @@ public class YourService extends KiboRpcService {
 
         }
 
-        public void laser_detect ( int numberOfPhotos){
+        public List<List<Mat>> AR_detect(int to) {
 
-            // set flash light off
-            api.flashlightControlFront(0);
-            Mat image = api.getMatNavCam();
+            Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
+            Mat ids = new Mat();
+            List<Mat> corners = new ArrayList<>();
+            Mat image = getMatNavCam();
+
+            Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+
+            int loopCounter = 0;
+            int LOOP_MAX = 3;
+            while((corners == null || ids == null) && loopCounter < LOOP_MAX) {
+                Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+                loopCounter++;
+            }
+
+            if (corners == null || ids == null) {
+                Kinematics error_kinematics = api.getRobotKinematics();
+                Point error_point = error_kinematics.getPosition();
+                Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+                Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+                Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+                Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+
+                switch (to) {
+                    case 1:
+                        Point debug_point1 = new Point(error_point.getX(), error_point.getY()+0.10, error_point.getZ());
+                        api.moveTo(debug_point1, quaternion1, true);
+
+                    case 2:
+                        Point debug_point2 = new Point(error_point.getX(), error_point.getY(), error_point.getZ()+0.10);
+                        api.moveTo(debug_point2, quaternion2, true);
+
+                    case 3:
+                        Point debug_point3 = new Point(error_point.getX(), error_point.getY(), error_point.getZ()+0.10);
+                        api.moveTo(debug_point3, quaternion3, true);
+
+                    case 4:
+                        Point debug_point4 = new Point(error_point.getX()+0.10, error_point.getY(), error_point.getZ());
+                        api.moveTo(debug_point4, quaternion4, true);
+                }
+
+                while((corners == null || ids == null) && loopCounter < LOOP_MAX) {
+                    Aruco.detectMarkers(image_correction(image), dictionary, corners, ids);
+                    loopCounter++;
+                }
+
+            }
+
+            List<Mat> list_ids = new ArrayList<Mat>(Arrays.asList(ids));
+            List<List<Mat>> AR_info = new ArrayList<List<Mat>>(Arrays.asList(list_ids, corners));
+
+            return AR_info;
 
         }
+
 
         // NULL check
         public Mat getMatNavCam () {
@@ -962,7 +1010,7 @@ public class YourService extends KiboRpcService {
             while (image == null && loopCounter < LOOP_MAX) {
                 image = api.getMatNavCam();
             }
-
+          
             return image;
         }
 
