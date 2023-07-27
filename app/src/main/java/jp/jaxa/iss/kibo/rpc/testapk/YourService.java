@@ -898,19 +898,15 @@ public class YourService extends KiboRpcService {
         int width = circles.width();
         for (int i=0; i<width; i++) {
             double[] c = circles.get(0, i);
+            //OpenCV's Point vs NASA's Point...Now using NASA's Point
+            //Math.round は対象の値の小数点以下を四捨五入
             Point center = new Point(Math.round(c[0]), Math.round(c[1]), 0);
-            Log.i(TAG, "-------------- DEBUG: circle_center" + i "=" + center);
+            Log.i(TAG, "-------------- DEBUG: circle_center=" + center);
             int radius = (int) Math.round(c[2]);
-            Log.i(TAG, "-------------- DEBUG: circle_radius" + i "=" + radius);
+            Log.i(TAG, "-------------- DEBUG: circle_radius=" + radius);
         }
 
-        double[] c = circles.get(0, 1);
-        //OpenCV's Point vs NASA's Point...Now using NASA's Point
-        //Math.round は対象の値の小数点以下を四捨五入
-        Point center = new Point(Math.round(c[0]), Math.round(c[1]), 0);
-        Log.i(TAG, "-------------- DEBUG: circle_center = " + center);
-        int radius = (int) Math.round(c[2]);
-        Log.i(TAG, "-------------- DEBUG: circle_radius = " + radius);
+        api.saveMatImage(image, numberOfPhotos + "_circles");
     }
 
 
