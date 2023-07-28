@@ -637,9 +637,10 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
+            // 移動後、astrobeeが安定してから画像を撮影するために1秒待つ
             try{
                 Thread.sleep(1000);
-            } catch(InturruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             api.laserControl(true);
