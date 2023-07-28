@@ -637,7 +637,10 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 39c89583903eb4f9f00b11070e5c874e51fe55f2
             // 移動後、astrobeeが安定してから画像を撮影するために1秒待つ
             try{
                 Thread.sleep(1000);
@@ -646,6 +649,10 @@ public class YourService extends KiboRpcService {
             }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+<<<<<<< HEAD
+=======
+            //laser_detect(numberOfPhotos);
+>>>>>>> 39c89583903eb4f9f00b11070e5c874e51fe55f2
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -1019,6 +1026,7 @@ public class YourService extends KiboRpcService {
 
         public void reMove_AR_relativeMoveTo (int to){
 
+<<<<<<< HEAD
             /*　api.relativeMoveTo()を用いてターゲット前での自己位置修正を行うメソッド
              * 
              * @param
@@ -1032,6 +1040,9 @@ public class YourService extends KiboRpcService {
              */
 
             double[] relative = getRelative(to);
+=======
+            double[] relative = getRelative(to, api.getMatNavCam());
+>>>>>>> 39c89583903eb4f9f00b11070e5c874e51fe55f2
             Point relative_dist = new Point(0, relative[0], relative[1]);
             Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
 
@@ -1039,7 +1050,7 @@ public class YourService extends KiboRpcService {
 
         }
 
-        public void reMove_AR_moveTo ( int to, int numberOfPhotos){
+        public void reMove_AR_moveTo (int to, int numberOfPhotos){
 
             /*　api.moveTo()を用いてターゲット前での自己位置修正を行うメソッド
              * 
@@ -1055,9 +1066,13 @@ public class YourService extends KiboRpcService {
             Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
             Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
+<<<<<<< HEAD
             // ターゲットまでの相対位置を取得
             double[] relative = getRelative(to);
 
+=======
+            double[] relative = getRelative(to, api.getMatNavCam());
+>>>>>>> 39c89583903eb4f9f00b11070e5c874e51fe55f2
             Kinematics kinematics = api.getRobotKinematics();
             Point current_point = kinematics.getPosition();
 
