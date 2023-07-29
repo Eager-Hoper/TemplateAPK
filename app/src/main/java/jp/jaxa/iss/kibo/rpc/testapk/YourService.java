@@ -22,7 +22,6 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
 import org.opencv.core.MatOfPoint2f;
-import org.opencv.core.Point;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -872,7 +871,7 @@ public class YourService extends KiboRpcService {
                 org.opencv.core.Point center = new org.opencv.core.Point(Math.round(center_array[0]), Math.round(center_array[1]));
 
                 // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
-                double result = pointPolygonTest(new org.opencv.core.MatOfPoint2f(detect_area), center, false);
+                double result = pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
 
                 if (result > 0){
                     // circle center
