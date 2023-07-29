@@ -21,6 +21,8 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -639,12 +641,11 @@ public class YourService extends KiboRpcService {
         if (!(to == 7 || to == 8)) {
             try{
                 Thread.sleep(1000);
-            } catch(InturruptedException e) {
+            } catch(InterruptedException e) {
                 e.printStackTrace();
             }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
-            laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
         }
 
@@ -850,31 +851,31 @@ public class YourService extends KiboRpcService {
                     {x2, y1},   // UR
                     {x2, y2},   // BR
                     {x1, y2}    // BL
-            }
+            };
 
             // detect circle using HoughCircles
             // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
             Mat gray = new Mat();
-            Imgproc.cvtColor(image, gray, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.medianBlur(gray, gray, 5);
+            cvtColor(image, gray, COLOR_BGR2GRAY);
+            medianBlur(gray, gray, 5);
             Mat circles = new Mat();
 //            Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
 //                    (double)gray.rows()/16, // change this value to detect circles with different distances to each other
 //                    100.0, 30.0, 1, 30); // change the last two parameters
-            Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0, 30);
+            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0, 30);
             // (min_radius & max_radius) to detect larger circles
             for (int x = 0; x < circles.cols(); x++) {
-                double[] c = circles.get(0, x);
-                Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+                double[] C = circles.get(0, x);
+                Point center = new Point(Math.round(C[0]), Math.round(C[1]));
 
                 // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
-                double result = Imgproc.pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
+                double result = pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
                 if (result > 0){
                     // circle center
-                    Imgproc.circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
                     // circle outline
                     int radius = (int) Math.round(c[2]);
-                    Imgproc.circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
                     //Generate png image for debug
                     api.saveMatImage(image, "target_marker_detect.png");
                 } else if (result == 0){
@@ -923,7 +924,7 @@ public class YourService extends KiboRpcService {
 
         public void reMove_AR_relativeMoveTo ( int to){
 
-            double[] relative = getRelative(api.getMatNavCam());
+            double[] relative = getRelative(to, getMatNavCam());
             Point relative_dist = new Point(0, relative[0], relative[1]);
             Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
 
@@ -938,7 +939,7 @@ public class YourService extends KiboRpcService {
             Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
             Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
-            double[] relative = getRelative(api.getMatNavCam());
+            double[] relative = getRelative(to, getMatNavCam());
             Kinematics kinematics = api.getRobotKinematics();
             Point current_point = kinematics.getPosition();
 
