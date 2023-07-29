@@ -21,6 +21,8 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
+import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.Point;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -639,12 +641,11 @@ public class YourService extends KiboRpcService {
         if (!(to == 7 || to == 8)) {
             try{
                 Thread.sleep(1000);
-            } catch(InturruptedException e) {
+            } catch(InterruptedException e) {
                 e.printStackTrace();
             }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
-            laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
         }
 
@@ -870,6 +871,7 @@ public class YourService extends KiboRpcService {
 
                 // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
                 double result = pointPolygonTest(new org.opencv.core.MatOfPoint2f(detect_area), center, false);
+
                 if (result > 0){
                     // circle center
                     circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
@@ -924,7 +926,7 @@ public class YourService extends KiboRpcService {
 
         public void reMove_AR_relativeMoveTo ( int to){
 
-            double[] relative = getRelative(api.getMatNavCam());
+            double[] relative = getRelative(to, getMatNavCam());
             Point relative_dist = new Point(0, relative[0], relative[1]);
             Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
 
@@ -939,7 +941,7 @@ public class YourService extends KiboRpcService {
             Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
             Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
-            double[] relative = getRelative(api.getMatNavCam());
+            double[] relative = getRelative(to, getMatNavCam());
             Kinematics kinematics = api.getRobotKinematics();
             Point current_point = kinematics.getPosition();
 
