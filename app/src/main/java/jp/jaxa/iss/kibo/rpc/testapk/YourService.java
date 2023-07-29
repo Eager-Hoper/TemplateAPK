@@ -839,6 +839,8 @@ public class YourService extends KiboRpcService {
             }
             double[] target_center = {target_x / n, target_y / n};
 
+            // 以降の処理にかかる時間を記録
+            List<Long> TimeRemaining1 = api.getTimeRemaining();
             // for obtaining target marker
             // TODO: 画角が縦でも横でもいいように正方形にする
             double x1 = target_x - 0.27/2 * scale;
@@ -866,7 +868,7 @@ public class YourService extends KiboRpcService {
             HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0, 30);
             // (min_radius & max_radius) to detect larger circles
             for (int x = 0; x < circles.cols(); x++) {
-                double[] center_array = circles.get(0, x);
+                double[] center_array = circles.get(0, x);      // 0: center_x, 1: center_y, 2: radius
                 org.opencv.core.Point center = new org.opencv.core.Point(Math.round(center_array[0]), Math.round(center_array[1]));
 
                 // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
@@ -876,17 +878,28 @@ public class YourService extends KiboRpcService {
                     // circle center
                     circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
                     // circle outline
-                    int radius = (int) Math.round(c[2]);
+                    int radius = (int) Math.round(center_array[2]);
                     circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
                     //Generate png image for debug
                     api.saveMatImage(image, "target_marker_detect.png");
                 } else if (result == 0){
                     // detect areaの境界上
                     Log.i(TAG, "-------------- DEBUG: center inside of the detect area");
+                    // circle center
+                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+                    // circle outline
+                    int radius = (int) Math.round(center_array[2]);
+                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+                    //Generate png image for debug
+                    api.saveMatImage(image, "target_marker_detect_boundary.png");
                 } else{
                     // detect areaの外部
                     Log.i(TAG, "-------------- DEBUG: center outside of the detect area");
-                }
+                };
+                List<Long> TimeRemaining2 = api.getTimeRemaining();
+                Long TimeRemaining = TimeRemaining1.get(1)-TimeRemaining2.get(1);
+
+                Log.i(TAG, "-------------- DEBUG: find target marker time: " + TimeRemaining);
             }
 
 
