@@ -839,42 +839,43 @@ public class YourService extends KiboRpcService {
             double[] target_center = {target_x / n, target_y / n};
 
             // for obtaining target marker
+            // TODO: 画角が縦でも横でもいいように正方形にする
             double x1 = target_x - 0.27/2 * scale;
             double x2 = target_x + 0.27/2 * scale;
             double y1 = target_y - 0.15/2 * scale;
             double y2 = target_y + 0.15/2 * scale;
 
             // detect area means "paper size of the target marker"
-            double [][] detect_area = {
-                    {x1, y1},   // UL
-                    {x2, y1},   // UR
-                    {x2, y2},   // BR
-                    {x1, y2}    // BL
-            }
+            org.opencv.core.Point [] detect_area = {
+                    new org.opencv.core.Point (x1, y1),   // UL
+                    new org.opencv.core.Point (x2, y1),   // UR
+                    new org.opencv.core.Point (x2, y2),   // BR
+                    new org.opencv.core.Point (x1, y2)    // BL
+            };
 
             // detect circle using HoughCircles
             // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
             Mat gray = new Mat();
-            Imgproc.cvtColor(image, gray, Imgproc.COLOR_BGR2GRAY);
-            Imgproc.medianBlur(gray, gray, 5);
+            cvtColor(image, gray, COLOR_BGR2GRAY);
+            medianBlur(gray, gray, 5);
             Mat circles = new Mat();
-//            Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0,
+//            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0,
 //                    (double)gray.rows()/16, // change this value to detect circles with different distances to each other
 //                    100.0, 30.0, 1, 30); // change the last two parameters
-            Imgproc.HoughCircles(gray, circles, Imgproc.HOUGH_GRADIENT, 1.0, 30);
+            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0, 30);
             // (min_radius & max_radius) to detect larger circles
             for (int x = 0; x < circles.cols(); x++) {
-                double[] c = circles.get(0, x);
-                Point center = new Point(Math.round(c[0]), Math.round(c[1]));
+                double[] center_array = circles.get(0, x);
+                org.opencv.core.Point center = new org.opencv.core.Point(Math.round(center_array[0]), Math.round(center_array[1]));
 
                 // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
-                double result = Imgproc.pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
+                double result = pointPolygonTest(new org.opencv.core.MatOfPoint2f(detect_area), center, false);
                 if (result > 0){
                     // circle center
-                    Imgproc.circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
                     // circle outline
                     int radius = (int) Math.round(c[2]);
-                    Imgproc.circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
                     //Generate png image for debug
                     api.saveMatImage(image, "target_marker_detect.png");
                 } else if (result == 0){
