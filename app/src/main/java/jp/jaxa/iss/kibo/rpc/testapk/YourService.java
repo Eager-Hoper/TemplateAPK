@@ -49,41 +49,41 @@ public class YourService extends KiboRpcService {
         //time data
         //[end point-1][start point]
         long[][] times = new long[8][8];
-        times[0][0] = 49480;
+        times[0][0] = 53864;
         times[0][1] = 0;
-        times[0][2] = 46832;
-        times[0][3] = 59160;
-        times[0][4] = 52688;
-        times[0][7] = 31480;
-        times[1][0] = 27248;
-        times[1][1] = 46832;
+        times[0][2] = 53016;
+        times[0][3] = 61064;
+        times[0][4] = 75896;
+        times[0][7] = 31704;
+        times[1][0] = 31280;
+        times[1][1] = 53016;
         times[1][2] = 0;
-        times[1][3] = 52416;
-        times[1][4] = 52856;
-        times[1][7] = 39736;
-        times[2][0] = 48696;
-        times[2][1] = 59160;
-        times[2][2] = 52416;
+        times[1][3] = 54400;
+        times[1][4] = 60472;
+        times[1][7] = 51064;
+        times[2][0] = 72376;
+        times[2][1] = 61064;
+        times[2][2] = 54400;
         times[2][3] = 0;
-        times[2][4] = 41944;
-        times[2][7] = 40432;
-        times[3][0] = 59392;
-        times[3][1] = 52688;
-        times[3][2] = 54936;
-        times[3][3] = 51784;
+        times[2][4] = 54336;
+        times[2][7] = 58008;
+        times[3][0] = 67384;
+        times[3][1] = 75896;
+        times[3][2] = 60472;
+        times[3][3] = 54336;
         times[3][4] = 0;
         times[3][7] = 46288;
         times[6][0] = 41080;
-        times[6][1] = 31480;
-        times[6][2] = 38416;
-        times[6][3] = 40432;
+        times[6][1] = 31704;
+        times[6][2] = 51064;
+        times[6][3] = 58008;
         times[6][4] = 46288;
         times[6][7] = 0;
         times[7][0] = 1000;
-        times[7][1] = 56568;
+        times[7][1] = 56640;
         times[7][2] = 50312;
         times[7][3] = 25008;
-        times[7][4] = 19568;
+        times[7][4] = 20320;
         times[7][7] = 44032;
 
         //points data
@@ -150,7 +150,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                reportMessage = reApproachQR();
+                                //reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -166,7 +166,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -196,7 +196,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                reportMessage = reApproachQR();
+                                //reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -220,7 +220,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -241,7 +241,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                reportMessage = reApproachQR();
+                                //reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -265,7 +265,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -285,7 +285,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -305,7 +305,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -326,7 +326,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -347,7 +347,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -360,7 +360,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            reportMessage = reApproachQR();
+                            //reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -437,11 +437,11 @@ public class YourService extends KiboRpcService {
 
         Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=(" + TurbX + "," + TurbY + "," + TurbZ + ") for point" + to);
 
-        Point point1 = new Point(11.2053d + TurbX, -9.92284d + TurbY, 5.4736d + TurbZ);
-        Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.48d + TurbZ);
-        Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.48d + TurbZ);
-        Point point4 = new Point(10.51d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
-        Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.48d + 0.1d);
+        Point point1 = new Point(11.2053d + TurbX, -9.87284d + TurbY, 5.4736d + TurbZ);
+        Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.53d + TurbZ);
+        Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.53d + TurbZ);
+        Point point4 = new Point(10.56d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
+        Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.48d);
         Point point8 = new Point(11.143d + TurbX, -6.7607d + TurbY, 4.9654d + TurbZ);
 
         //TODO : create random turbulence for quarternion
@@ -452,24 +452,28 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
+        //TODO: optimize viapoints to raech goal
         //Viapoints
-        Point viapoint01 = new Point(10.88628d, -9.9605d, 5.06316d);
-        Point viapoint03 = new Point(10.5d, -8.3326d, 4.8025d);
-        Point viapoint04 = new Point(10.51d, -8.3826d, 4.7695d);
-        Point viapoint07 = new Point(11.1228d, -9.2334d, 4.388d);
+        Point viapoint01 = new Point(10.59838d, -9.83515d, 5.24227d);
+        Point viapoint03First = new Point(10.6588d, -9.19627d, 4.53d);
+        Point viapoint03Second = new Point(10.6942d, -8.28308d, 4.97737d);
+        Point viapoint04 = new Point(10.6588d, -9.19627d, 4.79855d);
 
-        Point viapoint12 = new Point(10.89137d, -9.61836d, 5.13316d);
-        Point viapoint13 = new Point(10.82433d, -8.25068d, 4.74585d);
+        Point viapoint12 = new Point(11.02164d, -9.50949d, 5.2188d);
+        Point viapoint13 = new Point(10.80698d, -8.16508d, 4.87503d);
+        Point viapoint14 = new Point(10.78123d, -7.7305d, 5.36006d);
         Point viapoint18 = new Point(11.2053d, -8.0635d, 4.87923d);
 
-        Point viapoint23 = new Point(10.66512d, -8.3278d, 5d);
-        Point viapoint24 = new Point(10.47268d, -8.40436d, 4.73903d);
+        Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
+        Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
+        //TODO:optimize viapoint27
         Point viapoint27 = new Point(10.8652d, -8.50513d, 4.48d);
         Point viapoint28 = new Point(10.6795d, -8.40436d, 4.73903d);
 
-        Point viapoint34 = new Point(10.6121d, -7.3049d, 4.9764d);
+        Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
+        //TODO:optimize viapoint37
         Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
-
+        //TODO:optimize viapoint47
         Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
@@ -479,32 +483,65 @@ public class YourService extends KiboRpcService {
         Point pivotPoint2 = new Point(11.34547d, -7.393d, 4.63477d);
         Point pivotPoint3 = new Point(10.49585d, -7.393d, 5.30908d);
 
+        Result result;
         switch (from) {
+            //prototype of pivoting method
             case 0:
                 switch (to) {
                     case 1:
-                        MoveTo(viapoint01, quartanion1);
-                        MoveTo(point1, quartanion1);
+                        result = MoveTo(viapoint01, quartanion1);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion1);
+                        }
+                        result = MoveTo(point1, quartanion1);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion1);
+                            MoveTo(point1, quartanion1);
+                        }
                         break;
                     case 2:
-                        MoveTo(point2, quartanion2);
+                        result = MoveTo(point2, quartanion2);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(point2, quartanion2);
+                        }
                         break;
                     case 3:
-                        MoveTo(viapoint03, quartanion3);
-                        MoveTo(point3, quartanion3);
+                        result = MoveTo(viapoint03First, quartanion3);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion3);
+                            MoveTo(pivotPoint3, quartanion3);
+                        }else {
+                            result = MoveTo(viapoint03Second, quartanion3);
+                            if(!result.hasSucceeded()){
+                                MoveTo(pivotPoint11, quartanion3);
+                                MoveTo(pivotPoint2, quartanion3);
+                            }
+                        }
+                        result = MoveTo(point3, quartanion3);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint12, quartanion3);
+                            MoveTo(pivotPoint2, quartanion3);
+                        }
                         break;
                     case 4:
-                        MoveTo(viapoint04, quartanion4);
-                        MoveTo(point4, quartanion4);
-                        break;
-                    case 7:
-                        MoveTo(viapoint07, quartanion7);
-                        MoveTo(point7, quartanion7);
+                        result = MoveTo(viapoint04, quartanion4);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion4);
+                            MoveTo(pivotPoint3, quartanion4);
+                        }
+                        result = MoveTo(point4, quartanion4);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint12, quartanion4);
+                            MoveTo(pivotPoint2, quartanion4);
+                            MoveTo(point4, quartanion4);
+                        }
                         break;
                     default:
                         break;
                 }
                 break;
+            //TODO:complete pivoting system after receiving the review
             case 1:
                 switch (to) {
                     case 2:
@@ -516,6 +553,7 @@ public class YourService extends KiboRpcService {
                         MoveTo(point3, quartanion3);
                         break;
                     case 4:
+                        MoveTo(viapoint14, quartanion4);
                         MoveTo(point4, quartanion4);
                         break;
                     case 7:
@@ -583,6 +621,7 @@ public class YourService extends KiboRpcService {
             case 4:
                 switch (to) {
                     case 1:
+                        MoveTo(viapoint14, quartanion4);
                         MoveTo(point1, quartanion1);
                         break;
                     case 2:
@@ -662,7 +701,7 @@ public class YourService extends KiboRpcService {
     }
 
     //TODO: Make sure this method do not cause errors
-    public void MoveTo(Point point, Quaternion quaternion) {
+    public Result MoveTo(Point point, Quaternion quaternion) {
         Result result;
         final int LOOP_MAX = 2;
 
@@ -674,6 +713,7 @@ public class YourService extends KiboRpcService {
             result = api.moveTo(point, quaternion, true);
             loopCounter++;
         }
+        return result;
     }
 
 
@@ -695,6 +735,7 @@ public class YourService extends KiboRpcService {
           
         }
 
+        //TODO: improve this method
         public String reApproachQR () {
             Point closerPoint7 = new Point(0d, 0d, -0.05d);
             Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
