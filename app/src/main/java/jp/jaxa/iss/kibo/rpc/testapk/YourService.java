@@ -103,13 +103,6 @@ public class YourService extends KiboRpcService {
         //start mission
         api.startMission();
 
-        //for viapoint test
-        //moveAndShot(0, 1);
-        //reportMessage = ReadQR();
-        //api.notifyGoingToGoal();
-        //moveAndShot(1, 8);
-        //api.reportMissionCompletion(reportMessage);
-
         //get time
         List<Long> TimeRemaining = api.getTimeRemaining();
         Long MissionTimeRemaining = TimeRemaining.get(1);
@@ -184,7 +177,6 @@ public class YourService extends KiboRpcService {
                 }
 
             } else {
-                //TODO: Change name after merged
                 route1 = currentToFirstTargetTime + FirstTargetToSecondTarget;
                 route2 = currentToSecondTargetTime + SecondTargetToFirstTarget;
                 routeToGoal1 = route1 + SecondTargetToGoalTime;
@@ -482,6 +474,11 @@ public class YourService extends KiboRpcService {
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
+        Point pivotPoint11 = new Point(10.85076d, -9.314d, 5.269d);
+        Point pivotPoint12 = new Point(11.2d, -9.109d, 5.191d);
+        Point pivotPoint2 = new Point(11.34547d, -7.393d, 4.63477d);
+        Point pivotPoint3 = new Point(10.49585d, -7.393d, 5.30908d);
+
         switch (from) {
             case 0:
                 switch (to) {
@@ -636,14 +633,17 @@ public class YourService extends KiboRpcService {
                 break;
         }
 
-        if (!(to == 7 || to == 8)) {
-
-            // 移動後、astrobeeが安定してから画像を撮影するために1秒待つ
+        if(!(to == 8)){
+            // 移動後、astrobeeが安定してから画像を撮影するために2秒待つ
+            //TODO: optimize delaying time
             try{
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        if (!(to == 7 || to == 8)) {
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
             api.takeTargetSnapshot(to);
@@ -660,6 +660,7 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
     }
 
+    //TODO: Make sure this method do not cause errors
     public void MoveTo(Point point, Quaternion quaternion) {
         Result result;
         final int LOOP_MAX = 2;
@@ -668,11 +669,16 @@ public class YourService extends KiboRpcService {
 
         int loopCounter = 0;
         while (!result.hasSucceeded() && loopCounter < LOOP_MAX) {
+            Log.i(TAG, "-------------- DEBUG: move failed");
             result = api.moveTo(point, quaternion, true);
             loopCounter++;
         }
     }
 
+
+    public void pivoting(){
+
+    }
         public Mat image_correction (Mat image){
 
             double[][] NavCamIntrinsics = api.getNavCamIntrinsics();
@@ -708,7 +714,7 @@ public class YourService extends KiboRpcService {
             //Generate png image for debug
             api.saveMatImage(QRimage, "QR.png");
 
-            String reportMessage = null;
+            String reportMessage = "empty";
             switch (data) {
                 case "JEM":
                     reportMessage = "STAY_AT_JEM";
