@@ -463,7 +463,8 @@ public class YourService extends KiboRpcService {
         Point viapoint12 = new Point(11.02164d, -9.50949d, 5.2188d);
         Point viapoint13 = new Point(10.80698d, -8.16508d, 4.87503d);
         Point viapoint14 = new Point(10.78123d, -7.7305d, 5.36006d);
-        Point viapoint18 = new Point(11.2053d, -8.0635d, 4.87923d);
+        Point viapoint18 = new Point(11.16135d, -7.67756d, 5.35803);
+        // 周生が追加
 
         Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
         Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
