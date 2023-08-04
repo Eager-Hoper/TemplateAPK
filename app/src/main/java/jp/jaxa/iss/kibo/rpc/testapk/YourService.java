@@ -903,7 +903,7 @@ public class YourService extends KiboRpcService {
                 Long TimeRemaining = TimeRemaining1.get(1)-TimeRemaining2.get(1);
 
                 Log.i(TAG, "-------------- DEBUG: find target marker time: " + TimeRemaining);
-            }
+//            }
 
 
 
