@@ -944,6 +944,12 @@ public class YourService extends KiboRpcService {
 
         }
 
+        public void reMove_laser(org.opencv.core.Point target_center, org.opencv.core.Point laser_center) {
+
+            
+
+        }
+
         public List<List<Mat>> AR_detect(int to) {
 
             Dictionary dictionary = Aruco.getPredefinedDictionary(Aruco.DICT_5X5_250);
