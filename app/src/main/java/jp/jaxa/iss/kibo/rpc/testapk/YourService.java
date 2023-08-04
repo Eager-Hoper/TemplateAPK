@@ -839,6 +839,7 @@ public class YourService extends KiboRpcService {
             double[] target_center = {target_x / n, target_y / n};
 
             // 以降の処理にかかる時間を記録
+            Log.i(TAG, "-------------- DEBUG: TARGET CENTER");
             List<Long> TimeRemaining1 = api.getTimeRemaining();
             // for obtaining target marker
             // TODO: 画角が縦でも横でもいいように正方形にする
@@ -857,44 +858,47 @@ public class YourService extends KiboRpcService {
 
             // detect circle using HoughCircles
             // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
+            Log.i(TAG, image);
+
             Mat gray = new Mat();
             cvtColor(image, gray, COLOR_BGR2GRAY);
-            medianBlur(gray, gray, 5);
-            Mat circles = new Mat();
-//            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0,
-//                    (double)gray.rows()/16, // change this value to detect circles with different distances to each other
-//                    100.0, 30.0, 1, 30); // change the last two parameters
-            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0, 30);
-            // (min_radius & max_radius) to detect larger circles
-            for (int x = 0; x < circles.cols(); x++) {
-                double[] center_array = circles.get(0, x);      // 0: center_x, 1: center_y, 2: radius
-                org.opencv.core.Point center = new org.opencv.core.Point(Math.round(center_array[0]), Math.round(center_array[1]));
 
-                // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
-                double result = pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
-
-                if (result > 0){
-                    // circle center
-                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
-                    // circle outline
-                    int radius = (int) Math.round(center_array[2]);
-                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
-                    //Generate png image for debug
-                    api.saveMatImage(image, "target_marker_detect.png");
-                } else if (result == 0){
-                    // detect areaの境界上
-                    Log.i(TAG, "-------------- DEBUG: center inside of the detect area");
-                    // circle center
-                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
-                    // circle outline
-                    int radius = (int) Math.round(center_array[2]);
-                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
-                    //Generate png image for debug
-                    api.saveMatImage(image, "target_marker_detect_boundary.png");
-                } else{
-                    // detect areaの外部
-                    Log.i(TAG, "-------------- DEBUG: center outside of the detect area");
-                };
+//            medianBlur(gray, gray, 5);
+//            Mat circles = new Mat();
+////            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0,
+////                    (double)gray.rows()/16, // change this value to detect circles with different distances to each other
+////                    100.0, 30.0, 1, 30); // change the last two parameters
+//            HoughCircles(gray, circles, HOUGH_GRADIENT, 1.0, 30);
+//            // (min_radius & max_radius) to detect larger circles
+//            for (int x = 0; x < circles.cols(); x++) {
+//                double[] center_array = circles.get(0, x);      // 0: center_x, 1: center_y, 2: radius
+//                org.opencv.core.Point center = new org.opencv.core.Point(Math.round(center_array[0]), Math.round(center_array[1]));
+//
+//                // HoughCirclesで検知した円の中心（center）が領域内に存在するか判定
+//                double result = pointPolygonTest(new MatOfPoint2f(detect_area), center, false);
+//
+//                if (result > 0){
+//                    // circle center
+//                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+//                    // circle outline
+//                    int radius = (int) Math.round(center_array[2]);
+//                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+//                    //Generate png image for debug
+//                    api.saveMatImage(image, "target_marker_detect.png");
+//                } else if (result == 0){
+//                    // detect areaの境界上
+//                    Log.i(TAG, "-------------- DEBUG: center inside of the detect area");
+//                    // circle center
+//                    circle(image, center, 1, new Scalar(0,100,100), 3, 8, 0 );
+//                    // circle outline
+//                    int radius = (int) Math.round(center_array[2]);
+//                    circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
+//                    //Generate png image for debug
+//                    api.saveMatImage(image, "target_marker_detect_boundary.png");
+//                } else{
+//                    // detect areaの外部
+//                    Log.i(TAG, "-------------- DEBUG: center outside of the detect area");
+//                };
                 List<Long> TimeRemaining2 = api.getTimeRemaining();
                 Long TimeRemaining = TimeRemaining1.get(1)-TimeRemaining2.get(1);
 
