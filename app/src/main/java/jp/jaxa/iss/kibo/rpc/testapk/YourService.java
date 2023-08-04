@@ -858,10 +858,12 @@ public class YourService extends KiboRpcService {
 
             // detect circle using HoughCircles
             // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
-            // Log.i(TAG, image);
+            Log.i(TAG, "DEBUG: HOUGH CIRCLES TEST");
 
+            api.saveMatImage
             Mat gray = new Mat();
             cvtColor(image, gray, COLOR_BGR2GRAY);
+            // cvtColor(image, gray, COLOR_BGR2GRAY);
 
 //            medianBlur(gray, gray, 5);
 //            Mat circles = new Mat();
