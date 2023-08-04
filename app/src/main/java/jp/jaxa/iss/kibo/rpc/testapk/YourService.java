@@ -858,7 +858,7 @@ public class YourService extends KiboRpcService {
 
             // detect circle using HoughCircles
             // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
-            Log.i(TAG, image);
+            // Log.i(TAG, image);
 
             Mat gray = new Mat();
             cvtColor(image, gray, COLOR_BGR2GRAY);
