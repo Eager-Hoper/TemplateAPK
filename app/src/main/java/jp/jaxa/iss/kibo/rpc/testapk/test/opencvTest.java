@@ -39,7 +39,7 @@ import java.lang.Math;
  * Class meant to handle commands from the Ground Data System and execute them in Astrobee
  */
 
-public class YourService extends KiboRpcService {
+public class opencvTest extends KiboRpcService {
 
     // setting for log
     private final String TAG = this.getClass().getSimpleName();
@@ -826,7 +826,6 @@ public class YourService extends KiboRpcService {
             }
 
         }
-
         // get average of center_candidate
         double target_x = 0;
         double target_y = 0;
