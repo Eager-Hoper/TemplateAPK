@@ -864,12 +864,12 @@ public class YourService extends KiboRpcService {
         double y2 = target_y + 0.15 / 2 * scale;
 
         // detect area means "paper size of the target marker"
-        org.opencv.core.Point[] detect_area = {
-                new org.opencv.core.Point(x1, y1), // UL
-                new org.opencv.core.Point(x2, y1), // UR
-                new org.opencv.core.Point(x2, y2), // BR
-                new org.opencv.core.Point(x1, y2) // BL
-        };
+        // org.opencv.core.Point[] detect_area = {
+        // new org.opencv.core.Point(x1, y1), // UL
+        // new org.opencv.core.Point(x2, y1), // UR
+        // new org.opencv.core.Point(x2, y2), // BR
+        // new org.opencv.core.Point(x1, y2) // BL
+        // };
 
         // detect circle using HoughCircles
         // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
