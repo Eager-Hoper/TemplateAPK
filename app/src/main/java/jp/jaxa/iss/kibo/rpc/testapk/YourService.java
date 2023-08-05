@@ -873,7 +873,11 @@ public class YourService extends KiboRpcService {
 
         // detect circle using HoughCircles
         // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
-        Log.i(TAG, "DEBUG: HOUGH CIRCLES TEST");
+        Log.i(TAG, "DEBUG: OpenCV TEST");
+        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
+        Log.i(TAG, "expected channels: 3 -> BGR, length: 3");
+        api.saveMatImage(image, "target_marker_detect.png");
+
 
         // Mat image2 = getMatNavCam();
         // Mat gray = new Mat();
@@ -909,7 +913,7 @@ public class YourService extends KiboRpcService {
         // int radius = (int) Math.round(center_array[2]);
         // circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
         // //Generate png image for debug
-         api.saveMatImage(image, "target_marker_detect.png");
+//         api.saveMatImage(image, "target_marker_detect.png");
         // } else if (result == 0){
         // // detect areaの境界上
         // Log.i(TAG, "-------------- DEBUG: center inside of the detect area");
