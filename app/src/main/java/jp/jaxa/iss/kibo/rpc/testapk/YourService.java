@@ -22,6 +22,7 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
 import org.opencv.core.MatOfPoint2f;
+import org.opencv.core.KeyPoint;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -650,13 +651,15 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
-            try {
+            // 移動後、astrobeeが安定してから画像を撮影するために1秒待つ
+            try{
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             api.laserControl(true);
             reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            //laser_detect(numberOfPhotos);
             api.takeTargetSnapshot(to);
         }
 
