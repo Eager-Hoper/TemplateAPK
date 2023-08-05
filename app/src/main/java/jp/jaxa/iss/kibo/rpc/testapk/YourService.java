@@ -944,9 +944,60 @@ public class YourService extends KiboRpcService {
 
         }
 
-        public void reMove_laser(org.opencv.core.Point target_center, org.opencv.core.Point laser_center) {
+        public void reMove_laser(org.opencv.core.Point target_center, org.opencv.core.Point laser_center, int to) {
 
+            Point relativePoint = new Point(target_center.getX()-laser_center.getX(), target_center.getY()-laser_center.getY());
             
+            Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+            Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+            Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+            Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+
+            Kinematics kinematics = api.getRobotKinematics();
+            Point current_point = kinematics.getPosition();
+
+            Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
+
+            switch (to) {
+                case 1:
+                    api.saveMatImage(image_correction(getMatNavCam()), "target1Image__beforeLaser.png");
+                    double dest_x1 = current_point.getX() + relativePoint.getX();
+                    double dest_z1 = current_point.getZ() + relativePoint.getY();
+                    Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
+                    api.moveTo(new_point1, quaternion1, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), "target1Image__afterLaser.png");
+                    break;
+
+                case 2:
+                    api.saveMatImage(image_correction(getMatNavCam()), "target2Image__beforeLaser.png");
+                    double dest_x2 = current_point.getX() + relativePoint.getX();
+                    double dest_y2 = current_point.getY() - relativePoint.getY();
+                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
+                    api.moveTo(new_point2, quaternion2, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), "target2Image__afterLaser.png");
+                    break;
+
+                case 3:
+                    api.saveMatImage(image_correction(getMatNavCam()), "target3Image__beforeLaser.png");
+                    double dest_y3 = current_point.getY() + relativePoint.getX();
+                    double dest_x3 = current_point.getX() + relativePoint.getY();
+                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
+                    api.moveTo(new_point3, quaternion3, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), "target3Image__afterLaser.png");
+                    break;
+
+                case 4:
+                    api.saveMatImage(image_correction(getMatNavCam()), "target4Image__beforeLaser.png");
+                    double dest_y4 = current_point.getY() - relativePoint.getX();
+                    double dest_z4 = current_point.getZ() + relativePoint.getY();
+                    Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
+                    api.moveTo(new_point4, quaternion4, true);
+                    api.saveMatImage(image_correction(getMatNavCam()), "target4Image__afterLaser.png");
+                    break;
+
+                default:
+                    break;
+            }
 
         }
 
