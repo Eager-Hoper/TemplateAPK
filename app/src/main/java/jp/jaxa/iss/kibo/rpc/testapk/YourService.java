@@ -21,6 +21,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
+import org.opencv.core.KeyPoint;
 import org.opencv.objdetect.QRCodeDetector;
 
 import static org.opencv.android.Utils.matToBitmap;
@@ -946,7 +947,7 @@ public class YourService extends KiboRpcService {
 
         public void reMove_laser(org.opencv.core.Point target_center, org.opencv.core.Point laser_center, int to) {
 
-            Point relativePoint = new Point(target_center.getX()-laser_center.getX(), target_center.getY()-laser_center.getY());
+            org.opencv.core.Point relativePoint = new org.opencv.core.Point(target_center.x-laser_center.x, target_center.y-laser_center.y);
             
             Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
             Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
@@ -961,8 +962,8 @@ public class YourService extends KiboRpcService {
             switch (to) {
                 case 1:
                     api.saveMatImage(image_correction(getMatNavCam()), "target1Image__beforeLaser.png");
-                    double dest_x1 = current_point.getX() + relativePoint.getX();
-                    double dest_z1 = current_point.getZ() + relativePoint.getY();
+                    double dest_x1 = current_point.getX() + relativePoint.x;
+                    double dest_z1 = current_point.getZ() + relativePoint.y;
                     Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
                     api.moveTo(new_point1, quaternion1, true);
                     api.saveMatImage(image_correction(getMatNavCam()), "target1Image__afterLaser.png");
@@ -970,8 +971,8 @@ public class YourService extends KiboRpcService {
 
                 case 2:
                     api.saveMatImage(image_correction(getMatNavCam()), "target2Image__beforeLaser.png");
-                    double dest_x2 = current_point.getX() + relativePoint.getX();
-                    double dest_y2 = current_point.getY() - relativePoint.getY();
+                    double dest_x2 = current_point.getX() + relativePoint.x;
+                    double dest_y2 = current_point.getY() - relativePoint.y;
                     Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
                     api.moveTo(new_point2, quaternion2, true);
                     api.saveMatImage(image_correction(getMatNavCam()), "target2Image__afterLaser.png");
@@ -979,8 +980,8 @@ public class YourService extends KiboRpcService {
 
                 case 3:
                     api.saveMatImage(image_correction(getMatNavCam()), "target3Image__beforeLaser.png");
-                    double dest_y3 = current_point.getY() + relativePoint.getX();
-                    double dest_x3 = current_point.getX() + relativePoint.getY();
+                    double dest_y3 = current_point.getY() + relativePoint.x;
+                    double dest_x3 = current_point.getX() + relativePoint.y;
                     Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
                     api.moveTo(new_point3, quaternion3, true);
                     api.saveMatImage(image_correction(getMatNavCam()), "target3Image__afterLaser.png");
@@ -988,8 +989,8 @@ public class YourService extends KiboRpcService {
 
                 case 4:
                     api.saveMatImage(image_correction(getMatNavCam()), "target4Image__beforeLaser.png");
-                    double dest_y4 = current_point.getY() - relativePoint.getX();
-                    double dest_z4 = current_point.getZ() + relativePoint.getY();
+                    double dest_y4 = current_point.getY() - relativePoint.x;
+                    double dest_z4 = current_point.getZ() + relativePoint.y;
                     Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
                     api.moveTo(new_point4, quaternion4, true);
                     api.saveMatImage(image_correction(getMatNavCam()), "target4Image__afterLaser.png");
