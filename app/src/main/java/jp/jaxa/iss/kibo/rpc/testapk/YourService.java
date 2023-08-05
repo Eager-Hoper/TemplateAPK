@@ -954,7 +954,7 @@ public class YourService extends KiboRpcService {
             Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
             Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
-            double scale = getScale(AR_detect(to).get(0));
+            double scale = getScale(AR_detect(to).get(1));
 
             Kinematics kinematics = api.getRobotKinematics();
             Point current_point = kinematics.getPosition();
