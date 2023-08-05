@@ -22,7 +22,11 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.core.Rect;
 import org.opencv.objdetect.QRCodeDetector;
-
+import org.opencv.imgproc.Imgproc;
+import org.opencv.imgproc.Moments;
+import org.opencv.core.Core;
+import org.opencv.core.MatOfPoint;
+import org.opencv.core.MatOfPoint2f;
 import static org.opencv.android.Utils.matToBitmap;
 import static org.opencv.imgproc.Imgproc.*;
 // opencv library (for detect ARmarkers)
@@ -151,7 +155,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
+                                reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -167,7 +171,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -197,7 +201,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
+                                reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -221,7 +225,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -242,7 +246,7 @@ public class YourService extends KiboRpcService {
                             moveAndShot(1, 7, numberOfPhotos);
                             reportMessage = ReadQR();
                             if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
+                                reportMessage = reApproachQR();
                             }
                             if (!reportMessage.equals("empty")) {
                                 QRflag = true;
@@ -266,7 +270,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -286,7 +290,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -306,7 +310,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -327,7 +331,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -348,7 +352,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(1, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -361,7 +365,7 @@ public class YourService extends KiboRpcService {
                         moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
+                            reportMessage = reApproachQR();
                         }
                         if (!reportMessage.equals("empty")) {
                             QRflag = true;
@@ -442,7 +446,7 @@ public class YourService extends KiboRpcService {
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.53d + TurbZ);
         Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.53d + TurbZ);
         Point point4 = new Point(10.56d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
-        Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.48d);
+        Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.58d);
         Point point8 = new Point(11.143d + TurbX, -6.7607d + TurbY, 4.9654d + TurbZ);
 
         //TODO : create random turbulence for quarternion
@@ -453,7 +457,6 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
-        //TODO: optimize viapoints to raech goal
         //Viapoints
         Point viapoint01 = new Point(10.59838d, -9.83515d, 5.24227d);
         Point viapoint03First = new Point(10.6588d, -9.19627d, 4.53d);
@@ -468,15 +471,12 @@ public class YourService extends KiboRpcService {
 
         Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
         Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
-        //TODO:optimize viapoint27
         Point viapoint27 = new Point(10.8652d, -8.50513d, 4.48d);
         Point viapoint28 = new Point(10.49585d, -7.393d, 5.30908d);
         //これはPivot3 と同じ
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
-        //TODO:optimize viapoint37
         Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
-        //TODO:optimize viapoint47
         Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
@@ -703,7 +703,6 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
     }
 
-    //TODO: Make sure this method do not cause errors
     public Result MoveTo(Point point, Quaternion quaternion) {
         Result result;
         final int LOOP_MAX = 2;
@@ -720,9 +719,6 @@ public class YourService extends KiboRpcService {
     }
 
 
-    public void pivoting(){
-
-    }
         public Mat image_correction (Mat image){
 
             double[][] NavCamIntrinsics = api.getNavCamIntrinsics();
@@ -738,52 +734,123 @@ public class YourService extends KiboRpcService {
           
         }
 
-        //TODO: improve this method
-        public String reApproachQR () {
-            Point closerPoint7 = new Point(0d, 0d, -0.05d);
-            Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
-            Result QRReApproachResult;
+    public String ReadQR () {
+        //ReadQRCode
+        api.flashlightControlFront(0.05f);
+        Mat QRimage = image_correction(api.getMatNavCam());
+        QRCodeDetector decoder = new QRCodeDetector();
+        String data = decoder.detectAndDecode(QRimage);
 
-            QRReApproachResult = api.relativeMoveTo(closerPoint7, quartanion7, true);
-            Log.i(TAG, "-------------- DEBUG: QRReApproachResult = " + QRReApproachResult);
-            return ReadQR();
+        //Generate png image for debug
+        api.saveMatImage(QRimage, "QR.png");
+
+        String reportMessage = "empty";
+        switch (data) {
+            case "JEM":
+                reportMessage = "STAY_AT_JEM";
+                break;
+            case "COLUMBUS":
+                reportMessage = "GO_TO_COLUMBUS";
+                break;
+            case "RACK1":
+                reportMessage = "CHECK_RACK_1";
+                break;
+            case "ASTROBEE":
+                reportMessage = "I_AM_HERE";
+                break;
+            case "INTBALL":
+                reportMessage = "LOOKING_FORWARD_TO_SEE_YOU";
+                break;
+            case "BLANK":
+                reportMessage = "NO_PROBLEM";
+                break;
+            default:
+                break;
+        }
+        return reportMessage;
+    }
+
+    public String reApproachQR () {
+        Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Result QRReApproachResult;
+        Mat QRimage = image_correction(api.getMatNavCam());
+
+        Point relativePoint7 = findTruePoint7(QRimage);
+        if (relativePoint7 != null) {
+            Log.i(TAG, "truePoint7:" + relativePoint7);
+        } else {
+            Log.i(TAG, "No rectangle found");
         }
 
-        public String ReadQR () {
-            //ReadQRCode
-            api.flashlightControlFront(0.05f);
-            Mat QRimage = image_correction(api.getMatNavCam());
-            QRCodeDetector decoder = new QRCodeDetector();
-            String data = decoder.detectAndDecode(QRimage);
+        QRReApproachResult = api.relativeMoveTo(relativePoint7, quartanion7, true);
+        Log.i(TAG, "-------------- DEBUG: QRReApproachResult = " + QRReApproachResult);
+        return ReadQR();
+    }
 
-            //Generate png image for debug
-            api.saveMatImage(QRimage, "QR.png");
+    public Point findTruePoint7(Mat image) {
+        Mat blurredImage = new Mat();
+        Mat thresh = new Mat();
+        Mat hierarchy = new Mat();
 
-            String reportMessage = "empty";
-            switch (data) {
-                case "JEM":
-                    reportMessage = "STAY_AT_JEM";
-                    break;
-                case "COLUMBUS":
-                    reportMessage = "GO_TO_COLUMBUS";
-                    break;
-                case "RACK1":
-                    reportMessage = "CHECK_RACK_1";
-                    break;
-                case "ASTROBEE":
-                    reportMessage = "I_AM_HERE";
-                    break;
-                case "INTBALL":
-                    reportMessage = "LOOKING_FORWARD_TO_SEE_YOU";
-                    break;
-                case "BLANK":
-                    reportMessage = "NO_PROBLEM";
-                    break;
-                default:
-                    break;
+        // Blur the image for better edge detection
+        Imgproc.blur(image, blurredImage, new Size(5, 5));
+
+        // Use edge detection to find contours in the image
+        Imgproc.Canny(blurredImage, thresh, 50, 200);
+
+        List<MatOfPoint> contours = new ArrayList<>();
+        Imgproc.findContours(thresh, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
+
+        double maxArea = -1;
+        MatOfPoint biggestContour = null;
+        for (MatOfPoint contour : contours) {
+            double area = Imgproc.contourArea(contour);
+            // Assume the biggest contour is the rectangle
+            if (area > maxArea) {
+                biggestContour = contour;
+                maxArea = area;
             }
-            return reportMessage;
         }
+
+        if (biggestContour == null) {
+            // No contours found
+            return null;
+        }
+
+        // Find the center of the biggest contour
+        Moments moments = Imgproc.moments(new MatOfPoint2f(biggestContour.toArray()));
+        int centerX = (int) (moments.get_m10() / moments.get_m00());
+        int centerY = (int) (moments.get_m01() / moments.get_m00());
+
+        MatOfPoint2f curve = new MatOfPoint2f(biggestContour.toArray());
+        MatOfPoint2f approxCurve = new MatOfPoint2f();
+        double epsilon = 0.02 * Imgproc.arcLength(curve, true);
+        Imgproc.approxPolyDP(curve, approxCurve, epsilon, true);
+
+        double shortestEdgeLength = Double.MAX_VALUE;
+
+        // Finding the shortest edge
+        org.opencv.core.Point[] points = approxCurve.toArray();
+        for (int i = 0; i < points.length; i++) {
+            org.opencv.core.Point start = points[i];
+            org.opencv.core.Point end = points[(i + 1) % points.length];
+            double edgeLength = Math.sqrt(Math.pow(start.x - end.x, 2) + Math.pow(start.y - end.y, 2));
+            if (edgeLength < shortestEdgeLength) {
+                shortestEdgeLength = edgeLength;
+            }
+        }
+
+        Log.i(TAG, "-------------- DEBUG: centerX = " + centerX);
+        Log.i(TAG, "-------------- DEBUG: centerY = " + centerY);
+        Log.i(TAG, "-------------- DEBUG: shortestEdgeLength = " + shortestEdgeLength);
+
+        double scale = 15.8/100/shortestEdgeLength; //(m/pixel)
+        double imageRelativeX = (640 - centerX) * scale;
+        double imageRelativeY = (480 - centerY) * scale;
+
+        return new Point(imageRelativeY, imageRelativeX, -0.05d);
+    }
+
 
         public boolean checkMissionTime ( long requiredTime){
             List<Long> TimeRemaining = api.getTimeRemaining();
