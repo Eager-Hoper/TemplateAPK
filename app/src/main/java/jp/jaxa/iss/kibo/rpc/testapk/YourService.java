@@ -909,7 +909,7 @@ public class YourService extends KiboRpcService {
         // int radius = (int) Math.round(center_array[2]);
         // circle(image, center, radius, new Scalar(255,0,255), 3, 8, 0 );
         // //Generate png image for debug
-        // api.saveMatImage(image, "target_marker_detect.png");
+         api.saveMatImage(image, "target_marker_detect.png");
         // } else if (result == 0){
         // // detect areaの境界上
         // Log.i(TAG, "-------------- DEBUG: center inside of the detect area");
@@ -931,6 +931,7 @@ public class YourService extends KiboRpcService {
         // }
 
         return target_center;
+
 
     }
 
