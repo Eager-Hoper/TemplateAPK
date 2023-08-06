@@ -1022,11 +1022,11 @@ public class YourService extends KiboRpcService {
         }
         double[] target_center = { target_x / n, target_y / n };
 
-        Log.i(TAG, "DEBUG: OpenCV Test");
-        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0,
-                0).length);
-        Log.i(TAG, "expected channels: 3 -> BGR, length: 3");
-        api.saveMatImage(image, "target_marker_detect.png");
+        // Log.i(TAG, "DEBUG: OpenCV Test");
+        // Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0,
+        // 0).length);
+        // Log.i(TAG, "expected channels: 3 -> BGR, length: 3");
+        // api.saveMatImage(image, "target_marker_detect.png");
 
         return target_center;
 
@@ -1133,7 +1133,8 @@ public class YourService extends KiboRpcService {
                 double dest_z1 = current_point.getZ() + relative[1];
                 Point new_point1 = new Point(dest_x1, current_point.getY() - 0.05, dest_z1);
                 api.moveTo(new_point1, quaternion1, true);
-                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
+                Mat image = image_correction(getMatNavCam());
+                api.saveMatImage(image, (numberOfPhotos + 1) + ":target1Image__after.png");
                 break;
 
             case 2:
@@ -1142,7 +1143,8 @@ public class YourService extends KiboRpcService {
                 double dest_y2 = current_point.getY() - relative[1];
                 Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ() - 0.05);
                 api.moveTo(new_point2, quaternion2, true);
-                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
+                Mat image = image_correction(getMatNavCam());
+                api.saveMatImage(image, (numberOfPhotos + 1) + ":target2Image__after.png");
                 break;
 
             case 3:
@@ -1151,7 +1153,8 @@ public class YourService extends KiboRpcService {
                 double dest_x3 = current_point.getX() + relative[1];
                 Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ() - 0.05);
                 api.moveTo(new_point3, quaternion3, true);
-                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
+                Mat image = image_correction(getMatNavCam());
+                api.saveMatImage(image, (numberOfPhotos + 1) + ":target3Image__after.png");
                 break;
 
             case 4:
@@ -1160,7 +1163,8 @@ public class YourService extends KiboRpcService {
                 double dest_z4 = current_point.getZ() + relative[1];
                 Point new_point4 = new Point(current_point.getX() - 0.05, dest_y4, dest_z4);
                 api.moveTo(new_point4, quaternion4, true);
-                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
+                Mat image = image_correction(getMatNavCam());
+                api.saveMatImage(image, (numberOfPhotos + 1) + ":target4Image__after.png");
                 break;
 
             default:
