@@ -1000,6 +1000,11 @@ public class YourService extends KiboRpcService {
             double[] target_center = {target_x / n, target_y / n};
 
             Log.i(TAG, "DEBUG: OpenCV Test");
+            Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
+            Log.i(TAG, "expected channels: 3 -> BGR, length: 3");
+            api.saveMatImage(image, "target_marker_detect.png");
+
+
 
             return target_center;
 
