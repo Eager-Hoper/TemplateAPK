@@ -877,9 +877,9 @@ public class YourService extends KiboRpcService {
         // detect circle using HoughCircles
         // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
         Log.i(TAG, "DEBUG: OpenCV TEST");
-//        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
-//        Log.i(TAG, "expected channels: 3 -> BGR, otherwise the image is grayscale, length: 3");
-//        api.saveMatImage(image, "target_marker_detect.png");
+        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
+        Log.i(TAG, "expected channels: 3 -> BGR, otherwise the image is grayscale, length: 3");
+        api.saveMatImage(image, "target_marker_detect.png");
 
 
         // Mat image2 = getMatNavCam();
