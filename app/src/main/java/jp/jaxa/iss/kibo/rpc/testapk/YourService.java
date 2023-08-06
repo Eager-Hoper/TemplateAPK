@@ -1,4 +1,4 @@
-package jp.jaxa.iss.kibo.rpc.testapk;
+package jp.jaxa.iss.kibo.rpc.defaultapk;
 
 import gov.nasa.arc.astrobee.types.Vec3d;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
