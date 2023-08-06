@@ -999,6 +999,8 @@ public class YourService extends KiboRpcService {
             }
             double[] target_center = {target_x / n, target_y / n};
 
+            Log.i(TAG, "DEBUG: OpenCV Test");
+
             return target_center;
 
         }
