@@ -861,25 +861,25 @@ public class YourService extends KiboRpcService {
         List<Long> TimeRemaining1 = api.getTimeRemaining();
         // for obtaining target marker
         // TODO: 画角が縦でも横でもいいように正方形にする
-        double x1 = target_x - 0.27 / 2 * scale;
-        double x2 = target_x + 0.27 / 2 * scale;
-        double y1 = target_y - 0.15 / 2 * scale;
-        double y2 = target_y + 0.15 / 2 * scale;
-
-        // detect area means "paper size of the target marker"
-        org.opencv.core.Point[] detect_area = {
-                new org.opencv.core.Point(x1, y1), // UL
-                new org.opencv.core.Point(x2, y1), // UR
-                new org.opencv.core.Point(x2, y2), // BR
-                new org.opencv.core.Point(x1, y2) // BL
-        };
+//        double x1 = target_x - 0.27 / 2 * scale;
+//        double x2 = target_x + 0.27 / 2 * scale;
+//        double y1 = target_y - 0.15 / 2 * scale;
+//        double y2 = target_y + 0.15 / 2 * scale;
+//
+//        // detect area means "paper size of the target marker"
+//        org.opencv.core.Point[] detect_area = {
+//                new org.opencv.core.Point(x1, y1), // UL
+//                new org.opencv.core.Point(x2, y1), // UR
+//                new org.opencv.core.Point(x2, y2), // BR
+//                new org.opencv.core.Point(x1, y2) // BL
+//        };
 
         // detect circle using HoughCircles
         // https://docs.opencv.org/3.4/d4/d70/tutorial_hough_circle.html
         Log.i(TAG, "DEBUG: OpenCV TEST");
-        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
-        Log.i(TAG, "expected channels: 3 -> BGR, length: 3");
-        api.saveMatImage(image, "target_marker_detect.png");
+//        Log.i(TAG, "channels: " + image.channels() + "length: " + image.get(0, 0).length);
+//        Log.i(TAG, "expected channels: 3 -> BGR, otherwise the image is grayscale, length: 3");
+//        api.saveMatImage(image, "target_marker_detect.png");
 
 
         // Mat image2 = getMatNavCam();
