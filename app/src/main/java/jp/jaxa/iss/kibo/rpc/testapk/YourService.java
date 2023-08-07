@@ -444,9 +444,9 @@ public class YourService extends KiboRpcService {
 
         Point point1 = new Point(11.2053d + TurbX, -9.87284d + TurbY, 5.4736d + TurbZ);
         Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.53d + TurbZ);
-        Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.53d + TurbZ);
+        Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.48d + TurbZ);
         Point point4 = new Point(10.56d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
-        Point point7 = new Point(11.369d + TurbX, -8.5518d + TurbY, 4.58d);
+        Point point7 = new Point(11.369d, -8.5518d, 4.48d);
         Point point8 = new Point(11.143d + TurbX, -6.7607d + TurbY, 4.9654d + TurbZ);
 
         //TODO : create random turbulence for quarternion
@@ -848,7 +848,7 @@ public class YourService extends KiboRpcService {
         double imageRelativeX = (640 - centerX) * scale;
         double imageRelativeY = (480 - centerY) * scale;
 
-        return new Point(imageRelativeY, imageRelativeX, -0.05d);
+        return new Point(imageRelativeY, imageRelativeX, 0.05d);
     }
 
 
