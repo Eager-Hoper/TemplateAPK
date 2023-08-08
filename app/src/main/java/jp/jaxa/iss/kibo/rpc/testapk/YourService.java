@@ -1183,7 +1183,7 @@ public class YourService extends KiboRpcService {
 
             // ターゲットまでの相対位置を取得
             relative = getRelative(to);
-             // TODO: 検証 & relativeの単位の確認
+            // TODO: 検証 & relativeの単位の確認
             // もし移動距離が最小移動距離の5cmより小さければ終了
             if (relative[0] < 0.05 && relative[1] < 0.05) {
                 return;
@@ -1247,7 +1247,6 @@ public class YourService extends KiboRpcService {
 
     }
 
-
     public Boolean checkLaser(Mat image, List corners) {
         // 円の検出範囲を定義
         // TODO: method1, ARmarkersのcornersから作成 -> markerの個数によって計算式異なる
@@ -1273,27 +1272,28 @@ public class YourService extends KiboRpcService {
 
         for (int x = 0; x < circles.cols(); x++) {
             double[] centerArray = circles.get(0, x);
-            org.opencv.core.Point center = new org.opencv.core.Point(Math.round(centerArray[0]), Math.round(centerArray[1]));
+            org.opencv.core.Point center = new org.opencv.core.Point(Math.round(centerArray[0]),
+                    Math.round(centerArray[1]));
             int radius = (int) Math.round(centerArray[2]);
             double result = pointPolygonTest(new MatOfPoint2f(detectArea), center, false);
             if (result > 0) {
                 // 円がdetectAreaの内部の時
                 circle(image, center, radius, new Scalar(255, 0, 0), 3, 8, 0);
                 circle(image, center, 5, new Scalar(0, 0, 255), 3, 8, 0);
-                //                System.out.println("inside");
-                Log.i(TAG, "centerx, centery, radius: " + centerArray[0] + ", " + centerArray[1] + ", " + centerArray[2]);
-
+                // System.out.println("inside");
+                Log.i(TAG,
+                        "centerx, centery, radius: " + centerArray[0] + ", " + centerArray[1] + ", " + centerArray[2]);
 
             } else if (result == 0) {
                 // 円がdetectAreaの境界の時
-                //                circle(image, center, radius, new Scalar(0, 255, 0), 3, 8, 0);
-                //                System.out.println("on the boundary");
+                // circle(image, center, radius, new Scalar(0, 255, 0), 3, 8, 0);
+                // System.out.println("on the boundary");
             } else {
                 // 円がdetectAreaの外部の時
-                //                circle(image, center, radius, new Scalar(0, 0, 255), 3, 8, 0);
-                //                System.out.println("outside");
+                // circle(image, center, radius, new Scalar(0, 0, 255), 3, 8, 0);
+                // System.out.println("outside");
             }
-            org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length+1];
+            org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length + 1];
             System.arraycopy(detectArea, 0, detectAreaDraw, 0, detectArea.length);
             detectAreaDraw[detectArea.length] = new org.opencv.core.Point(595, 383);
             List<MatOfPoint> list = new ArrayList<MatOfPoint>();
@@ -1301,11 +1301,8 @@ public class YourService extends KiboRpcService {
             polylines(image, list, true, new Scalar(64, 64, 64), 10);
         }
 
-
         return true;
     }
-
-
 
     // NULL check
     public Mat getMatNavCam() {
