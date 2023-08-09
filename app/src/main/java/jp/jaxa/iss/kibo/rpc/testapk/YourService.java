@@ -1175,67 +1175,67 @@ public class YourService extends KiboRpcService {
         }
 
         if (image != null) {
-            boolean isLaserInsideCircle = checkLaser(image);
+            boolean isLaserInsideCircle = checkLaser(image, to);
             // laserがCircleの内部にあれば終了
             if (isLaserInsideCircle) {
                 return;
             }
 
-            // ターゲットまでの相対位置を取得
-            relative = getRelative(to);
-             // TODO: 検証 & relativeの単位の確認
-            // もし移動距離が最小移動距離の5cmより小さければ終了
-            if (relative[0] < 0.05 && relative[1] < 0.05) {
-                return;
-            }
-
-            // laserがCircleの外部にあり、相対移動距離が最小移動距離より大きければ
-            kinematics = api.getRobotKinematics();
-            current_point = kinematics.getPosition();
-            switch (to) {
-                case 1:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
-                    double dest_x1 = current_point.getX() + relative[0];
-                    double dest_z1 = current_point.getZ() + relative[1];
-                    Point new_point1 = new Point(dest_x1, current_point.getY() - 0.05, dest_z1);
-                    api.moveTo(new_point1, quaternion1, true);
-                    image = image_correction(getMatNavCam());
-                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target1Image__after.png");
-                    break;
-
-                case 2:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
-                    double dest_x2 = current_point.getX() + relative[0];
-                    double dest_y2 = current_point.getY() - relative[1];
-                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ() - 0.05);
-                    api.moveTo(new_point2, quaternion2, true);
-                    image = image_correction(getMatNavCam());
-                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target2Image__after.png");
-                    break;
-
-                case 3:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
-                    double dest_y3 = current_point.getY() + relative[0];
-                    double dest_x3 = current_point.getX() + relative[1];
-                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ() - 0.05);
-                    api.moveTo(new_point3, quaternion3, true);
-                    image = image_correction(getMatNavCam());
-                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target3Image__after.png");
-                    break;
-
-                case 4:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
-                    double dest_y4 = current_point.getY() - relative[0];
-                    double dest_z4 = current_point.getZ() + relative[1];
-                    Point new_point4 = new Point(current_point.getX() - 0.05, dest_y4, dest_z4);
-                    api.moveTo(new_point4, quaternion4, true);
-                    image = image_correction(getMatNavCam());
-                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target4Image__after.png");
-                    break;
-
-                default:
-                    break;
-            }
+//            // ターゲットまでの相対位置を取得
+//            relative = getRelative(to);
+//             // TODO: 検証 & relativeの単位の確認
+//            // もし移動距離が最小移動距離の5cmより小さければ終了
+//            if (relative[0] < 0.05 && relative[1] < 0.05) {
+//                return;
+//            }
+//
+//            // laserがCircleの外部にあり、相対移動距離が最小移動距離より大きければ
+//            kinematics = api.getRobotKinematics();
+//            current_point = kinematics.getPosition();
+//            switch (to) {
+//                case 1:
+//                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
+//                    double dest_x1 = current_point.getX() + relative[0];
+//                    double dest_z1 = current_point.getZ() + relative[1];
+//                    Point new_point1 = new Point(dest_x1, current_point.getY() - 0.05, dest_z1);
+//                    api.moveTo(new_point1, quaternion1, true);
+//                    image = image_correction(getMatNavCam());
+//                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target1Image__after.png");
+//                    break;
+//
+//                case 2:
+//                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
+//                    double dest_x2 = current_point.getX() + relative[0];
+//                    double dest_y2 = current_point.getY() - relative[1];
+//                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ() - 0.05);
+//                    api.moveTo(new_point2, quaternion2, true);
+//                    image = image_correction(getMatNavCam());
+//                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target2Image__after.png");
+//                    break;
+//
+//                case 3:
+//                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
+//                    double dest_y3 = current_point.getY() + relative[0];
+//                    double dest_x3 = current_point.getX() + relative[1];
+//                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ() - 0.05);
+//                    api.moveTo(new_point3, quaternion3, true);
+//                    image = image_correction(getMatNavCam());
+//                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target3Image__after.png");
+//                    break;
+//
+//                case 4:
+//                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
+//                    double dest_y4 = current_point.getY() - relative[0];
+//                    double dest_z4 = current_point.getZ() + relative[1];
+//                    Point new_point4 = new Point(current_point.getX() - 0.05, dest_y4, dest_z4);
+//                    api.moveTo(new_point4, quaternion4, true);
+//                    image = image_correction(getMatNavCam());
+//                    api.saveMatImage(image, (numberOfPhotos + 1) + ":target4Image__after.png");
+//                    break;
+//
+//                default:
+//                    break;
+//            }
         }
 
         // for DEBUG 本番実装時には除いて良い
@@ -1248,15 +1248,23 @@ public class YourService extends KiboRpcService {
     }
 
 
-    public Boolean checkLaser(Mat image, List corners) {
+    public Boolean checkLaser(Mat image, int to) {
+        // ARmarkerを検出 (@see AR_detect)
+        List<List<Mat>> AR_info = AR_detect(to);
+        Mat ids = AR_info.get(0).get(0);
+        List<Mat> corners = AR_info.get(1);
+        // ターゲット中心座標を計算 (@see getTargetCenter)
+        double[] target_center = getTargetCenter(ids, corners);
+        double scale = getScale(corners);
+        int centerx = (int) target_center[0];
+        int centery = (int) target_center[1];
+        int margin =  (int) (0.10 * scale);   // convert 0.1 m to px
         // 円の検出範囲を定義
-        // TODO: method1, ARmarkersのcornersから作成 -> markerの個数によって計算式異なる
-        // TODO: method2, targetCenterから領域を決定
         org.opencv.core.Point[] detectArea = {
-                new org.opencv.core.Point(595, 383),
-                new org.opencv.core.Point(840, 380),
-                new org.opencv.core.Point(840, 555),
-                new org.opencv.core.Point(597, 556),
+                new org.opencv.core.Point(centerx-margin, centery-margin),  // UL
+                new org.opencv.core.Point(centerx+margin, centery-margin),    // UR
+                new org.opencv.core.Point(centerx+margin, centery+margin),    // BR
+                new org.opencv.core.Point(centerx-margin, centery+margin),    // BL
         };
 
         // TODO: どのくらいBlurにするか
@@ -1280,26 +1288,18 @@ public class YourService extends KiboRpcService {
                 // 円がdetectAreaの内部の時
                 circle(image, center, radius, new Scalar(255, 0, 0), 3, 8, 0);
                 circle(image, center, 5, new Scalar(0, 0, 255), 3, 8, 0);
-                //                System.out.println("inside");
                 Log.i(TAG, "centerx, centery, radius: " + centerArray[0] + ", " + centerArray[1] + ", " + centerArray[2]);
-
-
             } else if (result == 0) {
-                // 円がdetectAreaの境界の時
-                //                circle(image, center, radius, new Scalar(0, 255, 0), 3, 8, 0);
-                //                System.out.println("on the boundary");
             } else {
-                // 円がdetectAreaの外部の時
-                //                circle(image, center, radius, new Scalar(0, 0, 255), 3, 8, 0);
-                //                System.out.println("outside");
             }
-            org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length+1];
-            System.arraycopy(detectArea, 0, detectAreaDraw, 0, detectArea.length);
-            detectAreaDraw[detectArea.length] = new org.opencv.core.Point(595, 383);
-            List<MatOfPoint> list = new ArrayList<MatOfPoint>();
-            list.add(new MatOfPoint(detectAreaDraw));
-            polylines(image, list, true, new Scalar(64, 64, 64), 10);
         }
+        org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length+1];
+        System.arraycopy(detectArea, 0, detectAreaDraw, 0, detectArea.length);
+        detectAreaDraw[detectArea.length] = new org.opencv.core.Point(595, 383);
+        List<MatOfPoint> list = new ArrayList<MatOfPoint>();
+        list.add(new MatOfPoint(detectAreaDraw));
+        polylines(image, list, true, new Scalar(64, 64, 64), 10);
+        api.saveMatImage(image, "checkLaser_" + to + ".png");
 
 
         return true;
