@@ -1279,6 +1279,10 @@ public class YourService extends KiboRpcService {
         HoughCircles(image, circles, HOUGH_GRADIENT, 1.5, 30, 1000, 30, 5, 50);
         Log.i(TAG, "DEBUG: Number of circles: rows: " + circles.rows() + ", " + "cols: " + circles.cols());
 
+        double largestCircleRadius = 0;
+        int largestCircleIndex = 0;
+
+        // TODO: circlesが空ではないか確認
         for (int x = 0; x < circles.cols(); x++) {
             double[] centerArray = circles.get(0, x);
             org.opencv.core.Point center = new org.opencv.core.Point(Math.round(centerArray[0]),
@@ -1287,22 +1291,37 @@ public class YourService extends KiboRpcService {
             double result = pointPolygonTest(new MatOfPoint2f(detectArea), center, false);
             if (result > 0) {
                 // 円がdetectAreaの内部の時
-                circle(image, center, radius, new Scalar(64, 64, 64), 3, 8, 0);
-                circle(image, center, 5, new Scalar(180, 180, 180), 3, 8, 0);
+//                circle(image, center, radius, new Scalar(64, 64, 64), 3, 8, 0);
+//                circle(image, center, 5, new Scalar(180, 180, 180), 3, 8, 0);
                 Log.i(TAG, "centerx, centery, radius: " + centerArray[0] + ", " + centerArray[1] + ", " + centerArray[2]);
+                // 半径が最大の円を取得
+                if (radius > largestCircleRadius){
+                    largestCircleRadius = radius;
+                    largestCircleIndex = x;
+                }
+
             } else if (result == 0) {
             } else {
             }
         }
+        double [] target = circles.get(0, largestCircleIndex);
+        org.opencv.core.Point targetCenter = new org.opencv.core.Point((int) target[0], (int) target[1]);
+        int targetRadius = (int) target[2];
+        Log.i(TAG, "DEBUG: Target Marker Detect");
+        Log.i(TAG, "center: ("+ targetCenter.x + ", " + targetCenter.y + ")");
+        Log.i(TAG, "radius: " + targetRadius);
+        circle(image, targetCenter, targetRadius, new Scalar(64, 64, 64), 5, 8, 0);
+        // Laserが円の中にあるか確認
+
+
+        // 円の検出範囲を描画
         org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length+1];
         System.arraycopy(detectArea, 0, detectAreaDraw, 0, detectArea.length);
         detectAreaDraw[detectArea.length] = detectArea[0];
-        List<MatOfPoint> list = new ArrayList<MatOfPoint>();
-        list.add(new MatOfPoint(detectAreaDraw));
-        polylines(image, list, true, new Scalar(64, 64, 64), 10);
+        List<MatOfPoint> draw = new ArrayList<MatOfPoint>();
+        draw.add(new MatOfPoint(detectAreaDraw));
+        polylines(image, draw, true, new Scalar(64, 64, 64), 10);
         api.saveMatImage(image, "checkLaser_" + to + ".png");
-
-
 
         return true;
     }
