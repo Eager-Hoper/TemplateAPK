@@ -475,10 +475,10 @@ public class YourService extends KiboRpcService {
         //これはPivot3 と同じ
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
-        //TODO:optimize viapoint37
-        Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
-        //TODO:optimize viapoint47
-        Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
+        //TODO:optimize viapoint37 --> no need
+        //Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
+        //TODO:optimize viapoint47  --> no need
+        //Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
 
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
