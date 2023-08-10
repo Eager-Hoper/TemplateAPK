@@ -612,7 +612,8 @@ public class YourService extends KiboRpcService {
                         MoveTo(point4, quartanion4);
                         break;
                     case 7:
-                        MoveTo(viapoint37, quartanion7);
+                        MoveTo(pivotPoint12, quartanion7);
+                        MoveTo(viapoint13, quartanion7);
                         MoveTo(point7, quartanion7);
                         break;
                     case 8:
