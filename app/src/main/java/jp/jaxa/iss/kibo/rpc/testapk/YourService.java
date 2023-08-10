@@ -1308,7 +1308,8 @@ public class YourService extends KiboRpcService {
         org.opencv.core.Point targetCenter = new org.opencv.core.Point((int) target[0], (int) target[1]);
         int targetRadius = (int) target[2];
         Log.i(TAG, "DEBUG: Target Marker Detect");
-        Log.i(TAG, "center: ("+ targetCenter.x + ", " + targetCenter.y + ")");
+        Log.i(TAG, "center with AR marker: ("+ centerx + ", " + centery + ")");
+        Log.i(TAG, "center with Hough    : ("+ targetCenter.x + ", " + targetCenter.y + ")");
         Log.i(TAG, "radius: " + targetRadius);
         circle(image, targetCenter, targetRadius, new Scalar(64, 64, 64), 5, 8, 0);
         // Laserが円の中にあるか確認
