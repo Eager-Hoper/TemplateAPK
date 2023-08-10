@@ -1287,8 +1287,8 @@ public class YourService extends KiboRpcService {
             double result = pointPolygonTest(new MatOfPoint2f(detectArea), center, false);
             if (result > 0) {
                 // 円がdetectAreaの内部の時
-                circle(image, center, radius, new Scalar(255, 0, 0), 3, 8, 0);
-                circle(image, center, 5, new Scalar(0, 0, 255), 3, 8, 0);
+                circle(image, center, radius, new Scalar(64, 64, 64), 3, 8, 0);
+                circle(image, center, 5, new Scalar(180, 180, 180), 3, 8, 0);
                 Log.i(TAG, "centerx, centery, radius: " + centerArray[0] + ", " + centerArray[1] + ", " + centerArray[2]);
             } else if (result == 0) {
             } else {
