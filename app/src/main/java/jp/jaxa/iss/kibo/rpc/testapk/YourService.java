@@ -1281,7 +1281,8 @@ public class YourService extends KiboRpcService {
 
         for (int x = 0; x < circles.cols(); x++) {
             double[] centerArray = circles.get(0, x);
-            org.opencv.core.Point center = new org.opencv.core.Point(Math.round(centerArray[0]), Math.round(centerArray[1]));
+            org.opencv.core.Point center = new org.opencv.core.Point(Math.round(centerArray[0]),
+                    Math.round(centerArray[1]));
             int radius = (int) Math.round(centerArray[2]);
             double result = pointPolygonTest(new MatOfPoint2f(detectArea), center, false);
             if (result > 0) {
@@ -1301,11 +1302,8 @@ public class YourService extends KiboRpcService {
         polylines(image, list, true, new Scalar(64, 64, 64), 10);
         api.saveMatImage(image, "checkLaser_" + to + ".png");
 
-
         return true;
     }
-
-
 
     // NULL check
     public Mat getMatNavCam() {
