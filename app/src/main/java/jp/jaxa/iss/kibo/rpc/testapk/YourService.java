@@ -1296,11 +1296,13 @@ public class YourService extends KiboRpcService {
         }
         org.opencv.core.Point[] detectAreaDraw = new org.opencv.core.Point[detectArea.length+1];
         System.arraycopy(detectArea, 0, detectAreaDraw, 0, detectArea.length);
-        detectAreaDraw[detectArea.length] = new org.opencv.core.Point(595, 383);
+        detectAreaDraw[detectArea.length] = detectArea[0];
         List<MatOfPoint> list = new ArrayList<MatOfPoint>();
         list.add(new MatOfPoint(detectAreaDraw));
         polylines(image, list, true, new Scalar(64, 64, 64), 10);
         api.saveMatImage(image, "checkLaser_" + to + ".png");
+
+
 
         return true;
     }
