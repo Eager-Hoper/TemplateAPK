@@ -469,7 +469,8 @@ public class YourService extends KiboRpcService {
         Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
         Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
         //TODO:optimize viapoint27
-        Point viapoint27 = new Point(10.8652d, -8.50513d, 4.48d);
+        Point viapoint27 = new Point(10.93d, -8.94d, 5.12d);
+        //新しく算出
         Point viapoint28 = new Point(10.49585d, -7.393d, 5.30908d);
         //これはPivot3 と同じ
 
