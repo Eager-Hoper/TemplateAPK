@@ -446,16 +446,17 @@ public class YourService extends KiboRpcService {
 
         Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
         Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
-        //TODO:optimize viapoint27
-        Point viapoint27 = new Point(10.8652d, -8.50513d, 4.48d);
+        //TODO:optimize viapoint27 --> Done
+        Point viapoint27 = new Point(10.93d, -8.94d, 5.12d);
+        //新しく算出
         Point viapoint28 = new Point(10.49585d, -7.393d, 5.30908d);
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
-        //TODO:optimize viapoint37
-        Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
-        //TODO:optimize viapoint47
-        Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
-
+        //TODO:optimize viapoint37 --> no need
+        //Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
+        //TODO:optimize viapoint47  --> no need
+        //Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
+        
         Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
 
         Point pivotPoint11 = new Point(10.85076d, -9.314d, 5.269d);
