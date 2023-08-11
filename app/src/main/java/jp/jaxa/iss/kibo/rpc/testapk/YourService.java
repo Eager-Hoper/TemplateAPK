@@ -353,12 +353,33 @@ public class YourService extends KiboRpcService {
         List<Long> TimeRemaining = api.getTimeRemaining();
         long countStart = TimeRemaining.get(1);
 
-        Point point1 = new Point(11.2053d, -9.87284d, 5.4736d);
-        Point point2 = new Point(10.456184d, -9.196272d, 4.53d);
-        Point point3 = new Point(10.7142d, -7.76727d, 4.53d);
-        Point point4 = new Point(10.56d, -6.612872d, 5.20641d);
+        //create random turbulence 0~10cm
+        double TurbX = new java.util.Random().nextInt(11) / 100d;
+        double TurbY = new java.util.Random().nextInt(11) / 100d;
+        double TurbZ = new java.util.Random().nextInt(11) / 100d;
+
+        boolean MinusX = new java.util.Random().nextBoolean();
+        boolean MinusY = new java.util.Random().nextBoolean();
+        boolean MinusZ = new java.util.Random().nextBoolean();
+
+        if (MinusX) {
+            TurbX = -TurbX;
+        }
+        if (MinusY) {
+            TurbY = -TurbY;
+        }
+        if (MinusZ) {
+            TurbZ = -TurbZ;
+        }
+
+        Log.i(TAG, "-------------- DEBUG: Turbulence(X,Y,Z)=(" + TurbX + "," + TurbY + "," + TurbZ + ") for point" + to);
+
+        Point point1 = new Point(11.2053d + TurbX, -9.87284d + TurbY, 5.4736d + TurbZ);
+        Point point2 = new Point(10.456184d + TurbX, -9.196272d + TurbY, 4.53d + TurbZ);
+        Point point3 = new Point(10.7142d + TurbX, -7.76727d + TurbY, 4.53d + TurbZ);
+        Point point4 = new Point(10.56d + TurbX, -6.612872d + TurbY, 5.20641d + TurbZ);
         Point point7 = new Point(11.369d, -8.5518d, 4.48d);
-        Point point8 = new Point(11.143d, -6.7607d, 4.9654d);
+        Point point8 = new Point(11.143d + TurbX, -6.7607d + TurbY, 4.9654d + TurbZ);
 
         Quaternion quartanion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
         Quaternion quartanion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
