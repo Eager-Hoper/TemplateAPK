@@ -624,7 +624,6 @@ public class YourService extends KiboRpcService {
             reMove_AR_moveTo(to);
             api.laserControl(true);
             api.takeTargetSnapshot(to);
-            api.laserControl(false);
         }
 
         //get timeRequired(LOG)
