@@ -480,7 +480,7 @@ public class YourService extends KiboRpcService {
         //TODO:optimize viapoint47  --> no need
         //Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
 
-        //Point viapoint78 = new Point(11.256d, -8.3826d, 4.89877d);
+        Point viapoint78 = new Point(11.22584d, -8.80419d, 5.0922d);
 
         Point pivotPoint11 = new Point(10.85076d, -9.314d, 5.269d);
         Point pivotPoint12 = new Point(11.2d, -9.109d, 5.191d);
@@ -669,7 +669,7 @@ public class YourService extends KiboRpcService {
                         MoveTo(point4, quartanion4);
                         break;
                     case 8:
-                        MoveTo(viapoint72, quartanion7);
+                        MoveTo(viapoint78, quartanion7);
                         MoveTo(viapoint23, quartanion7);
                         MoveTo(pivotPoint3, quartanion8);
                         MoveTo(point8, quartanion8);
