@@ -1,6 +1,5 @@
 package jp.jaxa.iss.kibo.rpc.defaultapk;
 
-import gov.nasa.arc.astrobee.types.Vec3d;
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
 
@@ -8,7 +7,6 @@ import gov.nasa.arc.astrobee.Kinematics;
 import gov.nasa.arc.astrobee.Result;
 import gov.nasa.arc.astrobee.types.Point;
 import gov.nasa.arc.astrobee.types.Quaternion;
-import jp.jaxa.iss.kibo.rpc.api.types.PointCloud;
 // astrobee library (for definition of Point and Quaternion etc.)
 
 import android.util.Log;
@@ -18,17 +16,10 @@ import org.opencv.aruco.Aruco;
 import org.opencv.aruco.Dictionary;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
-import org.opencv.core.Scalar;
-import org.opencv.core.Size;
-import org.opencv.core.Rect;
-import org.opencv.core.KeyPoint;
 import org.opencv.objdetect.QRCodeDetector;
-
-import static org.opencv.android.Utils.matToBitmap;
 import static org.opencv.imgproc.Imgproc.*;
 // opencv library (for detect ARmarkers)
 
-import java.security.IdentityScope;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +71,7 @@ public class YourService extends KiboRpcService {
         times[6][3] = 58008;
         times[6][4] = 46288;
         times[6][7] = 0;
+        //TODO:+3000ms
         times[7][0] = 1000;
         times[7][1] = 56640;
         times[7][2] = 50312;
@@ -135,28 +127,20 @@ public class YourService extends KiboRpcService {
             SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
         }
 
-        int numberOfPhotos = 1;
-
         //Action Start
         while (MissionTimeRemaining > 0) {
             if (NumberOfActiveTargets == 1) {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
                     if (checkActiveTime(currentToFirstTargetTime)) {
 
-                        moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                        numberOfPhotos += 2;
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
 
                         if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                            moveAndShot(1, 7, numberOfPhotos);
+                            moveAndShot(1, 7);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
-                            }
-                            if (!reportMessage.equals("empty")) {
-                                QRflag = true;
-                            }
                             currentPoint = 7;
+                            QRflag = true;
 
                         } else {
                             currentPoint = ActiveTargets.get(0);
@@ -164,15 +148,12 @@ public class YourService extends KiboRpcService {
                     }
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
-                        moveAndShot(currentPoint, 7, numberOfPhotos);
+
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
                         currentPoint = 7;
+                        QRflag = true;
+
                     }
                     break;
                 }
@@ -185,8 +166,7 @@ public class YourService extends KiboRpcService {
 
                 if (route1 >= route2 && checkMissionTime(routeToGoal2) && checkActiveTime(route2)) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
 
                     if (ActiveTargets.get(1) == 1 && !QRflag) {
 
@@ -194,179 +174,135 @@ public class YourService extends KiboRpcService {
                         if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7] + FirstTargetToGoalTime) &&
                                 checkActiveTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7])) {
 
-                            moveAndShot(1, 7, numberOfPhotos);
+                            moveAndShot(1, 7);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
-                            }
-                            if (!reportMessage.equals("empty")) {
-                                QRflag = true;
-                            }
-                            moveAndShot(7, ActiveTargets.get(0), numberOfPhotos);
-                            numberOfPhotos += 2;
+                            QRflag = true;
+                            moveAndShot(7, ActiveTargets.get(0));
 
                         } else {
-                            moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0), numberOfPhotos);
-                            numberOfPhotos += 2;
+                            moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
                         }
                     } else {
-                        moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0), numberOfPhotos);
-                        numberOfPhotos += 2;
+                        moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
                     }
 
                     currentPoint = ActiveTargets.get(0);
 
                     if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else if (route1 < route2 && checkMissionTime(routeToGoal1) && checkActiveTime(route1)) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
 
                     if (ActiveTargets.get(0) == 1 && !QRflag) {
 
                         if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7] + SecondTargetToGoalTime) &&
                                 checkActiveTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7])) {
 
-                            moveAndShot(1, 7, numberOfPhotos);
+                            moveAndShot(1, 7);
                             reportMessage = ReadQR();
-                            if (reportMessage.equals("empty")) {
-                                //reportMessage = reApproachQR();
-                            }
-                            if (!reportMessage.equals("empty")) {
-                                QRflag = true;
-                            }
-                            moveAndShot(7, ActiveTargets.get(1), numberOfPhotos);
-                            numberOfPhotos += 2;
+                            QRflag = true;
+                            moveAndShot(7, ActiveTargets.get(1));
 
                         } else {
-                            moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1), numberOfPhotos);
-                            numberOfPhotos += 2;
+                            moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
                         }
                     } else {
-                        moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1), numberOfPhotos);
-                        numberOfPhotos += 2;
+                        moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
                     }
 
                     currentPoint = ActiveTargets.get(1);
 
                     if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                     
                     currentPoint = ActiveTargets.get(0);
 
                     if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                     
                     currentPoint = ActiveTargets.get(1);
 
                     if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                     
                     currentPoint = ActiveTargets.get(1);
 
                     if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
-                    numberOfPhotos += 2;
+                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                     
                     currentPoint = ActiveTargets.get(0);
 
                     if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
 
-                        moveAndShot(1, 7, numberOfPhotos);
+                        moveAndShot(1, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
 
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
-                        moveAndShot(currentPoint, 7, numberOfPhotos);
+
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
-                        if (reportMessage.equals("empty")) {
-                            //reportMessage = reApproachQR();
-                        }
-                        if (!reportMessage.equals("empty")) {
-                            QRflag = true;
-                        }
+                        QRflag = true;
                         currentPoint = 7;
+
                     }
                     break;
                 }
@@ -396,7 +332,7 @@ public class YourService extends KiboRpcService {
         }
 
         api.notifyGoingToGoal();
-        moveAndShot(currentPoint, 8, numberOfPhotos);
+        moveAndShot(currentPoint, 8);
         Log.i(TAG, "-------------- LOG: QRflag=" + QRflag);
         api.reportMissionCompletion(reportMessage);
 
@@ -412,7 +348,7 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-    public void moveAndShot(int from, int to, int numberOfPhotos) {
+    public void moveAndShot(int from, int to) {
         //get time for count timeRequired (LOG)
         List<Long> TimeRemaining = api.getTimeRemaining();
         long countStart = TimeRemaining.get(1);
@@ -424,7 +360,6 @@ public class YourService extends KiboRpcService {
         Point point7 = new Point(11.369d, -8.5518d, 4.48d);
         Point point8 = new Point(11.143d, -6.7607d, 4.9654d);
 
-        //TODO : create random turbulence for quarternion
         Quaternion quartanion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
         Quaternion quartanion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
         Quaternion quartanion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
@@ -432,7 +367,6 @@ public class YourService extends KiboRpcService {
         Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
         Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
 
-        //TODO: optimize viapoints to raech goal
         //Viapoints
         Point viapoint01 = new Point(10.59838d, -9.83515d, 5.24227d);
         Point viapoint03First = new Point(10.6588d, -9.19627d, 4.53d);
@@ -446,16 +380,10 @@ public class YourService extends KiboRpcService {
 
         Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
         Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
-        //TODO:optimize viapoint27 --> Done
         Point viapoint27 = new Point(10.93d, -8.94d, 5.12d);
-        //新しく算出
         Point viapoint28 = new Point(10.49585d, -7.393d, 5.30908d);
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
-        //TODO:optimize viapoint37 --> no need
-        //Point viapoint37 = new Point(11.0416d, -8.3826d, 4.95651d);
-        //TODO:optimize viapoint47  --> no need
-        //Point viapoint47 = new Point(11.31976d, -8.44065d, 4.74025d);
         
         Point viapoint78 = new Point(11.22584d, -8.80419d, 5.0922d);
 
@@ -522,7 +450,7 @@ public class YourService extends KiboRpcService {
                         break;
                 }
                 break;
-            //TODO:complete pivoting system after receiving the review
+            //TODO:complete pivoting system
             case 1:
                 switch (to) {
                     case 2:
@@ -673,8 +601,8 @@ public class YourService extends KiboRpcService {
 
         if (!(to == 7 || to == 8)) {
             api.laserControl(true);
-            reMove_AR_moveTo(to, numberOfPhotos); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
-            //laser_detect(numberOfPhotos);
+            reMove_AR_moveTo(to); // we can change reMove_AR_relativeMoveTo or reMove_AR_moveTo
+            //laser_detect();
             api.takeTargetSnapshot(to);
             api.laserControl(false);
         }
@@ -689,7 +617,6 @@ public class YourService extends KiboRpcService {
         Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
     }
 
-    //TODO: Make sure this method do not cause errors
     public Result MoveTo(Point point, Quaternion quaternion) {
         Result result;
         final int LOOP_MAX = 2;
@@ -705,10 +632,6 @@ public class YourService extends KiboRpcService {
         return result;
     }
 
-
-    public void pivoting(){
-
-    }
         public Mat image_correction (Mat image){
 
             double[][] NavCamIntrinsics = api.getNavCamIntrinsics();
@@ -722,17 +645,6 @@ public class YourService extends KiboRpcService {
 
             return correct_image;
           
-        }
-
-        //TODO: improve this method
-        public String reApproachQR () {
-            Point closerPoint7 = new Point(0d, 0d, -0.05d);
-            Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
-            Result QRReApproachResult;
-
-            QRReApproachResult = api.relativeMoveTo(closerPoint7, quartanion7, true);
-            Log.i(TAG, "-------------- DEBUG: QRReApproachResult = " + QRReApproachResult);
-            return ReadQR();
         }
 
         public String ReadQR () {
@@ -1054,29 +966,7 @@ public class YourService extends KiboRpcService {
 
         }
 
-        public void reMove_AR_relativeMoveTo (int to){
-
-            /*　api.relativeMoveTo()を用いてターゲット前での自己位置修正を行うメソッド
-             * 
-             * @param
-             * to：目的地のターゲット番号
-             * 
-             * @return
-             * void：自己位置修正を行う
-             * 
-             * @deprecated
-             * api.relativeMoveTo()は位置情報が不正確な場合、処理に最大30秒かかることから採用していない
-             */
-
-            double[] relative = getRelative(to);
-            Point relative_dist = new Point(0, relative[0], relative[1]);
-            Quaternion relative_orient = new Quaternion(0f, 0f, 0f, 0f);
-
-            api.relativeMoveTo(relative_dist, relative_orient, true);
-
-        }
-
-        public void reMove_AR_moveTo (int to, int numberOfPhotos){
+        public void reMove_AR_moveTo (int to){
 
             /*　api.moveTo()を用いてターゲット前での自己位置修正を行うメソッド
              * 
@@ -1105,39 +995,31 @@ public class YourService extends KiboRpcService {
              */
             switch (to) {
                 case 1:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
                     double dest_x1 = current_point.getX() + relative[0];
                     double dest_z1 = current_point.getZ() + relative[1];
                     Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
                     api.moveTo(new_point1, quaternion1, true);
-                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
                     break;
 
                 case 2:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
                     double dest_x2 = current_point.getX() + relative[0];
                     double dest_y2 = current_point.getY() - relative[1];
                     Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
                     api.moveTo(new_point2, quaternion2, true);
-                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
                     break;
 
                 case 3:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
                     double dest_y3 = current_point.getY() + relative[0];
                     double dest_x3 = current_point.getX() + relative[1];
                     Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
                     api.moveTo(new_point3, quaternion3, true);
-                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
                     break;
 
                 case 4:
-                    api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
                     double dest_y4 = current_point.getY() - relative[0];
                     double dest_z4 = current_point.getZ() + relative[1];
                     Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
                     api.moveTo(new_point4, quaternion4, true);
-                    api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
                     break;
 
                 default:
