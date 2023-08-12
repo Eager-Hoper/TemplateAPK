@@ -473,7 +473,7 @@ public class YourService extends KiboRpcService {
                         break;
                 }
                 break;
-            //TODO:complete pivoting system
+            //TODO:complete pivoting system --> Done!!
             case 1:
                 switch (to) {
                     case 2:
@@ -491,11 +491,11 @@ public class YourService extends KiboRpcService {
                         result = MoveTo(viapoint13, quartanion3);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint12, quartanion1);
-                            MoveTo(pivotPoint2, quartanion1);
+                            MoveTo(pivotPoint2, quartanion3);
                         }
                         result = MoveTo(point3, quartanion3);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint2, quartanion1);
+                            MoveTo(pivotPoint2, quartanion3);
                             MoveTo(point3, quartanion3);
                         }
                         break;
@@ -503,11 +503,11 @@ public class YourService extends KiboRpcService {
                         result = MoveTo(viapoint14, quartanion4);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion1);
-                            MoveTo(pivotPoint3, quartanion1);
+                            MoveTo(pivotPoint3, quartanion4);
                         }
                         result = MoveTo(point4, quartanion4);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion1);
+                            MoveTo(pivotPoint3, quartanion4);
                             MoveTo(point4, quartanion4);
                         }
                         break;
@@ -526,7 +526,7 @@ public class YourService extends KiboRpcService {
                         }
                         result = MoveTo(point8, quartanion8);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion1);
+                            MoveTo(pivotPoint3, quartanion8);
                             MoveTo(point8, quartanion8);
                         }
                         break;
