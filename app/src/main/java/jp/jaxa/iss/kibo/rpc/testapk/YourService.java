@@ -604,7 +604,7 @@ public class YourService extends KiboRpcService {
                         result = MoveTo(viapoint13, quartanion3);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint2, quartanion3);
-                            MoveTo(pivotPoint12, quartanion3);
+                            MoveTo(pivotPoint12, quartanion1);
                         }
                         result = MoveTo(point1, quartanion1);
                         if(!result.hasSucceeded()){
@@ -615,8 +615,8 @@ public class YourService extends KiboRpcService {
                     case 2:
                         result = MoveTo(viapoint23, quartanion2);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint2, quartanion3);
-                            MoveTo(pivotPoint11, quartanion1);
+                            MoveTo(pivotPoint3, quartanion2);
+                            MoveTo(pivotPoint11, quartanion2);
                         }
                         result = MoveTo(point2, quartanion2);
                         if(!result.hasSucceeded()){
@@ -627,27 +627,34 @@ public class YourService extends KiboRpcService {
                     case 4:
                         result = MoveTo(viapoint34, quartanion4);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(pivotPoint3, quartanion4);
                         }
                         result = MoveTo(point4, quartanion4);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(pivotPoint3, quartanion4);
                             MoveTo(point4, quartanion4);
                         }
                         break;
                     case 7:
                         result = MoveTo(viapoint13, quartanion7);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion1);
-                            MoveTo(pivotPoint11, quartanion3);
+                            MoveTo(pivotPoint3, quartanion7);
+                            MoveTo(pivotPoint11, quartanion7);
                         }
-                        MoveTo(pivotPoint12, quartanion7);
-                        MoveTo(point7, quartanion7);
+                        result = MoveTo(viapoint78, quartanion7);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint12, quartanion7);
+                        }
+                        result = MoveTo(point7, quartanion7);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint12, quartanion7);
+                            MoveTo(point7, quartanion7);
+                        }
                         break;
                     case 8:
                         result = MoveTo(point8, quartanion8);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint2, quartanion3);
+                            MoveTo(pivotPoint2, quartanion8);
                             MoveTo(point8, quartanion8);
                         }
                         break;
