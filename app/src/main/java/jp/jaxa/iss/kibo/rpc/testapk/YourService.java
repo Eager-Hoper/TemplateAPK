@@ -416,6 +416,7 @@ public class YourService extends KiboRpcService {
         Point pivotPoint3 = new Point(10.49585d, -7.393d, 5.30908d);
 
         Point viaPivot11to3 = new Point(10.47d, -7.902d, 4.948d);
+        //Added special !!
 
         Result result;
         switch (from) {
@@ -553,23 +554,23 @@ public class YourService extends KiboRpcService {
                         result = MoveTo(viapoint23, quartanion3);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion3);
-                            MoveTo(pivotPoint2, quartanion3);
+                            MoveTo(viaPivot11to3, quartanion3);
                         }
                         result = MoveTo(point3, quartanion3);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion2);
+                            MoveTo(pivotPoint3, quartanion3);
                             MoveTo(point3, quartanion3);
                         }
                         break;
                     case 4:
                         result = MoveTo(viapoint24, quartanion4);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint11, quartanion2);
-                            MoveTo(pivotPoint3, quartanion2);
+                            MoveTo(pivotPoint11, quartanion4);
+                            MoveTo(pivotPoint3, quartanion4);
                         }
                         result = MoveTo(point4, quartanion4);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion2);
+                            MoveTo(pivotPoint3, quartanion4);
                             MoveTo(point4, quartanion4);
                         }
                         break;
