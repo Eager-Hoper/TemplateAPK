@@ -185,22 +185,23 @@ public class YourService extends KiboRpcService {
                     moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
 
-                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
-                        checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
+                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime)){
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                    currentPoint = ActiveTargets.get(0);
+                    if(checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
-                    if (checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7]) && !QRflag) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
+
+                    }else if(checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7]) && !QRflag) {
 
                         moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
 
-                    }else{
+                    } else {
                         try {
-                            Thread.sleep(ActiveTimeRemaining+1);
+                            Thread.sleep(ActiveTimeRemaining + 1);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -283,6 +284,15 @@ public class YourService extends KiboRpcService {
                     break;
                 }
 
+            }
+
+            //detect staying statement and keep it stay
+            if(ActiveTargets == api.getActiveTargets()){
+                try {
+                    Thread.sleep(ActiveTimeRemaining+10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             //get next target
