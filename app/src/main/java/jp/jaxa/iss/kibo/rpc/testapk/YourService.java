@@ -665,7 +665,7 @@ public class YourService extends KiboRpcService {
             case 4:
                 switch (to) {
                     case 1:
-                        result = MoveTo(viapoint14, quartanion4);
+                        result = MoveTo(viapoint14, quartanion1);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint3, quartanion4);
                             MoveTo(pivotPoint11, quartanion1);
