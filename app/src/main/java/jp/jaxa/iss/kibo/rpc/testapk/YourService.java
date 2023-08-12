@@ -98,6 +98,7 @@ public class YourService extends KiboRpcService {
 
         //get time
         List<Long> TimeRemaining = api.getTimeRemaining();
+        Long ActiveTimeRemaining = TimeRemaining.get(0);
         Long MissionTimeRemaining = TimeRemaining.get(1);
 
         //get active targets
@@ -134,17 +135,25 @@ public class YourService extends KiboRpcService {
                     if (checkActiveTime(currentToFirstTargetTime)) {
 
                         moveAndShot(currentPoint, ActiveTargets.get(0));
+                        currentPoint = ActiveTargets.get(0);
 
-                        if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    }else{
 
-                            moveAndShot(1, 7);
+                        if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
+
+                            moveAndShot(currentPoint, 7);
                             reportMessage = ReadQR();
-                            currentPoint = 7;
                             QRflag = true;
+                            currentPoint = 7;
 
-                        } else {
-                            currentPoint = ActiveTargets.get(0);
+                        }else{
+                            try {
+                                Thread.sleep(ActiveTimeRemaining+1);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
+
                     }
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
@@ -167,98 +176,55 @@ public class YourService extends KiboRpcService {
                 if (route1 >= route2 && checkMissionTime(routeToGoal2) && checkActiveTime(route2)) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1));
-
-                    if (ActiveTargets.get(1) == 1 && !QRflag) {
-
-
-                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7] + FirstTargetToGoalTime) &&
-                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(0) - 1)][7])) {
-
-                            moveAndShot(1, 7);
-                            reportMessage = ReadQR();
-                            QRflag = true;
-                            moveAndShot(7, ActiveTargets.get(0));
-
-                        } else {
-                            moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
-                        }
-                    } else {
-                        moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
-                    }
-
+                    moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
                     currentPoint = ActiveTargets.get(0);
-
-                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
-
-                        moveAndShot(1, 7);
-                        reportMessage = ReadQR();
-                        QRflag = true;
-                        currentPoint = 7;
-
-                    }
 
                 } else if (route1 < route2 && checkMissionTime(routeToGoal1) && checkActiveTime(route1)) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0));
-
-                    if (ActiveTargets.get(0) == 1 && !QRflag) {
-
-                        if (checkMissionTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7] + SecondTargetToGoalTime) &&
-                                checkActiveTime(times[6][1] + times[(ActiveTargets.get(1) - 1)][7])) {
-
-                            moveAndShot(1, 7);
-                            reportMessage = ReadQR();
-                            QRflag = true;
-                            moveAndShot(7, ActiveTargets.get(1));
-
-                        } else {
-                            moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
-                        }
-                    } else {
-                        moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
-                    }
-
+                    moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
                     currentPoint = ActiveTargets.get(1);
-
-                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
-
-                        moveAndShot(1, 7);
-                        reportMessage = ReadQR();
-                        QRflag = true;
-                        currentPoint = 7;
-
-                    }
 
                 } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0));
-                     
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(1, 7);
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
 
+                    }else{
+                        try {
+                            Thread.sleep(ActiveTimeRemaining+1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1));
-                     
                     currentPoint = ActiveTargets.get(1);
 
-                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(1, 7);
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
 
+                    }else{
+                        try {
+                            Thread.sleep(ActiveTimeRemaining+1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
@@ -266,16 +232,21 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(1));
-                     
                     currentPoint = ActiveTargets.get(1);
 
-                    if (ActiveTargets.get(1) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7])) {
+                    if (checkMissionTime(times[6][ActiveTargets.get(1)] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(1, 7);
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
 
+                    }else{
+                        try {
+                            Thread.sleep(ActiveTimeRemaining+1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
@@ -283,16 +254,21 @@ public class YourService extends KiboRpcService {
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
                     moveAndShot(currentPoint, ActiveTargets.get(0));
-                     
                     currentPoint = ActiveTargets.get(0);
 
-                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                    if (checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(1, 7);
+                        moveAndShot(currentPoint, 7);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
 
+                    }else{
+                        try {
+                            Thread.sleep(ActiveTimeRemaining+1);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                 } else {
