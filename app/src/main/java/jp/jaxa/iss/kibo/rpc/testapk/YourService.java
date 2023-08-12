@@ -600,16 +600,42 @@ public class YourService extends KiboRpcService {
             case 3:
                 switch (to) {
                     case 1:
-                        MoveTo(viapoint13, quartanion3);
-                        MoveTo(point1, quartanion1);
+                        result = MoveTo(viapoint13, quartanion3);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint2, quartanion3);
+                            MoveTo(pivotPoint12, quartanion3);
+                            MoveTo(point1, quartanion1);
+                        }
+                        result = MoveTo(point1, quartanion1);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion3);
+                            MoveTo(point1, quartanion1);
+                        }
                         break;
                     case 2:
-                        MoveTo(viapoint23, quartanion2);
-                        MoveTo(point2, quartanion2);
+                        result = MoveTo(viapoint23, quartanion2);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint2, quartanion3);
+                            MoveTo(pivotPoint11, quartanion1);
+                            MoveTo(point2, quartanion2);
+                        }
+                        result = MoveTo(point2, quartanion2);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(point2, quartanion2);
+                        }
                         break;
                     case 4:
-                        MoveTo(viapoint34, quartanion4);
-                        MoveTo(point4, quartanion4);
+                        result = MoveTo(viapoint34, quartanion4);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(point4, quartanion4);
+                        }
+                        result = MoveTo(point4, quartanion4);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(point4, quartanion4);
+                        }
                         break;
                     case 7:
                         MoveTo(viapoint13, quartanion7);
