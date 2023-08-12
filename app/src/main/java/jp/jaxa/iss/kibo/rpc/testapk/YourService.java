@@ -577,17 +577,21 @@ public class YourService extends KiboRpcService {
                     case 7:
                         result = MoveTo(viapoint27, quartanion7);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(pivotPoint11, quartanion7);
                         }
                         result = MoveTo(point7, quartanion7);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(pivotPoint12, quartanion7);
                             MoveTo(point7, quartanion7);
                         }
                         break;
                     case 8:
-                        MoveTo(viapoint28, quartanion8);
+                        result = MoveTo(viapoint28, quartanion8);
                         // Via28 is same as Pivot3
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion8);
+                            MoveTo(pivotPoint3, quartanion8);
+                        }
                         MoveTo(point8, quartanion8);
                         break;
                     default:
