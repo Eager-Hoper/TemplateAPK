@@ -636,7 +636,7 @@ public class YourService extends KiboRpcService {
                         }
                         break;
                     case 7:
-                        result = MoveTo(viapoint13, quartanion7);
+                        result = MoveTo(viapoint13, quartanion3);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint3, quartanion7);
                             MoveTo(pivotPoint11, quartanion7);
@@ -753,16 +753,16 @@ public class YourService extends KiboRpcService {
                     case 3:
                         result = MoveTo(pivotPoint12, quartanion3);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint11, quartanion7);
+                            MoveTo(pivotPoint11, quartanion3);
                         }
                         result = MoveTo(viapoint23, quartanion3);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(viaPivot11to3, quartanion3);
                         }
                         MoveTo(point3, quartanion3);
                         break;
                     case 4:
-                        result = MoveTo(viapoint78, quartanion4);
+                        result = MoveTo(viapoint78, quartanion7);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint12, quartanion4);
                         }
@@ -782,7 +782,7 @@ public class YourService extends KiboRpcService {
                         }
                         result = MoveTo(viapoint47, quartanion8);
                         if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint11, quartanion8);
+                            MoveTo(pivotPoint11, quartanion7);
                         }
                         MoveTo(pivotPoint3, quartanion8);
                         MoveTo(point8, quartanion8);
