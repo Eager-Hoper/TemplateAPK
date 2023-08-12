@@ -661,24 +661,56 @@ public class YourService extends KiboRpcService {
             case 4:
                 switch (to) {
                     case 1:
-                        MoveTo(viapoint14, quartanion4);
-                        MoveTo(point1, quartanion1);
+                        result = MoveTo(viapoint14, quartanion4);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion4);
+                            MoveTo(pivotPoint11, quartanion1);
+                            MoveTo(point1, quartanion1);
+                        }
+                        result = MoveTo(point1, quartanion1);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion1);
+                            MoveTo(point1, quartanion1);
+                        }
                         break;
                     case 2:
-                        MoveTo(viapoint24, quartanion2);
-                        MoveTo(point2, quartanion2);
+                        result = MoveTo(viapoint24, quartanion2);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion4);
+                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(point2, quartanion2);
+                        }
+                        result = MoveTo(point2, quartanion2);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint11, quartanion2);
+                            MoveTo(point2, quartanion2);
+                        }
                         break;
                     case 3:
-                        MoveTo(viapoint34, quartanion3);
-                        MoveTo(point3, quartanion3);
+                        result = MoveTo(viapoint34, quartanion3);
+                        //Is route 4toVia34 long enough to change quartanion ???
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(point3, quartanion3);
+                        }
+                        result = MoveTo(point3, quartanion3);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion3);
+                            MoveTo(point3, quartanion3);
+                        }
                         break;
                     case 7:
-                        MoveTo(pivotPoint3, quartanion7);
+                        result = MoveTo(pivotPoint3, quartanion7);
+                        //Is route 4toPivo3 long enough to change quartanion ???
                         MoveTo(pivotPoint11, quartanion7);
                         MoveTo(point7, quartanion7);
                         break;
                     case 8:
-                        MoveTo(point8, quartanion8);
+                        result = MoveTo(point8, quartanion8);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion8);
+                            MoveTo(point8, quartanion8);
+                        }
                         break;
                     default:
                         break;
