@@ -869,6 +869,10 @@ public class YourService extends KiboRpcService {
         }
 
         public String ReadQR () {
+            //get time for count timeRequired (LOG)
+            List<Long> TimeRemaining = api.getTimeRemaining();
+            long countStart = TimeRemaining.get(1);
+
             //ReadQRCode
             api.flashlightControlFront(0.05f);
             Mat QRimage = image_correction(api.getMatNavCam());
@@ -901,6 +905,16 @@ public class YourService extends KiboRpcService {
                 default:
                     break;
             }
+
+            //get timeRequired(LOG)
+            TimeRemaining = api.getTimeRemaining();
+            long countEnd = TimeRemaining.get(1);
+            long timeRequired = countStart - countEnd;
+            long ActiveTimeRemaining = TimeRemaining.get(0);
+
+            Log.i(TAG, "-------------- LOG: QRtimerequired=" + timeRequired);
+            Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
+
             return reportMessage;
         }
 
