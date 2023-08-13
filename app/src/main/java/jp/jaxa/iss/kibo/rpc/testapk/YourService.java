@@ -494,11 +494,11 @@ public class YourService extends KiboRpcService {
                         break;
                 }
                 break;
-            //TODO:complete pivoting system --> Done!!
             case 1:
                 switch (to) {
                     case 2:
-                        result = MoveTo(viapoint12, quartanion1);
+                        //TODO: rapid quarternion change
+                        result = MoveTo(viapoint12, quartanion2);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion1);
                         }
@@ -815,7 +815,6 @@ public class YourService extends KiboRpcService {
 
         if(!(to == 8)){
             // 移動後、astrobeeが安定してから画像を撮影するために2秒待つ
-            //TODO: optimize delaying time
             try{
                 Thread.sleep(2000);
             } catch (InterruptedException e) {
