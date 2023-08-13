@@ -135,6 +135,7 @@ public class YourService extends KiboRpcService {
 
             //if Astrobee is staying, skip the moving motion. In this case, there is always one Active Target remaining.
             if(stayingCondition){
+                Log.i(TAG, "-------------- LOG: Staying");
                 //if there is no time to stay, go to the goal immediately
                 if(!checkMissionTime(ActiveTimeRemaining+times[7][currentPoint])){
                     //check whether we can take QR at last
@@ -204,7 +205,7 @@ public class YourService extends KiboRpcService {
                 }
 
                 //when new targets appeared
-                if(!(ActiveTargets == api.getActiveTargets())){
+                if(!(ActiveTargets.get(0) == api.getActiveTargets().get(0))){
 
                     stayingCondition = false;
 
@@ -309,8 +310,11 @@ public class YourService extends KiboRpcService {
 
             }
 
+            Log.i(TAG, "-------------- LOG: MyActiveTargets=" + ActiveTargets);
+            Log.i(TAG, "-------------- LOG: TrueActiveTargets=" + api.getActiveTargets());
+
             //staying condition check
-            if(ActiveTargets == api.getActiveTargets()){
+            if(ActiveTargets.size() == api.getActiveTargets().size() && ActiveTargets.get(0) == api.getActiveTargets().get(0)){
                 stayingCondition = true;
             }
 
@@ -318,6 +322,9 @@ public class YourService extends KiboRpcService {
             ActiveTargets = api.getActiveTargets();
             NumberOfActiveTargets = ActiveTargets.size();
             points1 = points[(ActiveTargets.get(0) - 1)];
+
+            Log.i(TAG, "-------------- LOG: 2:MyActiveTargets=" + ActiveTargets);
+            Log.i(TAG, "-------------- LOG: 2:TrueActiveTargets=" + api.getActiveTargets());
 
             TimeRemaining = api.getTimeRemaining();
             ActiveTimeRemaining = TimeRemaining.get(0);
