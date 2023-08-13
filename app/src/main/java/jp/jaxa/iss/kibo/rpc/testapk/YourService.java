@@ -127,8 +127,42 @@ public class YourService extends KiboRpcService {
             SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
         }
 
+        int stayingCounter = 0;
+        boolean stayingCondition = false;
+
         //Action Start
         while (MissionTimeRemaining > 0) {
+
+            //if Astrobee is staying, skip the moving motion
+            if(stayingCondition){
+                if(!(ActiveTargets == api.getActiveTargets())){
+
+                    //when new targets appeared
+                    stayingCondition = false;
+                    ActiveTargets = api.getActiveTargets();
+                    NumberOfActiveTargets = ActiveTargets.size();
+                    points1 = points[(ActiveTargets.get(0) - 1)];
+
+                    TimeRemaining = api.getTimeRemaining();
+                    MissionTimeRemaining = TimeRemaining.get(1);
+
+                    currentToFirstTargetTime = times[(ActiveTargets.get(0) - 1)][currentPoint];
+                    FirstTargetToGoalTime = times[7][ActiveTargets.get(0)];
+
+                    if (NumberOfActiveTargets == 2) {
+                        points2 = points[(ActiveTargets.get(1) - 1)];
+                        currentToSecondTargetTime = times[(ActiveTargets.get(1) - 1)][currentPoint];
+                        SecondTargetToGoalTime = times[7][ActiveTargets.get(1)];
+                        FirstTargetToSecondTarget = times[(ActiveTargets.get(1) - 1)][ActiveTargets.get(0)];
+                        SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
+                    }
+
+                }else{
+                    continue;
+                }
+            }
+
+            //moving motion
             if (NumberOfActiveTargets == 1) {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
                     if (checkActiveTime(currentToFirstTargetTime)) {
@@ -229,22 +263,24 @@ public class YourService extends KiboRpcService {
 
                     }
 
-                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
-                        checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
+                } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime)){
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                     
-                    currentPoint = ActiveTargets.get(0);
+                    if (checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
-                    if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+                        moveAndShot(currentPoint, ActiveTargets.get(0));
 
-                        moveAndShot(1, 7);
-                        reportMessage = ReadQR();
-                        QRflag = true;
-                        currentPoint = 7;
+                        currentPoint = ActiveTargets.get(0);
+
+                        if (ActiveTargets.get(0) == 1 && !QRflag && checkMissionTime(times[6][ActiveTargets.get(0)] + times[7][7])) {
+
+                            moveAndShot(1, 7);
+                            reportMessage = ReadQR();
+                            QRflag = true;
+                            currentPoint = 7;
+
+                        }
 
                     }
-
                 } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
@@ -309,12 +345,19 @@ public class YourService extends KiboRpcService {
 
             }
 
-            //get next target
+            //get new information
+            if(ActiveTargets == api.getActiveTargets()){
+                stayingCounter++;
+            }
+
+            if(stayingCounter == 2){
+                stayingCondition = true;
+            }
+
             ActiveTargets = api.getActiveTargets();
             NumberOfActiveTargets = ActiveTargets.size();
             points1 = points[(ActiveTargets.get(0) - 1)];
 
-            //get current time remaining
             TimeRemaining = api.getTimeRemaining();
             MissionTimeRemaining = TimeRemaining.get(1);
 
