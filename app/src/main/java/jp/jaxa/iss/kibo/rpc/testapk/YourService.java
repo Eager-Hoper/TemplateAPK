@@ -128,6 +128,7 @@ public class YourService extends KiboRpcService {
             SecondTargetToFirstTarget = times[(ActiveTargets.get(0) - 1)][ActiveTargets.get(1)];
         }
 
+        int numberOfPhotos = 1;
         boolean stayingCondition = false;
 
         //Action Start
@@ -140,7 +141,7 @@ public class YourService extends KiboRpcService {
                 if(!checkMissionTime(ActiveTimeRemaining+times[7][currentPoint])){
                     //check whether we can take QR at last
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
-                        moveAndShot(currentPoint, 7);
+                        moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -165,7 +166,7 @@ public class YourService extends KiboRpcService {
                 if(!(checkMissionTime(ActiveTimeRemaining+minimumTimeRequired))){
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(currentPoint, 7);
+                        moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -176,7 +177,7 @@ public class YourService extends KiboRpcService {
 
                 if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
 
-                    moveAndShot(currentPoint, 7);
+                    moveAndShot(currentPoint, 7, numberOfPhotos);
                     reportMessage = ReadQR();
                     QRflag = true;
                     currentPoint = 7;
@@ -236,14 +237,16 @@ public class YourService extends KiboRpcService {
                 if (checkMissionTime(currentToFirstTargetTime + FirstTargetToGoalTime)) {
                     if (checkActiveTime(currentToFirstTargetTime)) {
 
-                        moveAndShot(currentPoint, ActiveTargets.get(0));
+                        moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
+                        numberOfPhotos += 2;
                         currentPoint = ActiveTargets.get(0);
 
                     }
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(currentPoint, 7);
+                        moveAndShot(currentPoint, 7, numberOfPhotos);
+                        numberOfPhotos += 2;
                         reportMessage = ReadQR();
                         currentPoint = 7;
                         QRflag = true;
@@ -260,46 +263,54 @@ public class YourService extends KiboRpcService {
 
                 if (route1 >= route2 && checkMissionTime(routeToGoal2) && checkActiveTime(route2)) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
-                    moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0));
+                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
+                    numberOfPhotos += 2;
+                    moveAndShot(ActiveTargets.get(1), ActiveTargets.get(0), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
                 } else if (route1 < route2 && checkMissionTime(routeToGoal1) && checkActiveTime(route1)) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
-                    moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1));
+                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
+                    numberOfPhotos += 2;
+                    moveAndShot(ActiveTargets.get(0), ActiveTargets.get(1), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
                 } else if (points1 > points2 && checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])){
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
                 } else if (points1 < points2 && checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
                 } else if (currentToFirstTargetTime >= currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(1) - 1][currentPoint] + SecondTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(1) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(1));
+                    moveAndShot(currentPoint, ActiveTargets.get(1), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(1);
 
                 } else if (currentToFirstTargetTime < currentToSecondTargetTime &&
                         checkMissionTime(times[ActiveTargets.get(0) - 1][currentPoint] + FirstTargetToGoalTime) &&
                         checkActiveTime(times[ActiveTargets.get(0) - 1][currentPoint])) {
 
-                    moveAndShot(currentPoint, ActiveTargets.get(0));
+                    moveAndShot(currentPoint, ActiveTargets.get(0), numberOfPhotos);
+                    numberOfPhotos += 2;
                     currentPoint = ActiveTargets.get(0);
 
                 } else {
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
 
-                        moveAndShot(currentPoint, 7);
+                        moveAndShot(currentPoint, 7, numberOfPhotos);
                         reportMessage = ReadQR();
                         QRflag = true;
                         currentPoint = 7;
@@ -339,7 +350,7 @@ public class YourService extends KiboRpcService {
         }
 
         api.notifyGoingToGoal();
-        moveAndShot(currentPoint, 8);
+        moveAndShot(currentPoint, 8, numberOfPhotos);
         Log.i(TAG, "-------------- LOG: QRflag=" + QRflag);
         api.reportMissionCompletion(reportMessage);
 
@@ -355,7 +366,7 @@ public class YourService extends KiboRpcService {
         // write your plan 3 here
     }
 
-    public void moveAndShot(int from, int to) {
+    public void moveAndShot(int from, int to, int numberOfPhotos) {
         //get time for count timeRequired (LOG)
         List<Long> TimeRemaining = api.getTimeRemaining();
         long countStart = TimeRemaining.get(1);
@@ -813,7 +824,7 @@ public class YourService extends KiboRpcService {
         }
 
         if (!(to == 7 || to == 8)) {
-            reMove_AR_moveTo(to);
+            reMove_AR_moveTo(to, numberOfPhotos);
             api.laserControl(true);
             api.takeTargetSnapshot(to);
         }
@@ -1177,75 +1188,82 @@ public class YourService extends KiboRpcService {
 
         }
 
-        public void reMove_AR_moveTo (int to){
+    public void reMove_AR_moveTo (int to, int numberOfPhotos){
 
-            /*　api.moveTo()を用いてターゲット前での自己位置修正を行うメソッド
-             * 
-             * @param
-             * to：目的地のターゲット番号
-             * 
-             * @return
-             * void：自己位置修正を行う
-             */
+        /*　api.moveTo()を用いてターゲット前での自己位置修正を行うメソッド
+         *
+         * @param
+         * to：目的地のターゲット番号
+         *
+         * @return
+         * void：自己位置修正を行う
+         */
 
-            Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
-            Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
-            Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
-            Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+        Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+        Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+        Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
 
 
-            // ターゲットまでの相対位置を取得
-            double[] relative = getRelative(to);
-            Kinematics kinematics = api.getRobotKinematics();
-            Point current_point = kinematics.getPosition();
+        // ターゲットまでの相対位置を取得
+        double[] relative = getRelative(to);
+        Kinematics kinematics = api.getRobotKinematics();
+        Point current_point = kinematics.getPosition();
 
-            Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
+        Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
 
-            /*　目的地のターゲット番号によってx,y,z座標の修正を場合分けしている
-             *　また、位置修正時に5cmターゲット方向に前進する（最小移動距離確保のため）
-             */
-            switch (to) {
-                case 1:
-                    double dest_x1 = current_point.getX() + relative[0];
-                    double dest_z1 = current_point.getZ() + relative[1];
-                    Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
-                    api.moveTo(new_point1, quaternion1, true);
-                    break;
+        /*　目的地のターゲット番号によってx,y,z座標の修正を場合分けしている
+         *　また、位置修正時に5cmターゲット方向に前進する（最小移動距離確保のため）
+         */
+        switch (to) {
+            case 1:
+                api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target1Image__before.png");
+                double dest_x1 = current_point.getX() + relative[0];
+                double dest_z1 = current_point.getZ() + relative[1];
+                Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
+                api.moveTo(new_point1, quaternion1, true);
+                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target1Image__after.png");
+                break;
 
-                case 2:
-                    double dest_x2 = current_point.getX() + relative[0];
-                    double dest_y2 = current_point.getY() - relative[1];
-                    Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
-                    api.moveTo(new_point2, quaternion2, true);
-                    break;
+            case 2:
+                api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target2Image__before.png");
+                double dest_x2 = current_point.getX() + relative[0];
+                double dest_y2 = current_point.getY() - relative[1];
+                Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
+                api.moveTo(new_point2, quaternion2, true);
+                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target2Image__after.png");
+                break;
 
-                case 3:
-                    double dest_y3 = current_point.getY() + relative[0];
-                    double dest_x3 = current_point.getX() + relative[1];
-                    Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
-                    api.moveTo(new_point3, quaternion3, true);
-                    break;
+            case 3:
+                api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target3Image__before.png");
+                double dest_y3 = current_point.getY() + relative[0];
+                double dest_x3 = current_point.getX() + relative[1];
+                Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
+                api.moveTo(new_point3, quaternion3, true);
+                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target3Image__after.png");
+                break;
 
-                case 4:
-                    double dest_y4 = current_point.getY() - relative[0];
-                    double dest_z4 = current_point.getZ() + relative[1];
-                    Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
-                    api.moveTo(new_point4, quaternion4, true);
-                    break;
+            case 4:
+                api.saveMatImage(image_correction(getMatNavCam()), numberOfPhotos + ":target4Image__before.png");
+                double dest_y4 = current_point.getY() - relative[0];
+                double dest_z4 = current_point.getZ() + relative[1];
+                Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
+                api.moveTo(new_point4, quaternion4, true);
+                api.saveMatImage(image_correction(getMatNavCam()), (numberOfPhotos + 1) + ":target4Image__after.png");
+                break;
 
-                default:
-                    break;
-            }
-
-            // for DEBUG　本番実装時には除いて良い
-            Kinematics kinematics_after = api.getRobotKinematics();
-            Point after_point = kinematics_after.getPosition();
-
-            Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
-            Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
-
+            default:
+                break;
         }
 
+        // for DEBUG　本番実装時には除いて良い
+        Kinematics kinematics_after = api.getRobotKinematics();
+        Point after_point = kinematics_after.getPosition();
+
+        Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
+        Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
+
+    }
         // NULL check
         public Mat getMatNavCam () {
 
