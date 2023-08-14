@@ -458,6 +458,11 @@ public class YourService extends KiboRpcService {
                             MoveTo(pivotPoint11, quartanion2);
                             MoveTo(point2, quartanion2);
                         }
+                        try{
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case 3:
                         result = MoveTo(viapoint03First, quartanion3);
