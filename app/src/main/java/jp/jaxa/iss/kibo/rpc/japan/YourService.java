@@ -69,7 +69,7 @@ public class YourService extends KiboRpcService {
         times[6][1] = 31656;
         times[6][2] = 51064;
         times[6][3] = 58008;
-        times[6][4] = 46288;
+        times[6][4] = 56272;
         times[6][7] = 0;
         times[7][0] = 0;
         times[7][1] = 58864;
