@@ -44,6 +44,48 @@ public class YourService extends KiboRpcService {
 
     @Override
     protected void runPlan1() {
+        Point point1 = new Point(11.2053d, -9.87284d, 5.4736d);
+        Point point2 = new Point(10.456184d, -9.196272d, 4.53d);
+        Point point3 = new Point(10.7142d, -7.76727d, 4.53d);
+        Point point4 = new Point(10.56d, -6.612872d, 5.20641d );
+        Point point7 = new Point(11.369d, -8.5518d, 4.48d);
+        Point point8 = new Point(11.143d, -6.7607d, 4.9654d);
+
+        Quaternion quartanion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+        Quaternion quartanion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+        Quaternion quartanion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Quaternion quartanion4 = new Quaternion(0f, 0f, -1f, 0f);
+        Quaternion quartanion7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Quaternion quartanion8 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+
+        //Viapoints
+        Point viapoint01 = new Point(10.59838d, -9.83515d, 5.24227d);
+        Point viapoint03First = new Point(10.6588d, -9.19627d, 4.53d);
+        Point viapoint03Second = new Point(10.6942d, -8.28308d, 4.97737d);
+        Point viapoint04 = new Point(10.6588d, -9.19627d, 4.79855d);
+
+        Point viapoint12 = new Point(11.02164d, -9.50949d, 5.2188d);
+        Point viapoint13 = new Point(10.80698d, -8.16508d, 4.87503d);
+        Point viapoint14 = new Point(10.78123d, -7.7305d, 5.36006d);
+        Point viapoint18 = new Point(11.16135d, -7.67756d, 5.35803d);
+
+        Point viapoint23 = new Point(10.62107d, -8.28308d, 4.97737d);
+        Point viapoint24 = new Point(10.48602d, -8.45931d, 4.89368d);
+        Point viapoint27 = new Point(10.93d, -8.94d, 5.12d);
+        Point viapoint28 = new Point(10.49585d, -7.393d, 5.30908d);
+
+        Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
+
+        Point viapoint47 = new Point(10.64904d, -8.22217d, 5.29178d);
+
+        Point viapoint78 = new Point(11.22584d, -8.80419d, 5.0922d);
+
+        Point pivotPoint11 = new Point(10.85076d, -9.314d, 5.269d);
+        Point pivotPoint12 = new Point(11.2d, -9.109d, 5.191d);
+        Point pivotPoint2 = new Point(11.34547d, -7.393d, 4.63477d);
+        Point pivotPoint3 = new Point(10.49585d, -7.393d, 5.30908d);
+
+        Point viaPivot11to3 = new Point(10.47d, -7.902d, 4.948d);
 
         //not considering the remaining time yet.
         // List<Long> time = new ArrayList<Long>();
