@@ -268,42 +268,42 @@ public class YourService extends KiboRpcService {
                 break;
         }
 
-        public double[] getRelative(int to) {
-
-            /*　ARmarkerを認識してターゲット中心にレーザーが当たるような相対移動座標を計算するメソッド
-             *
-             * @param
-             * to：目的地のターゲット番号
-             *
-             * @return
-             * relative：現在地からターゲット中心までの移動座標
-             * 　relative[0]：画像内x方向を正とする相対座標
-             * 　relative[1]：画像内y方向を正とする相対座標
-             */
-
-            // ARmarkerを検出　(@see AR_detect)
-            List<List<Mat>> AR_info = AR_detect(to);
-            Mat ids = AR_info.get(0).get(0);
-            List<Mat> corners = AR_info.get(1);
-
-            // ターゲット中心座標を計算　(@see getTargetCneter
-            double[] target_center = getTargetCenter(ids, corners);
-
-            /*　astrobeeが修正する相対座標へ変換
-             *
-             * 以下は各項の説明
-             * (target_center[] - ¥¥¥)：画像の中心からの相対座標を計算
-             * (target_center[] - ¥¥¥) / getScale()：縮尺をpixelからmeterに変更
-             * (target_center[] - ¥¥¥) / getScale() ± ¥¥¥：NavCam搭載位置とレーザー搭載位置の差分を修正
-             */
-            double relative[] =
-                    {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
-                            ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
-
-            return relative;
-
         }
 
+    public double[] getRelative(int to) {
+
+        /*　ARmarkerを認識してターゲット中心にレーザーが当たるような相対移動座標を計算するメソッド
+         *
+         * @param
+         * to：目的地のターゲット番号
+         *
+         * @return
+         * relative：現在地からターゲット中心までの移動座標
+         * 　relative[0]：画像内x方向を正とする相対座標
+         * 　relative[1]：画像内y方向を正とする相対座標
+         */
+
+        // ARmarkerを検出　(@see AR_detect)
+        List<List<Mat>> AR_info = AR_detect(to);
+        Mat ids = AR_info.get(0).get(0);
+        List<Mat> corners = AR_info.get(1);
+
+        // ターゲット中心座標を計算　(@see getTargetCneter
+        double[] target_center = getTargetCenter(ids, corners);
+
+        /*　astrobeeが修正する相対座標へ変換
+         *
+         * 以下は各項の説明
+         * (target_center[] - ¥¥¥)：画像の中心からの相対座標を計算
+         * (target_center[] - ¥¥¥) / getScale()：縮尺をpixelからmeterに変更
+         * (target_center[] - ¥¥¥) / getScale() ± ¥¥¥：NavCam搭載位置とレーザー搭載位置の差分を修正
+         */
+        double relative[] =
+                {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
+                        ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
+
+        return relative;
+
+
     }
-    
 }
