@@ -96,19 +96,17 @@ public class YourService extends KiboRpcService {
         // the mission starts
         api.startMission();
 
-        // move to target_6
-        Point point_6 = new Point(11.355d, -9.0462d, 4.9416d);
-        Quaternion quaternion_6 = new Quaternion(0f, 0f, 0f, 1f);
-        api.moveTo(point_6, quaternion_6, true);
+        // move to target_3
+        api.moveTo(viapoint03First, quartanion3, true);
+        api.moveTo(point3, quartanion3, true);
 
         api.laserControl(true);
-        api.takeTargetSnapshot(6);
+        api.takeTargetSnapshot(3);
         api.laserControl(false);
 
-        //move to target_7(QRCode)
-        Point point_7 = new Point(11.369d, -8.5518d, 4.48d);
-        Quaternion quaternion_7 = new Quaternion(0f, 0.707f, 0f, 0.707f);
-        api.moveTo(point_7, quaternion_7, true);
+        // move to target_7
+        api.moveTo(viapoint27, quartanion7, true);
+        api.moveTo(point7, quartanion7, true);
 
         //ReadQRCode
         Mat QRimage = image_correction(api.getMatNavCam());
@@ -143,30 +141,10 @@ public class YourService extends KiboRpcService {
         }
 
         // move to target_1
-        Point point_1 = new Point(11.2053d, -9.92284d, 5.4736d);
-        Quaternion quaternion_1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
-        api.moveTo(point_1, quaternion_1, true);
+        api.moveTo(point1, quartanion1, true);
 
         api.laserControl(true);
         api.takeTargetSnapshot(1);
-        api.laserControl(false);
-
-        // move to taget_5
-        Point point_5 = new Point(11.0448d, -7.9193d, 5.3393d);
-        Quaternion quaternion_5 = new Quaternion(-0.5f, -0.5f, -0.5f, 0.5f);
-        api.moveTo(point_5, quaternion_5, true);
-        
-        api.laserControl(true);
-        api.takeTargetSnapshot(5);
-        api.laserControl(false);
-
-        // move to taget_4
-        Point point_4 = new Point(10.51d, -6.612872d, 5.20641d);
-        Quaternion quaternion_4 = new Quaternion(0f, 0f, -1f, 0f);
-        api.moveTo(point_4, quaternion_4, true);
-        
-        api.laserControl(true);
-        api.takeTargetSnapshot(4);
         api.laserControl(false);
 
         //Declare we are approaching the goal(Required)
