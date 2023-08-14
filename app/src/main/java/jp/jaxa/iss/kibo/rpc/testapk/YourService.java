@@ -31,6 +31,7 @@ import java.security.IdentityScope;
 import java.util.ArrayList;
 import java.util.List;
 import java.lang.Math;
+import java.util.concurrent.TimeoutException;
 // java library (for basic operate)
 
 /**
@@ -97,7 +98,10 @@ public class YourService extends KiboRpcService {
         // the mission starts
         api.startMission();
 
-        Point viapoint03 = new Point(10.5d,-8.3326d,4.8025d);
+        List<Long> TimeRemaining;
+        Long Countstart;;
+        Long Countend;
+
         // move to target_4
         api.moveTo(viapoint04, quartanion4, true);
         api.moveTo(point4, quartanion4, true);
@@ -105,6 +109,9 @@ public class YourService extends KiboRpcService {
         api.laserControl(true);
         api.takeTargetSnapshot(4);
         api.laserControl(false);
+
+        TimeRemaining = api.getTimeRemaining();
+        Countstart = TimeRemaining.get(1);
 
         // move to target_7
         api.moveTo(viapoint47, quartanion4, true);
@@ -141,6 +148,26 @@ public class YourService extends KiboRpcService {
             default:
                 break;
         }
+
+        TimeRemaining = api.getTimeRemaining();
+        Countend = TimeRemaining.get(1);
+
+        Log.i(TAG, "-------------- LOG: TimeRequired47=" + (Countstart - Countend));
+
+        TimeRemaining = api.getTimeRemaining();
+        Countstart = TimeRemaining.get(1);
+
+        api.moveTo(viapoint47, quartanion4, true);
+        api.moveTo(point4, quartanion4, true);
+
+        api.laserControl(true);
+        api.takeTargetSnapshot(4);
+        api.laserControl(false);
+
+        TimeRemaining = api.getTimeRemaining();
+        Countend = TimeRemaining.get(1);
+
+        Log.i(TAG, "-------------- LOG: TimeRequired74=" + (Countstart - Countend));
 
         //Declare we are approaching the goal(Required)
         api.notifyGoingToGoal();
