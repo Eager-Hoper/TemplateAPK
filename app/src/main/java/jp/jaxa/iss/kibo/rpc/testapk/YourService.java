@@ -47,22 +47,22 @@ public class YourService extends KiboRpcService {
         times[0][3] = 62240;
         times[0][4] = 70832;
         times[0][7] = 31704;
-        times[1][0] = 31096;
+        times[1][0] = 35616;
         times[1][1] = 52592;
         times[1][2] = 0;
-        times[1][3] = 56664;
-        times[1][4] = 61856;
+        times[1][3] = 57256;
+        times[1][4] = 62640;
         times[1][7] = 56024;
         times[2][0] = 73672;
-        times[2][1] = 60192;
-        times[2][2] = 55296;
+        times[2][1] = 60648;
+        times[2][2] = 57256;
         times[2][3] = 0;
-        times[2][4] = 52848;
+        times[2][4] = 54648;
         times[2][7] = 75824;
-        times[3][0] = 69280;
-        times[3][1] = 62752;
-        times[3][2] = 62000;
-        times[3][3] = 52784;
+        times[3][0] = 70064;
+        times[3][1] = 70288;
+        times[3][2] = 62640;
+        times[3][3] = 54648;
         times[3][4] = 0;
         times[3][7] = 90960;
         times[6][0] = 41080;
@@ -74,9 +74,9 @@ public class YourService extends KiboRpcService {
         times[7][0] = 0;
         times[7][1] = 58864;
         times[7][2] = 55744;
-        times[7][3] = 26976;
+        times[7][3] = 27376;
         times[7][4] = 23504;
-        times[7][7] = 84240;
+        times[7][7] = 86304;
 
         //points data
         int[] points = {30, 20, 40, 20};
