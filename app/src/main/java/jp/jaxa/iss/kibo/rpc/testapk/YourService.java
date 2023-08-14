@@ -423,7 +423,8 @@ public class YourService extends KiboRpcService {
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
 
-        Point viapoint47 = new Point(10.64904d, -8.22217d, 5.29178d);
+        //Point viapoint47 = new Point(10.64904d, -8.22217d, 5.29178d);
+        Point viapoint47 = new Point(10.628d, -8.841d, 5.288d);
         
         Point viapoint78 = new Point(11.22584d, -8.80419d, 5.0922d);
 
@@ -723,22 +724,15 @@ public class YourService extends KiboRpcService {
                         }
                         break;
                     case 7:
-                        MoveTo(pivotPoint3, quartanion7);
-                        //Is route 4toPivo3 long enough to change quartanion ???
                         result = MoveTo(viapoint47, quartanion7);
+                        if(!result.hasSucceeded()){
+                            MoveTo(pivotPoint3, quartanion4);
+                            MoveTo(pivotPoint11, quartanion7);
+                        }
+                        result = MoveTo(point7, quartanion7);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion7);
                             MoveTo(point7, quartanion7);
-                        }else{
-                            result = MoveTo(viapoint78, quartanion7);
-                            if(!result.hasSucceeded()){
-                                MoveTo(pivotPoint12, quartanion7);
-                            }
-                            result = MoveTo(point7, quartanion7);
-                            if(!result.hasSucceeded()){
-                            MoveTo(pivotPoint12, quartanion7);
-                            MoveTo(point7, quartanion7);
-                            }
                         }
                         break;
                     case 8:
