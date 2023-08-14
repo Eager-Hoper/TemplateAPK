@@ -97,16 +97,16 @@ public class YourService extends KiboRpcService {
         api.startMission();
 
         Point viapoint03 = new Point(10.5d,-8.3326d,4.8025d);
-        // move to target_3
-        api.moveTo(viapoint03, quartanion3, true);
-        api.moveTo(point3, quartanion3, true);
+        // move to target_4
+        api.moveTo(viapoint04, quartanion4, true);
+        api.moveTo(point4, quartanion4, true);
 
         api.laserControl(true);
-        api.takeTargetSnapshot(3);
+        api.takeTargetSnapshot(4);
         api.laserControl(false);
 
         // move to target_7
-        api.moveTo(viapoint27, quartanion7, true);
+        api.moveTo(viapoint47, quartanion4, true);
         api.moveTo(point7, quartanion7, true);
 
         //ReadQRCode
@@ -140,13 +140,6 @@ public class YourService extends KiboRpcService {
             default:
                 break;
         }
-
-        // move to target_1
-        api.moveTo(point1, quartanion1, true);
-
-        api.laserControl(true);
-        api.takeTargetSnapshot(1);
-        api.laserControl(false);
 
         //Declare we are approaching the goal(Required)
         api.notifyGoingToGoal();
