@@ -96,8 +96,9 @@ public class YourService extends KiboRpcService {
         // the mission starts
         api.startMission();
 
+        Point viapoint03 = new Point(10.5d,-8.3326d,4.8025d);
         // move to target_3
-        api.moveTo(viapoint03First, quartanion3, true);
+        api.moveTo(viapoint03, quartanion3, true);
         api.moveTo(point3, quartanion3, true);
 
         api.laserControl(true);
