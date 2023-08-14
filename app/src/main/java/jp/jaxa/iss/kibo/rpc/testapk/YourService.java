@@ -135,7 +135,6 @@ public class YourService extends KiboRpcService {
 
             //if Astrobee is staying, skip the moving motion. In this case, there is always one Active Target remaining.
             if(stayingCondition){
-                Log.i(TAG, "-------------- LOG: Staying");
                 //if there is no time to stay, go to the goal immediately
                 if(!checkMissionTime(ActiveTimeRemaining+times[7][currentPoint])){
                     //check whether we can take QR at last
@@ -161,7 +160,7 @@ public class YourService extends KiboRpcService {
                         minimumTimeRequired = times[i][currentPoint];
                     }
                 }
-                Log.i(TAG, "-------------- LOG: minimumtime=" + minimumTimeRequired + ", currentpoint is" + currentPoint + "Active target is" + ActiveTargets.get(0));
+
                 if(!(checkMissionTime(ActiveTimeRemaining+minimumTimeRequired))){
                     if (checkMissionTime(times[6][currentPoint] + times[7][7]) && !QRflag) {
 
@@ -350,7 +349,6 @@ public class YourService extends KiboRpcService {
 
         api.notifyGoingToGoal();
         moveAndShot(currentPoint, 8, numberOfPhotos);
-        Log.i(TAG, "-------------- LOG: QRflag=" + QRflag);
         api.reportMissionCompletion(reportMessage);
 
     }
@@ -423,7 +421,6 @@ public class YourService extends KiboRpcService {
 
         Point viapoint34 = new Point(10.64695d, -7.26384d, 5.02173d);
 
-        //Point viapoint47 = new Point(10.64904d, -8.22217d, 5.29178d);
         Point viapoint47 = new Point(10.628d, -8.841d, 5.288d);
         
         Point viapoint78 = new Point(11.22584d, -8.80419d, 5.0922d);
@@ -434,11 +431,9 @@ public class YourService extends KiboRpcService {
         Point pivotPoint3 = new Point(10.49585d, -7.393d, 5.30908d);
 
         Point viaPivot11to3 = new Point(10.47d, -7.902d, 4.948d);
-        //Added special !!
 
         Result result;
         switch (from) {
-            //prototype of pivoting method
             case 0:
                 switch (to) {
                     case 1:
@@ -877,10 +872,6 @@ public class YourService extends KiboRpcService {
         }
 
         public String ReadQR () {
-            //get time for count timeRequired (LOG)
-            List<Long> TimeRemaining = api.getTimeRemaining();
-            long countStart = TimeRemaining.get(1);
-
             //ReadQRCode
             api.flashlightControlFront(0.05f);
             Mat QRimage = image_correction(api.getMatNavCam());
@@ -913,15 +904,6 @@ public class YourService extends KiboRpcService {
                 default:
                     break;
             }
-
-            //get timeRequired(LOG)
-            TimeRemaining = api.getTimeRemaining();
-            long countEnd = TimeRemaining.get(1);
-            long timeRequired = countStart - countEnd;
-            long ActiveTimeRemaining = TimeRemaining.get(0);
-
-            Log.i(TAG, "-------------- LOG: QRtimerequired=" + timeRequired);
-            Log.i(TAG, "-------------- LOG: ActiveTimeRemaining=" + ActiveTimeRemaining);
 
             return reportMessage;
         }
