@@ -1,4 +1,4 @@
-package jp.jaxa.iss.kibo.rpc.defaultapk;
+package jp.jaxa.iss.kibo.rpc.japan;
 
 import jp.jaxa.iss.kibo.rpc.api.KiboRpcService;
 // Kibo-RPC library
@@ -8,9 +8,6 @@ import gov.nasa.arc.astrobee.Result;
 import gov.nasa.arc.astrobee.types.Point;
 import gov.nasa.arc.astrobee.types.Quaternion;
 // astrobee library (for definition of Point and Quaternion etc.)
-
-import android.util.Log;
-// android library (for log)
 
 import org.opencv.aruco.Aruco;
 import org.opencv.aruco.Dictionary;
