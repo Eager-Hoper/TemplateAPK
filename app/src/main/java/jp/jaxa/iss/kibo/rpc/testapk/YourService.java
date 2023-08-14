@@ -208,5 +208,66 @@ public class YourService extends KiboRpcService {
         return correct_image;
 
     }
+
+    public void reMove_AR_moveTo (int to){
+
+        /*　api.moveTo()を用いてターゲット前での自己位置修正を行うメソッド
+         *
+         * @param
+         * to：目的地のターゲット番号
+         *
+         * @return
+         * void：自己位置修正を行う
+         */
+
+        Quaternion quaternion1 = new Quaternion(0f, 0f, -0.707f, 0.707f);
+        Quaternion quaternion2 = new Quaternion(0.5f, 0.5f, -0.5f, 0.5f);
+        Quaternion quaternion3 = new Quaternion(0f, 0.707f, 0f, 0.707f);
+        Quaternion quaternion4 = new Quaternion(0f, 0f, -1f, 0f);
+
+
+        // ターゲットまでの相対位置を取得
+        double[] relative = getRelative(to);
+        Kinematics kinematics = api.getRobotKinematics();
+        Point current_point = kinematics.getPosition();
+
+        /*　目的地のターゲット番号によってx,y,z座標の修正を場合分けしている
+         *　また、位置修正時に5cmターゲット方向に前進する（最小移動距離確保のため）
+         */
+        switch (to) {
+            case 1:
+
+                double dest_x1 = current_point.getX() + relative[0];
+                double dest_z1 = current_point.getZ() + relative[1];
+                Point new_point1 = new Point(dest_x1, current_point.getY()-0.05, dest_z1);
+                api.moveTo(new_point1, quaternion1, true);
+                break;
+
+            case 2:
+                double dest_x2 = current_point.getX() + relative[0];
+                double dest_y2 = current_point.getY() - relative[1];
+                Point new_point2 = new Point(dest_x2, dest_y2, current_point.getZ()-0.05);
+                api.moveTo(new_point2, quaternion2, true);
+                break;
+
+            case 3:
+                double dest_y3 = current_point.getY() + relative[0];
+                double dest_x3 = current_point.getX() + relative[1];
+                Point new_point3 = new Point(dest_x3, dest_y3, current_point.getZ()-0.05);
+                api.moveTo(new_point3, quaternion3, true);
+                break;
+
+            case 4:
+                double dest_y4 = current_point.getY() - relative[0];
+                double dest_z4 = current_point.getZ() + relative[1];
+                Point new_point4 = new Point(current_point.getX()-0.05, dest_y4, dest_z4);
+                api.moveTo(new_point4, quaternion4, true);
+                break;
+
+            default:
+                break;
+        }
+
+    }
     
 }
