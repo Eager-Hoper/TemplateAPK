@@ -502,8 +502,7 @@ public class YourService extends KiboRpcService {
             case 1:
                 switch (to) {
                     case 2:
-                        //TODO: rapid quarternion change
-                        result = MoveTo(viapoint12, quartanion2);
+                        result = MoveTo(viapoint12, quartanion1);
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion1);
                         }
@@ -511,6 +510,11 @@ public class YourService extends KiboRpcService {
                         if(!result.hasSucceeded()){
                             MoveTo(pivotPoint11, quartanion1);
                             MoveTo(point2, quartanion2);
+                        }
+                        try{
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case 3:
