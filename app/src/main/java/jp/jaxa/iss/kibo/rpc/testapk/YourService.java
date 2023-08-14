@@ -989,9 +989,6 @@ public class YourService extends KiboRpcService {
             double relative[] =
                     {   ((target_center[0] - 640) / getScale(corners)) - 0.0994,
                         ((target_center[1] - 480) / getScale(corners)) + 0.0285   };
-
-            Log.i(TAG, "-------------- DEBUG: relative[0](in real)=" + relative[0]);
-            Log.i(TAG, "-------------- DEBUG: relative[1](in real)=" + relative[1]);
           
             return relative;
 
@@ -1148,8 +1145,7 @@ public class YourService extends KiboRpcService {
                     center_cand[i][1] = corners.get(i).get(0, 0)[1] + (-0.0125 * cos - 0.075 * sin) * scale;
 
                 } else {
-                    // TODO: Concern what to do if camera can't find AR marker
-                    Log.i(TAG, "can't caluculate target_center");
+                    
                 }
 
             }
@@ -1160,7 +1156,6 @@ public class YourService extends KiboRpcService {
             for (int i = 0; i < n; i++) {
                 target_x += center_cand[i][0];
                 target_y += center_cand[i][1];
-                Log.i(TAG, "-------------- DEBUG: center_cand_" + i + "=" + center_cand[i][0] + " and " + center_cand[i][1]);
             }
             double[] target_center = {target_x / n, target_y / n};
 
@@ -1202,9 +1197,6 @@ public class YourService extends KiboRpcService {
             // 周長が20cm（5cm * 4辺）であることから縮尺を計算
             double scale = side_length / (4 * 0.05);
 
-            Log.i(TAG, "-------------- DEBUG: scale[pixel/meter]=" + scale);
-            Log.i(TAG, "-------------- DEBUG: 700~900ぐらいの値が予想される");
-
             return scale;
 
         }
@@ -1230,8 +1222,6 @@ public class YourService extends KiboRpcService {
         double[] relative = getRelative(to);
         Kinematics kinematics = api.getRobotKinematics();
         Point current_point = kinematics.getPosition();
-
-        Log.i(TAG, "-------------- DEBUG: current_point=" + current_point);
 
         /*　目的地のターゲット番号によってx,y,z座標の修正を場合分けしている
          *　また、位置修正時に5cmターゲット方向に前進する（最小移動距離確保のため）
@@ -1276,13 +1266,6 @@ public class YourService extends KiboRpcService {
             default:
                 break;
         }
-
-        // for DEBUG　本番実装時には除いて良い
-        Kinematics kinematics_after = api.getRobotKinematics();
-        Point after_point = kinematics_after.getPosition();
-
-        Log.i(TAG, "-------------- DEBUG: after_point=" + after_point);
-        Log.i(TAG, "-------------- DEBUG: current_pointとの差分がrelative[](in real)と同じであれば移動は成功");
 
     }
         // NULL check
