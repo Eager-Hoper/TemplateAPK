@@ -2,6 +2,7 @@
 Eager Hoper's repository for Kibo-RPC 2023
 
 <img width="1105" alt="スクリーンショット 2023-08-20 12 35 23" src="https://github.com/Eager-Hoper/TemplateAPK/assets/61105696/c6f9ab9f-38c0-4a04-8a36-dfa763b40ead">
+
 Cited from [here](https://jaxa.krpc.jp/).
 
 # Guidebook and Rulebook
@@ -12,8 +13,51 @@ The guidebook and rulebook for this tournament are available [here](https://jaxa
 
 
 # Code Description
+## function
+| Function         | Description |
+|------------------|-------------|
+| moveAndShot      | 移動、レーザーオン、スナップショットを撮影            |
+| MoveTo           | 移動。api.moveToをオーバーライド            |
+| image_correction | NavCamで取得された画像の歪みを補正            |
+| ReadQR           | QRコードからメッセージを読み取る            |
+| checkMissionTime | ミッションの残り時間を取得（*分/5分）            |
+| checkActiveTime  | 現在アクティブなターゲットマーカーの残り時間を取得（*分/2分）            |
+| getRelative      | 現在位置と、 ターゲットマーカー中心の相対距離を取得           |
+| AR_detect        | ARマーカ検出            |
+| getTargetCenter  | ターゲットマーカーの中心座標を取得            |
+| getScale         | 画像(pixel)と実寸(m)のスケールを取得            |
+| reMove_AR_moveTo | ARマーカを用いて算出したターゲットマーカー中心に移動            |
+| getMatNavCam     | NavCamで画像を取得            |
 
+## API
+The following api was used. For more information about api, please refer to the programming manual.
 
+- getRobotKinematics
+- getMatNavCam
+- flashlightControlFront
+- moveTo
+- laserControl
+- startMission
+- notifyGoingToGoal
+- reportMissionCompletion
+- takeTargetSnapshot
+- getNavCamIntrinsics
+- saveMatImage
+- getTimeRemaining
+- getActiveTargets
+
+## Library
+- OpenCV
+  - Aruco: AR marker
+  - QR
+
+# About Astrobee
+
+![スクリーンショット 2023-08-20 12 49 22](https://github.com/Eager-Hoper/TemplateAPK/assets/61105696/f8219a4e-108e-428b-98db-97af5492c271)
+
+![スクリーンショット 2023-08-20 12 49 47](https://github.com/Eager-Hoper/TemplateAPK/assets/61105696/4730e4f7-5242-4ded-b721-cafb63d9f2e7)
+
+Cited from [here](https://jaxa.krpc.jp/).
 
 # よく使うコマンド
 
