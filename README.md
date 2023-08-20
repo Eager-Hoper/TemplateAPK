@@ -29,8 +29,14 @@ The guidebook and rulebook for this tournament are available [here](https://jaxa
 | reMove_AR_moveTo | ARマーカを用いて算出したターゲットマーカー中心に移動            |
 | getMatNavCam     | NavCamで画像を取得            |
 
+## const values
+### times
+Stores the time it takes to travel between each point.
+
+Use this [MakeTimesArray_for_final.ipynb](https://drive.google.com/drive/folders/1_0-XkhO3x_m994M7ZXwrtSrgdycwxsO7?usp=sharing) python script to get the travel time for each route from the log. Then, if the travel time is greater than the travel time in the previous simulation, change the value of timesArray.
+
 ## API
-The following api was used. For more information about api, please refer to the programming manual.
+The following api was used. For more information about api, please refer to the [programming manual](https://jaxa.krpc.jp/download).
 
 - getRobotKinematics
 - getMatNavCam
