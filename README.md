@@ -1,9 +1,18 @@
-# このコードについて
+# Overview
+Eager Hoper's repository for Kibo-RPC 2023
 
-kibo-rpc の Eager Hoper のリポジトリ
+<img width="1105" alt="スクリーンショット 2023-08-20 12 35 23" src="https://github.com/Eager-Hoper/TemplateAPK/assets/61105696/c6f9ab9f-38c0-4a04-8a36-dfa763b40ead">
+Cited from [here](https://jaxa.krpc.jp/).
 
-# メインコード
+# Guidebook and Rulebook
+The guidebook and rulebook for this tournament are available [here](https://jaxa.krpc.jp/download)!
+
+# Main code
 [YourService.java](app/src/main/java/jp/jaxa/iss/kibo/rpc/japan/YourService.java)
+
+
+# Code Description
+
 
 
 # よく使うコマンド
