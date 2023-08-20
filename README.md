@@ -1,9 +1,9 @@
 # このコードについて
 
-kibo-rpc の Eager-Hoper のリポジトリ
+kibo-rpc の Eager Hoper のリポジトリ
 
 # メインコード
-[YourService.java](app/src/main/java/jp/jaxa/iss/kibo/rpc/testapk/YourService.java)
+[YourService.java](app/src/main/java/jp/jaxa/iss/kibo/rpc/japan/YourService.java)
 
 
 # よく使うコマンド
@@ -11,7 +11,7 @@ kibo-rpc の Eager-Hoper のリポジトリ
 ```
 git add .
 git commit -m "add: コミットメッセージ"
-git push origin main (or tatsuya or your_name)
+git push origin main
 
 git pull origin main (or your_name)
 ```
