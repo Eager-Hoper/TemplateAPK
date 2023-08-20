@@ -29,10 +29,9 @@ The guidebook and rulebook for this tournament are available [here](https://jaxa
 | reMove_AR_moveTo | ARマーカを用いて算出したターゲットマーカー中心に移動            |
 | getMatNavCam     | NavCamで画像を取得            |
 
-## const values
-### times
-Stores the time it takes to travel between each point.
-
+## About const values
+### times[][]
+`times` stores the time it takes to travel between each point.
 Use this [MakeTimesArray_for_final.ipynb](https://drive.google.com/drive/folders/1_0-XkhO3x_m994M7ZXwrtSrgdycwxsO7?usp=sharing) python script to get the travel time for each route from the log. Then, if the travel time is greater than the travel time in the previous simulation, change the value of timesArray.
 
 ## API
@@ -56,8 +55,17 @@ The following api was used. For more information about api, please refer to the 
 - OpenCV
   - Aruco: AR marker
   - QR
+ 
+## Algorithm for travel paths
+Coming soon...
 
-# About Astrobee
+## Flowchart of this code
+[Flowchart（Miro）](https://miro.com/welcomeonboard/REYxb1NUS0tRR0hBZTBubXFTUUNWU1JSMU43SzJZSWR6Q3l0VWdVMHRxWTVoanhFTGhOSVJqY3VBcjZCWjViZnwzNDU4NzY0NTMxMjAyMzk0NTI2fDI=?share_link_id=431351260785)
+
+
+# Appendix
+-------------------------------
+## About Astrobee
 
 ![スクリーンショット 2023-08-20 12 49 22](https://github.com/Eager-Hoper/TemplateAPK/assets/61105696/f8219a4e-108e-428b-98db-97af5492c271)
 
@@ -65,7 +73,7 @@ The following api was used. For more information about api, please refer to the 
 
 Cited from [here](https://jaxa.krpc.jp/).
 
-# よく使うコマンド
+## Command
 
 ```
 git add .
@@ -75,10 +83,7 @@ git push origin main
 git pull origin main (or your_name)
 ```
 
-# コードのフローチャート
-[Flowchart（Miro）](https://miro.com/welcomeonboard/REYxb1NUS0tRR0hBZTBubXFTUUNWU1JSMU43SzJZSWR6Q3l0VWdVMHRxWTVoanhFTGhOSVJqY3VBcjZCWjViZnwzNDU4NzY0NTMxMjAyMzk0NTI2fDI=?share_link_id=431351260785)
-
-# TIPS
+## TIPS
 ### LOGに値を出力するとき
 [LOGに値を出力する](https://github.com/Eager-Hoper/TemplateAPK/blob/594ceeeb68bf1dd1ec7e12e4fa5ceb919d50aef4/app/src/main/java/jp/jaxa/iss/kibo/rpc/testapk/YourService.java#L45)
 
